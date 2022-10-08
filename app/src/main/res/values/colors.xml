@@ -9,6 +9,29 @@
     <color name="white">#FFFFFFFF</color>
     <color name="appbar_bg_color">#FFFFFF</color>
     <color name="dark">#808080</color>
-    <color name ="line_separator">#d3d3d3</color>
+    <color name="line_separator">#d3d3d3</color>
+    <color name="color_one_primary">#ffba05</color>
+    <color name="color_one_secondary">#fff5dd</color>
+
+    <color name="color_two_primary">#38ab62</color>
+    <color name="color_two_secondary">#ebf8ef</color>
+
+    <color name="color_three_primary">#1970ff</color>
+    <color name="color_three_secondary">#eaf3ff</color>
+
+    <color name="color_four_primary">#fa5334</color>
+    <color name="color_four_secondary">#ffefee</color>
+
+    <color name="color_five_primary">#fd8f34</color>
+    <color name="color_five_secondary">#ffeee1</color>
+
+    <color name="color_six_primary">#6b51f9</color>
+    <color name="color_six_secondary">#f3edff</color>
+
+    <color name="color_seven_primary">#7b7e85</color>
+    <color name="color_seven_secondary">#eff2fc</color>
+
+    <color name="color_eight_primary">#e3e8f3</color>
+    <color name="color_eight_secondary">#ffffff</color>
 
 </resources>
