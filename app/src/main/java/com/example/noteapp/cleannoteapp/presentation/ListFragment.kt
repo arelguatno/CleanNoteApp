@@ -1,24 +1,29 @@
 package com.example.noteapp.cleannoteapp.presentation
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.noteapp.cleannoteapp.R
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.noteapp.cleannoteapp.common.BaseFragment
+import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 
 
-class ListFragment : Fragment() {
-
+class ListFragment : BaseFragment() {
+    private lateinit var binding: FragmentListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false)
+    ): View {
+        binding = FragmentListBinding.inflate(layoutInflater)
+        menuInit()
+        return binding.root
     }
 
+    private fun menuInit() {
+        binding.appBar.inflateMenu(R.menu.list_fragment_menu)
+      //  binding.appBar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+    }
 
 }

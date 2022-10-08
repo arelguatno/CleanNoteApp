@@ -6,6 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.noteapp.cleannoteapp.common.BaseActivity
 import com.example.noteapp.cleannoteapp.databinding.ActivityMainBinding
+import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
