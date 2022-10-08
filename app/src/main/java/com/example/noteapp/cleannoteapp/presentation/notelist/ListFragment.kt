@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
@@ -34,6 +35,7 @@ class ListFragment : BaseFragment() {
         val items = NoteListAdapterTwo(data())
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = items
+       // binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
     }
