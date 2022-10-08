@@ -1,4 +1,4 @@
-package com.example.noteapp.cleannoteapp.common
+package com.example.noteapp.cleannoteapp.presentation.common
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

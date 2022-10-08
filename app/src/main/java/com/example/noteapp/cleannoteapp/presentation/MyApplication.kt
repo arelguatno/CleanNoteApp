@@ -1,4 +1,4 @@
-package com.example.noteapp.cleannoteapp.application
+package com.example.noteapp.cleannoteapp.presentation
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
@@ -9,6 +9,8 @@ class MyApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        //Always white theme
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.noteapp.cleannoteapp.presentation.ListFragment"
+        android:name="com.example.noteapp.cleannoteapp.presentation.notelist.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list">
         <action
@@ -16,12 +16,12 @@
     </fragment>
     <fragment
         android:id="@+id/addUpdateFragment"
-        android:name="com.example.noteapp.cleannoteapp.presentation.AddUpdateFragment"
+        android:name="com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateFragment"
         android:label="fragment_add_update"
         tools:layout="@layout/fragment_add_update" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.noteapp.cleannoteapp.presentation.SettingsFragment"
+        android:name="com.example.noteapp.cleannoteapp.presentation.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

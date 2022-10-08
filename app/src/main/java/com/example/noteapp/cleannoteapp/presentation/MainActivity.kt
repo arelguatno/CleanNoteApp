@@ -1,12 +1,12 @@
-package com.example.noteapp.cleannoteapp
+package com.example.noteapp.cleannoteapp.presentation
 
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
-import com.example.noteapp.cleannoteapp.common.BaseActivity
+import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
 import com.example.noteapp.cleannoteapp.databinding.ActivityMainBinding
-import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

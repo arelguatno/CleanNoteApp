@@ -1,11 +1,11 @@
-package com.example.noteapp.cleannoteapp.presentation
+package com.example.noteapp.cleannoteapp.presentation.notelist
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.common.BaseFragment
+import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 
 
@@ -25,5 +25,4 @@ class ListFragment : BaseFragment() {
         binding.appBar.inflateMenu(R.menu.list_fragment_menu)
       //  binding.appBar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
     }
-
 }
