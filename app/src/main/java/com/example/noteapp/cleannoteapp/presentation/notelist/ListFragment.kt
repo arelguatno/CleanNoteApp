@@ -1,22 +1,19 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
+import com.example.noteapp.cleannoteapp.databinding.SortBySheetDialogBinding
 import com.example.noteapp.cleannoteapp.models.NoteModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
-import com.example.noteapp.cleannoteapp.presentation.MainActivity
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -63,7 +60,23 @@ class ListFragment : BaseFragment() {
 
     private fun menuInit() {
         binding.appBar.inflateMenu(R.menu.list_fragment_menu)
+        binding.appBar.setOnMenuItemClickListener{
+            when(it.itemId){
+                R.id.menu_sortBy ->{
+                    launchSortBy()
+                }
+            }
+            true
+        }
         //  binding.appBar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
+    }
+
+    private fun launchSortBy() {
+        val view = SortBySheetDialogBinding.inflate(layoutInflater)
+        bottomSheetDialog.dismissWithAnimation
+        bottomSheetDialog.setCancelable(true)
+        bottomSheetDialog.setContentView(view.root)
+        bottomSheetDialog.show()
     }
 
     private fun lunchChoice() {

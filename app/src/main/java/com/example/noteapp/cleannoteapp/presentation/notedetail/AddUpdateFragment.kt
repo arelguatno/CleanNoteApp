@@ -1,12 +1,10 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
-import android.content.Context
 import android.os.Bundle
-import android.os.SystemClock
-import android.view.*
-import android.view.inputmethod.InputMethodManager
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
 import com.example.noteapp.cleannoteapp.presentation.MainActivity
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
