@@ -26,4 +26,5 @@
         android:icon="@drawable/ic_baseline_view_list_24"
         android:title="View"
         app:showAsAction="never" />
+
 </menu>
