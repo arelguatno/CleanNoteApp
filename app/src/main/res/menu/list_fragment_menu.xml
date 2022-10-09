@@ -3,25 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <item android:id="@+id/filterBy"
-        android:icon="@drawable/ic_baseline_filter_alt_24"
-        app:showAsAction="ifRoom|withText"
-        android:title="Sort" />
+    <item
+        android:id="@+id/filterBy"
+        android:icon="@drawable/app_icon_two"
+        android:title="Sort"
+        app:itemIconSize="5dp"
+        app:showAsAction="ifRoom|withText" />
 
-    <item android:id="@+id/sortBy"
+    <item
+        android:id="@+id/sortBy"
         android:icon="@drawable/ic_baseline_sort_24"
-        app:showAsAction="ifRoom|withText"
-        android:title="Sort" />
+        android:title="Sort"
+        app:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/select_item"
         android:icon="@drawable/ic_baseline_sort_24"
         android:title="Select"
-        app:showAsAction="never"/>
-
+        app:showAsAction="never" />
     <item
         android:id="@+id/view_page"
         android:icon="@drawable/ic_baseline_view_list_24"
         android:title="View"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 </menu>

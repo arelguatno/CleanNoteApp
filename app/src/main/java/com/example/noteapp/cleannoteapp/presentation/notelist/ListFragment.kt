@@ -35,7 +35,7 @@ class ListFragment : BaseFragment() {
         val items = NoteListAdapterTwo(data())
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = items
-       // binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        //binding.recyclerView.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
     }
