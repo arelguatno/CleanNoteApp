@@ -3,31 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/filterBy"
-        android:icon="@drawable/category_one"
-        android:title="Sort"
+        android:icon="@drawable/circle_category"
+        android:title=""
         app:itemIconSize="5dp"
         app:showAsAction="ifRoom|withText" />
 
     <item
         android:id="@+id/sortBy"
         android:icon="@drawable/ic_baseline_push_pin_24"
-        android:title="Sort"
+        android:title=""
         app:showAsAction="ifRoom|withText" />
 
     <item
-        android:id="@+id/select_item"
-        android:icon="@drawable/ic_baseline_sort_24"
-        android:title="Archive"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/reminder"
-        android:icon="@drawable/ic_baseline_view_list_24"
-        android:title="Reminder"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/delete"
-        android:icon="@drawable/ic_baseline_view_list_24"
-        android:title="Delete"
-        app:showAsAction="never" />
+        android:id="@+id/more"
+        android:icon="@drawable/more"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/select_item"
+                android:icon="@drawable/ic_baseline_archive"
+                android:title="@string/archive"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/reminder"
+                android:icon="@drawable/ic_baseline_edit_calendar_24"
+                android:title="@string/reminder"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/delete"
+                android:icon="@drawable/ic_baseline_delete"
+                android:title="@string/delete"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
 </menu>

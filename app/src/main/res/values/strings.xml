@@ -6,4 +6,8 @@
     <string name="archive">Archive</string>
     <string name="zero">0</string>
     <string name="todo">TODO</string>
+    <string name="reminder">Reminder</string>
+    <string name="delete">Delete</string>
+    <string name="select">Select</string>
+    <string name="view">View</string>
 </resources>

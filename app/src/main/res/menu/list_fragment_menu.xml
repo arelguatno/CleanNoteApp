@@ -2,29 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
         android:id="@+id/filterBy"
-        android:icon="@drawable/app_icon_two"
-        android:title="Sort"
+        android:icon="@drawable/all_category"
+        android:title=""
         app:itemIconSize="5dp"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/sortBy"
-        android:icon="@drawable/ic_baseline_sort_24"
-        android:title="Sort"
-        app:showAsAction="ifRoom|withText" />
+        android:icon="@drawable/sort_by_two"
+        android:title=""
+        app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/select_item"
-        android:icon="@drawable/ic_baseline_sort_24"
-        android:title="Select"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/view_page"
-        android:icon="@drawable/ic_baseline_view_list_24"
-        android:title="View"
-        app:showAsAction="never" />
+        android:id="@+id/more"
+        android:icon="@drawable/more"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/select_item"
+                android:icon="@drawable/ic_baseline_check_box_24"
+                android:title="@string/select"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/view_page"
+                android:icon="@drawable/ic_baseline_view_agenda_24"
+                android:title="@string/view"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
 
 </menu>
