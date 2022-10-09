@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/filterBy"
-        android:icon="@drawable/category_1"
+        android:icon="@drawable/category_one"
         android:title="Sort"
         app:itemIconSize="5dp"
         app:showAsAction="ifRoom|withText" />
