@@ -1,11 +1,10 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
@@ -13,6 +12,8 @@ import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import com.example.noteapp.cleannoteapp.models.NoteModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
+import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -27,14 +28,20 @@ class ListFragment : BaseFragment() {
     ): View {
         binding = FragmentListBinding.inflate(layoutInflater)
         bottomSheetDialog = BottomSheetDialog(requireContext())
+        //var bottomNav =
+
+        ScrollAwareFABBehavior(
+            recyclerView = binding.recyclerView,
+            floatingActionButton = binding.floatingActionButton,
+            requireActivity().findViewById(R.id.bottomNavigationView)
+        ).start()
 
         showNavigationBottom(true)
         menuInit()
         initList()
+
         binding.floatingActionButton.setOnClickListener {
-            selectCommendType()
-            //it.findNavController().navigate(R.id.action_listFragment_to_addUpdateFragment2)
-           // showNavigationBottom(false)
+            lunchChoice()
         }
         return binding.root
     }
@@ -43,8 +50,8 @@ class ListFragment : BaseFragment() {
         val items = NoteListAdapterTwo(data())
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = items
-       // binding.recyclerView.layoutManager =
-         //   StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        // binding.recyclerView.layoutManager =
+        //   StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
@@ -53,11 +60,23 @@ class ListFragment : BaseFragment() {
         //  binding.appBar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
     }
 
-    private fun selectCommendType(){
-        val b = AddBottomSheetDialogBinding.inflate(layoutInflater)
+    private fun lunchChoice() {
+        val view = AddBottomSheetDialogBinding.inflate(layoutInflater)
+
+        view.txt.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_addUpdateFragment2)
+            showNavigationBottom(false)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.checklist.setOnClickListener {
+            findNavController().navigate(R.id.action_listFragment_to_addUpdateFragment2)
+            showNavigationBottom(false)
+            bottomSheetDialog.dismiss()
+        }
         bottomSheetDialog.dismissWithAnimation
         bottomSheetDialog.setCancelable(true)
-        bottomSheetDialog.setContentView(b.root)
+        bottomSheetDialog.setContentView(view.root)
         bottomSheetDialog.show()
     }
 
