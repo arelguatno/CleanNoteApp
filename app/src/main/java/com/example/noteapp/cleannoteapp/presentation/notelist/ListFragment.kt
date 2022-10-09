@@ -1,16 +1,19 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import com.example.noteapp.cleannoteapp.models.NoteModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.presentation.MainActivity
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -21,6 +24,7 @@ class ListFragment : BaseFragment() {
     private lateinit var binding: FragmentListBinding
     private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
     private lateinit var bottomSheetDialog: BottomSheetDialog
+    private val className = this.javaClass.simpleName
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,16 +47,18 @@ class ListFragment : BaseFragment() {
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
         }
+
         return binding.root
     }
+
 
     private fun initList() {
         val items = NoteListAdapterTwo(data())
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = items
-        // binding.recyclerView.layoutManager =
-        //   StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        //binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun menuInit() {
@@ -64,6 +70,7 @@ class ListFragment : BaseFragment() {
         val view = AddBottomSheetDialogBinding.inflate(layoutInflater)
 
         view.txt.setOnClickListener {
+            bottomSheetDialog.dismiss()
             findNavController().navigate(R.id.action_listFragment_to_addUpdateFragment2)
             showNavigationBottom(false)
             bottomSheetDialog.dismiss()

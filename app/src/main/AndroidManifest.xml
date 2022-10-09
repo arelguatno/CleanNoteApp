@@ -12,10 +12,12 @@
         android:roundIcon="@mipmap/note_it_launcher_three"
         android:supportsRtl="true"
         android:theme="@style/Theme.CleanNoteApp"
+        android:hardwareAccelerated="false"
         tools:targetApi="31">
         <activity
             android:name=".presentation.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="stateAlwaysVisible">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

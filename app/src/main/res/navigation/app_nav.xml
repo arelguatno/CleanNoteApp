@@ -13,14 +13,20 @@
         <action
             android:id="@+id/action_listFragment_to_addUpdateFragment2"
             app:destination="@id/addUpdateFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"/>
     </fragment>
     <fragment
         android:id="@+id/addUpdateFragment"
         android:name="com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateFragment"
         android:label="fragment_add_update"
-        tools:layout="@layout/fragment_add_update" />
+        tools:layout="@layout/fragment_add_update" >
+        <action
+            android:id="@+id/action_addUpdateFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.noteapp.cleannoteapp.presentation.settings.SettingsFragment"

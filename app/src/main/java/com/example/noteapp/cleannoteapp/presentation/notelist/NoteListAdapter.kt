@@ -9,7 +9,6 @@ import com.example.noteapp.cleannoteapp.databinding.ListRowBinding
 import com.example.noteapp.cleannoteapp.models.NoteModel
 
 class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
-
     inner class MyViewHolder(val binding: ListRowBinding) :
         RecyclerView.ViewHolder(binding.root)
 

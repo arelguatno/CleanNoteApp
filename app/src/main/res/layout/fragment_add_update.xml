@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/color_one_secondary"
     tools:context=".presentation.notedetail.AddUpdateFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,8 +21,14 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
+            android:background="@color/color_one_secondary"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:menu="@menu/detail_menu"
             app:title="" />
     </com.google.android.material.appbar.AppBarLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <include
+        android:id="@+id/add_text_layout"
+        layout="@layout/add_text_layout" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
