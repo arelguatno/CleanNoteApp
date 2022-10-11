@@ -6,7 +6,7 @@
 //import androidx.recyclerview.widget.RecyclerView
 //import com.example.noteapp.cleannoteapp.R
 //import com.example.noteapp.cleannoteapp.databinding.ListRowBinding
-//import com.example.noteapp.cleannoteapp.models.NoteModel
+//import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 //import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 //
 //class NoteListAdapterTwo(private val list: List<NoteModel>) :

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.ListRowBinding
-import com.example.noteapp.cleannoteapp.models.NoteModel
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 
 class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
@@ -29,7 +29,7 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.header.text = item!!.header
-        holder.binding.date.text = item.dates?.dateModified.toString()
+        holder.binding.date.text = item.dates!!.dateModifiedStringValue
         holder.binding.body.text = item.body
         colorCategory(item.category, holder)
     }

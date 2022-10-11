@@ -1,7 +1,6 @@
 package com.example.noteapp.cleannoteapp.room_database.note_table
 
 import androidx.paging.PagingSource
-import com.example.noteapp.cleannoteapp.models.NoteModel
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(

@@ -12,8 +12,6 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import com.example.noteapp.cleannoteapp.databinding.SortBySheetDialogBinding
-import com.example.noteapp.cleannoteapp.models.NoteModel
-import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.notedetail.DetailViewModel
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
