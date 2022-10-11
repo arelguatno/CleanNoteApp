@@ -39,7 +39,7 @@ class AddUpdateFragment : BaseFragment() {
         backButtonOnClick()
         binding.addTextLayout.txtBody.showKeyboard()
 
-        val newData = NoteModel(header = "null", date = "null", body = "null", category = ColorCategory.OPTION_SIX)
+        val newData = NoteModel(header = "Sample1", date = "null", body = "null", category = ColorCategory.OPTION_ONE)
         viewModel.insertRecord(newData)
         printLogD(className, "onStart")
     }
