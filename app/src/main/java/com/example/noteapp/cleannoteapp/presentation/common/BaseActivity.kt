@@ -7,5 +7,4 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 open class BaseActivity() : AppCompatActivity() {
-
 }

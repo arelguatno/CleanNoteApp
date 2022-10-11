@@ -10,12 +10,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 open class BaseFragment : Fragment() {
 
+    companion object {
+        val className: String = this.javaClass.simpleName
+    }
+
     open fun showNavigationBottom(visible: Boolean) {
         var bottomNav =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        if(visible){
+        if (visible) {
             bottomNav.visibility = View.VISIBLE
-        }else{
+        } else {
             bottomNav.visibility = View.INVISIBLE
         }
     }

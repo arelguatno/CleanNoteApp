@@ -1,26 +1,28 @@
 package com.example.noteapp.cleannoteapp.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
 import com.example.noteapp.cleannoteapp.databinding.ActivityMainBinding
+import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
+import com.example.noteapp.cleannoteapp.util.ThemeColors
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private val className = this.javaClass.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setupBottomNav()
+        ThemeColors()
     }
 
     private fun setupBottomNav() {

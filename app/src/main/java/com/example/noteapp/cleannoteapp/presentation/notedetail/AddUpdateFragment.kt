@@ -1,30 +1,36 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
+import com.example.noteapp.cleannoteapp.models.NoteModel
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.MainActivity
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.util.extensions.hideKeyboard
 import com.example.noteapp.cleannoteapp.util.extensions.showKeyboard
 import com.example.noteapp.cleannoteapp.util.printLogD
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
     private lateinit var activityMain: MainActivity
+    private val viewModel: DetailViewModel by viewModels()
     private val className = this.javaClass.simpleName
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentAddUpdateBinding.inflate(layoutInflater)
-        printLogD(className, "This is me")
         return binding.root
     }
 
@@ -32,6 +38,10 @@ class AddUpdateFragment : BaseFragment() {
         super.onStart()
         backButtonOnClick()
         binding.addTextLayout.txtBody.showKeyboard()
+
+        val newData = NoteModel(header = "null", date = "null", body = "null", category = ColorCategory.OPTION_SIX)
+        viewModel.insertRecord(newData)
+        printLogD(className, "onStart")
     }
 
     private fun backButtonOnClick() {

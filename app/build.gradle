@@ -27,6 +27,13 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        app_debug {
+            initWith debug
+            debuggable true
+            applicationIdSuffix ".debug"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -80,4 +87,11 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:3.1.1"
     implementation 'androidx.room:room-paging:2.4.3'
 
+    //Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:2.5.2"
+    implementation "androidx.navigation:navigation-ui-ktx:2.5.2"
+//
+//    // Kotlin components
+//    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+//    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
 }

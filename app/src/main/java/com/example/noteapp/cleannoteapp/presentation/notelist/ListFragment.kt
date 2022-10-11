@@ -15,8 +15,9 @@ import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class ListFragment : BaseFragment() {
     private lateinit var binding: FragmentListBinding
     private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
@@ -63,7 +64,8 @@ class ListFragment : BaseFragment() {
         binding.appBar.setOnMenuItemClickListener{
             when(it.itemId){
                 R.id.menu_sortBy ->{
-                    launchSortBy()
+                   // launchSortBy()
+                    activity?.theme?.applyStyle(R.style.Theme_CleanNoteApp_Category,true)
                 }
             }
             true
