@@ -29,8 +29,8 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.header.text = item!!.header
-        holder.binding.date.text = item.date
-        holder.binding.body.text = item.date
+        holder.binding.date.text = item.dates?.dateModified.toString()
+        holder.binding.body.text = item.body
         colorCategory(item.category, holder)
     }
 

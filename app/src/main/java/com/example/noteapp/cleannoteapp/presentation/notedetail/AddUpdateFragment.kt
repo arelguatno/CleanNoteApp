@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
+import com.example.noteapp.cleannoteapp.models.Dates
 import com.example.noteapp.cleannoteapp.models.NoteModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.MainActivity
@@ -18,6 +19,7 @@ import com.example.noteapp.cleannoteapp.util.extensions.hideKeyboard
 import com.example.noteapp.cleannoteapp.util.extensions.showKeyboard
 import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
@@ -39,7 +41,7 @@ class AddUpdateFragment : BaseFragment() {
         backButtonOnClick()
         binding.addTextLayout.txtBody.showKeyboard()
 
-        val newData = NoteModel(header = "Sample1", date = "null", body = "null", category = ColorCategory.OPTION_ONE)
+        val newData = NoteModel(header = "null", body = "null", dates = Dates(Date(), Date()), category = ColorCategory.OPTION_FOUR)
         viewModel.insertRecord(newData)
         printLogD(className, "onStart")
     }
