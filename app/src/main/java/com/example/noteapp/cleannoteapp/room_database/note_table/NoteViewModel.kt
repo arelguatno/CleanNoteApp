@@ -1,11 +1,9 @@
-package com.example.noteapp.cleannoteapp.presentation.notedetail
+package com.example.noteapp.cleannoteapp.room_database.note_table
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
-import com.example.noteapp.cleannoteapp.room_database.note_table.NoteRepository
-import com.example.noteapp.cleannoteapp.util.extensions.appDate
+import com.example.noteapp.cleannoteapp.util.extensions.appMainFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailViewModel @Inject constructor(
+class NoteViewModel @Inject constructor(
     private val repository: NoteRepository
 ) : ViewModel() {
 
@@ -29,14 +27,14 @@ class DetailViewModel @Inject constructor(
             repository.fetchWalletsRecord()
         }.flow.cachedIn(viewModelScope).map { notesModel ->
             notesModel.filter {
-                filterData(it)
+                convertDateToString(it)
             }
         }
     }
 
-    private fun filterData(noteModel: NoteModel): Boolean {
+    private fun convertDateToString(noteModel: NoteModel): Boolean {
         noteModel.dates?.dateModifiedStringValue =
-            noteModel.dates?.dateModified?.appDate().toString()
+            noteModel.dates?.dateModified?.appMainFormat().toString()
         return true
     }
 }

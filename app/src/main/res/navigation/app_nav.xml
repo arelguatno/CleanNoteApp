@@ -26,6 +26,10 @@
         <action
             android:id="@+id/action_addUpdateFragment_to_listFragment"
             app:destination="@id/listFragment" />
+        <argument
+            android:name="note"
+            app:argType="com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

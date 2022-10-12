@@ -2,7 +2,7 @@ package com.example.noteapp.cleannoteapp.util.extensions
 
 import java.util.*
 
-fun Date.appDate(): String {
+fun Date.appMainFormat(): String {
     val calendar = Calendar.getInstance()
     calendar.time = this
 

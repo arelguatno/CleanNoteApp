@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import com.example.noteapp.cleannoteapp.databinding.SortBySheetDialogBinding
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
-import com.example.noteapp.cleannoteapp.presentation.notedetail.DetailViewModel
+import com.example.noteapp.cleannoteapp.presentation.notelist.ListFragmentDirections.actionListFragmentToAddUpdateFragment2
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 class ListFragment : BaseFragment() {
     private lateinit var binding: FragmentListBinding
     private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
-    private val viewModel: DetailViewModel by viewModels()
+    private val viewModel: NoteViewModel by viewModels()
     private lateinit var bottomSheetDialog: BottomSheetDialog
     private val className = this.javaClass.simpleName
 
@@ -57,9 +58,9 @@ class ListFragment : BaseFragment() {
     private fun initList() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
-        binding.recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        //binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+//        binding.recyclerView.layoutManager =
+//            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         lifecycleScope.launch{
             viewModel.fetchRecordData().collectLatest {
@@ -95,7 +96,8 @@ class ListFragment : BaseFragment() {
 
         view.txt.setOnClickListener {
             bottomSheetDialog.dismiss()
-            findNavController().navigate(R.id.action_listFragment_to_addUpdateFragment2)
+            val detailView = actionListFragmentToAddUpdateFragment2(null)
+            findNavController().navigate(detailView)
             showNavigationBottom(false)
             bottomSheetDialog.dismiss()
         }

@@ -8,6 +8,7 @@
     android:padding="25dp">
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
@@ -33,7 +34,7 @@
         android:background="@color/line_separator" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/txtBody"
+        android:id="@+id/note_body"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
