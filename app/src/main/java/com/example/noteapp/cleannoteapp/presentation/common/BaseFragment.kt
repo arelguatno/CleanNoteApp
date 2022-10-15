@@ -1,6 +1,7 @@
 package com.example.noteapp.cleannoteapp.presentation.common
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.noteapp.cleannoteapp.R
@@ -10,10 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 open class BaseFragment : Fragment() {
     lateinit var bottomSheetDialog: BottomSheetDialog
-
-    companion object {
-        val className: String = this.javaClass.simpleName
-    }
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -28,5 +26,18 @@ open class BaseFragment : Fragment() {
         } else {
             bottomNav.visibility = View.INVISIBLE
         }
+    }
+
+    fun loadTheme(uniqueID: Int) {
+        sharedPref =
+            requireActivity().getSharedPreferences(
+                getString(R.string.color_id),
+                Context.MODE_PRIVATE
+            )!!
+        with(sharedPref.edit()) {
+            putInt(getString(com.example.noteapp.cleannoteapp.R.string.color_id), uniqueID)
+            apply()
+        }
+        requireActivity().recreate()
     }
 }

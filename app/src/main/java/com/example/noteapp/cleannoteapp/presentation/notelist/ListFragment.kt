@@ -51,6 +51,11 @@ class ListFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+       // setDefaultTheme(0)
+    }
+
 
     private fun initList() {
         binding.recyclerView.itemAnimator = null
@@ -72,7 +77,6 @@ class ListFragment : BaseFragment() {
             when (it.itemId) {
                 R.id.menu_sortBy -> {
                     // launchSortBy()
-                    activity?.theme?.applyStyle(R.style.Theme_CleanNoteApp_Category, true)
                 }
             }
             true

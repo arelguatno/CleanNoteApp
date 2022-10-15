@@ -1,5 +1,7 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -48,6 +50,7 @@ class AddUpdateFragment : BaseFragment() {
         toolBarBackButton()
         recordData()
         menu()
+
         binding.addTextLayout.noteBody.setOnClickListener {
             onClickNoteBody()
         }
@@ -123,6 +126,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun setTheme(colorCategory: ColorCategory) {
+        printLogD(className, colorCategory.name)
         when (colorCategory) {
             ColorCategory.OPTION_ONE -> {
                 binding.main.setThemeOne()
@@ -228,41 +232,49 @@ class AddUpdateFragment : BaseFragment() {
         val view = LayoutChangeColorBinding.inflate(layoutInflater)
 
         view.colorOne.setOnClickListener {
+            loadTheme(1)
             mainViewModel.setColorCategory(ColorCategory.OPTION_ONE)
             bottomSheetDialog.dismiss()
         }
 
         view.colorTwo.setOnClickListener {
+            loadTheme(2)
             mainViewModel.setColorCategory(ColorCategory.OPTION_TWO)
             bottomSheetDialog.dismiss()
         }
 
         view.colorThree.setOnClickListener {
+            loadTheme(3)
             mainViewModel.setColorCategory(ColorCategory.OPTION_THREE)
             bottomSheetDialog.dismiss()
         }
 
         view.colorFour.setOnClickListener {
+            loadTheme(4)
             mainViewModel.setColorCategory(ColorCategory.OPTION_FOUR)
             bottomSheetDialog.dismiss()
         }
 
         view.colorFive.setOnClickListener {
+            loadTheme(5)
             mainViewModel.setColorCategory(ColorCategory.OPTION_FIVE)
             bottomSheetDialog.dismiss()
         }
 
         view.colorSix.setOnClickListener {
+            loadTheme(6)
             mainViewModel.setColorCategory(ColorCategory.OPTION_SIX)
             bottomSheetDialog.dismiss()
         }
 
         view.colorSeven.setOnClickListener {
+            loadTheme(7)
             mainViewModel.setColorCategory(ColorCategory.OPTION_SEVEN)
             bottomSheetDialog.dismiss()
         }
 
         view.colorEight.setOnClickListener {
+            loadTheme(8)
             mainViewModel.setColorCategory(ColorCategory.OPTION_EIGHT)
             bottomSheetDialog.dismiss()
         }
