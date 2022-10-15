@@ -1,10 +1,10 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail.state
 
-import android.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.*
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
 
 
 class NoteInteractionManager {
@@ -17,6 +17,9 @@ class NoteInteractionManager {
     private val _colorState: MutableLiveData<ColorCategory> =
         MutableLiveData(ColorCategory.OPTION_ONE)
 
+    private val _themeState: MutableLiveData<NoteInteractionState> =
+        MutableLiveData(DefaultState)
+
     val noteTitleState: LiveData<NoteInteractionState>
         get() = _noteTitleState
 
@@ -25,6 +28,9 @@ class NoteInteractionManager {
 
     val colorSelected: LiveData<ColorCategory>
         get() = _colorState
+
+    val themeState: LiveData<NoteInteractionState>
+        get() = _themeState
 
 
     fun setNewNoteBodyState(state: NoteInteractionState) {
@@ -40,7 +46,7 @@ class NoteInteractionManager {
     }
 
     fun setNewNoteTitleState(state: NoteInteractionState) {
-        if (!noteTitleState.toString().equals(state.toString())) {
+        if (noteTitleState.toString() != state.toString()) {
             _noteTitleState.value = state
             when (state) {
 
@@ -54,6 +60,10 @@ class NoteInteractionManager {
 
     fun setColorCategory(state: ColorCategory) {
         _colorState.value = state
+    }
+
+    fun setThemeState(state: NoteInteractionState) {
+        _themeState.value = state
     }
 
 

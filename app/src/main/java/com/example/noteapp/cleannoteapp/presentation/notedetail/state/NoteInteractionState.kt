@@ -1,7 +1,5 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail.state
 
-import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
-
 sealed class NoteInteractionState {
 
     object EditState : NoteInteractionState() {

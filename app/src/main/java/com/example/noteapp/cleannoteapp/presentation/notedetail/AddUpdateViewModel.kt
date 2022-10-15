@@ -22,6 +22,9 @@ class AddUpdateViewModel @Inject constructor(
     val colorSelected: LiveData<ColorCategory>
         get() = noteInteractionManager.colorSelected
 
+    val setThemeState: LiveData<NoteInteractionState>
+        get() = noteInteractionManager.themeState
+
     fun isEditingBody() = noteInteractionManager.isEditingBody()
     fun isEditingTitle() = noteInteractionManager.isEditingTitle()
     fun checkEditState() = noteInteractionManager.checkEditState()
@@ -37,5 +40,9 @@ class AddUpdateViewModel @Inject constructor(
 
     fun setColorCategory(color: ColorCategory) {
         noteInteractionManager.setColorCategory(color)
+    }
+
+    fun setThemeState(state: NoteInteractionState) {
+        noteInteractionManager.setThemeState(state)
     }
 }

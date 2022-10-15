@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
@@ -28,7 +29,7 @@ import java.util.*
 class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
     private val crudViewModel: NoteViewModel by viewModels()
-    private val mainViewModel: AddUpdateViewModel by viewModels()
+    private val mainViewModel: AddUpdateViewModel by activityViewModels()
     private var menuItem: MenuItem? = null
 
     private val className = this.javaClass.simpleName
@@ -290,7 +291,7 @@ class AddUpdateFragment : BaseFragment() {
 
     private fun executeTheme(view: LinearLayout, cat: ColorCategory) {
         view.setOnClickListener {
-
+            mainViewModel.setThemeState(EditState)
             requireActivity().recreate()
             bottomSheetDialog.dismiss()
             mainViewModel.setColorCategory(cat)
