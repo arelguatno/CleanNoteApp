@@ -1,18 +1,12 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
@@ -35,8 +29,8 @@ class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
     private val crudViewModel: NoteViewModel by viewModels()
     private val mainViewModel: AddUpdateViewModel by viewModels()
+    private var menuItem: MenuItem? = null
 
-    //private val args: AddUpdateFragmentArgs by navArgs()
     private val className = this.javaClass.simpleName
     private lateinit var activityMain: AddUpdateActivity
 
@@ -74,16 +68,18 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun menu() {
+        menuItem = binding.appBar.menu.findItem(R.id.menu_color_category)
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_color_category -> {
                     view?.hideKeyboard()
-                    launchColor(it)
+                    launchColor()
                 }
             }
             true
         }
     }
+
     private fun onClickNoteTitle() {
         if (!mainViewModel.isEditingTitle()) {
             mainViewModel.setNoteInteractionTitleState(EditState)
@@ -133,12 +129,22 @@ class AddUpdateFragment : BaseFragment() {
                 is DefaultState -> {
                     binding.addTextLayout.noteTitle.disableContentInteraction()
                 }
+                else -> {}
             }
         }
 
         mainViewModel.colorSelected.observe(viewLifecycleOwner) {
             setTheme(it)
         }
+    }
+
+    private fun getImage(color: Int): Drawable {
+        val drawable: Drawable = resources.getDrawable(R.drawable.circle_category, null)
+        drawable.setColorFilter(
+            resources.getColor(color, null),
+            PorterDuff.Mode.SRC_IN
+        )
+        return drawable
     }
 
     private fun setTheme(colorCategory: ColorCategory) {
@@ -148,41 +154,49 @@ class AddUpdateFragment : BaseFragment() {
                 loadTheme(1)
                 binding.main.setThemeOne()
                 binding.appBar.setThemeOne()
+                menuItem?.icon = getImage(R.color.color_one_primary)
             }
             ColorCategory.OPTION_TWO -> {
                 loadTheme(2)
                 binding.main.setThemeTwo()
                 binding.appBar.setThemeTwo()
+                menuItem?.icon = getImage(R.color.color_two_primary)
             }
             ColorCategory.OPTION_THREE -> {
                 loadTheme(3)
                 binding.main.setThemeThree()
                 binding.appBar.setThemeThree()
+                menuItem?.icon = getImage(R.color.color_three_primary)
             }
             ColorCategory.OPTION_FOUR -> {
                 loadTheme(4)
                 binding.main.setThemeFour()
                 binding.appBar.setThemeFour()
+                menuItem?.icon = getImage(R.color.color_four_primary)
             }
             ColorCategory.OPTION_FIVE -> {
                 loadTheme(5)
                 binding.main.setThemeFive()
                 binding.appBar.setThemeFive()
+                menuItem?.icon = getImage(R.color.color_five_primary)
             }
             ColorCategory.OPTION_SIX -> {
                 loadTheme(6)
                 binding.main.setThemeSix()
                 binding.appBar.setThemeSix()
+                menuItem?.icon = getImage(R.color.color_six_primary)
             }
             ColorCategory.OPTION_SEVEN -> {
                 loadTheme(7)
                 binding.main.setThemeSeven()
                 binding.appBar.setThemeSeven()
+                menuItem?.icon = getImage(R.color.color_seven_primary)
             }
             ColorCategory.OPTION_EIGHT -> {
                 loadTheme(8)
                 binding.main.setThemeEight()
                 binding.appBar.setThemeEight()
+                menuItem?.icon = getImage(R.color.color_eight_primary)
             }
             else -> {}
         }
@@ -201,7 +215,7 @@ class AddUpdateFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        loadTheme(1) //TODO setBackToDefault
+        // loadTheme(1) //TODO setBackToDefault
     }
 
     private fun toolBarBackButton() {
@@ -257,16 +271,16 @@ class AddUpdateFragment : BaseFragment() {
         }
     }
 
-    private fun launchColor(menuItem: MenuItem) {
+    private fun launchColor() {
         val view = LayoutChangeColorBinding.inflate(layoutInflater)
-        executeTheme(view.colorOne, ColorCategory.OPTION_ONE,menuItem)
-        executeTheme(view.colorTwo, ColorCategory.OPTION_TWO, menuItem)
-        executeTheme(view.colorThree, ColorCategory.OPTION_THREE, menuItem)
-        executeTheme(view.colorFour, ColorCategory.OPTION_FOUR, menuItem)
-        executeTheme(view.colorFive, ColorCategory.OPTION_FIVE, menuItem)
-        executeTheme(view.colorSix, ColorCategory.OPTION_SIX, menuItem)
-        executeTheme(view.colorSeven, ColorCategory.OPTION_SEVEN, menuItem)
-        executeTheme(view.colorEight, ColorCategory.OPTION_EIGHT, menuItem)
+        executeTheme(view.colorOne, ColorCategory.OPTION_ONE)
+        executeTheme(view.colorTwo, ColorCategory.OPTION_TWO)
+        executeTheme(view.colorThree, ColorCategory.OPTION_THREE)
+        executeTheme(view.colorFour, ColorCategory.OPTION_FOUR)
+        executeTheme(view.colorFive, ColorCategory.OPTION_FIVE)
+        executeTheme(view.colorSix, ColorCategory.OPTION_SIX)
+        executeTheme(view.colorSeven, ColorCategory.OPTION_SEVEN)
+        executeTheme(view.colorEight, ColorCategory.OPTION_EIGHT)
 
         bottomSheetDialog.dismissWithAnimation
         bottomSheetDialog.setCancelable(true)
@@ -274,12 +288,12 @@ class AddUpdateFragment : BaseFragment() {
         bottomSheetDialog.show()
     }
 
-    private fun executeTheme(view: LinearLayout, cat: ColorCategory, menuItem: MenuItem) {
+    private fun executeTheme(view: LinearLayout, cat: ColorCategory) {
         view.setOnClickListener {
+
             requireActivity().recreate()
             bottomSheetDialog.dismiss()
             mainViewModel.setColorCategory(cat)
-          //  menuItem.icon?.setColorTint(cat)
         }
     }
 }
