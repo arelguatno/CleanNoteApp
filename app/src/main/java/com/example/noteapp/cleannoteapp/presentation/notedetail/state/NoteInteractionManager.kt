@@ -31,5 +31,19 @@ class NoteInteractionManager {
         }
     }
 
+    fun setNewNoteTitleState(state: NoteInteractionState) {
+        if (!noteTitleState.toString().equals(state.toString())) {
+            _noteTitleState.value = state
+            when (state) {
+
+                is EditState -> {
+                    _noteBodyState.value = DefaultState
+                }
+                else -> {}
+            }
+        }
+    }
+
+    fun isEditingTitle() = noteTitleState.value.toString() == EditState.toString()
     fun isEditingBody() = noteBodyState.value.toString() == EditState.toString()
 }

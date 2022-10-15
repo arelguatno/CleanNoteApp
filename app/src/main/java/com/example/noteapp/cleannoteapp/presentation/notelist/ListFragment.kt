@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
@@ -58,9 +59,9 @@ class ListFragment : BaseFragment() {
     private fun initList() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
-//        binding.recyclerView.layoutManager =
-//            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.layoutManager =
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+//        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         lifecycleScope.launch{
             viewModel.fetchRecordData().collectLatest {

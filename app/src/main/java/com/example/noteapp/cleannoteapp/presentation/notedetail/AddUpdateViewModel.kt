@@ -23,4 +23,8 @@ class AddUpdateViewModel @Inject constructor(
     fun setNoteInteractionBodyState(state: NoteInteractionState) {
         noteInteractionManager.setNewNoteBodyState(state)
     }
+
+    fun setNoteInteractionTitleState(state: NoteInteractionState) {
+        noteInteractionManager.setNewNoteTitleState(state)
+    }
 }

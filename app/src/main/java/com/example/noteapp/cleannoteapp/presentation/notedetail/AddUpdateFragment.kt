@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -43,19 +44,29 @@ class AddUpdateFragment : BaseFragment() {
 
         setDefaultState()
         subscribeObservers()
+        setupOnBackPressDispatcher()
+        toolBarBackButton()
         binding.addTextLayout.noteBody.setOnClickListener {
             onClick_noteBody()
         }
 
-        backButtonOnClick()
+        binding.addTextLayout.noteTitle.setOnClickListener {
+            onClick_noteTitle()
+        }
 
+    }
+
+    private fun onClick_noteTitle() {
+        if (!mainViewModel.isEditingBody()) {
+            mainViewModel.setNoteInteractionTitleState(EditState)
+        }
     }
 
     private fun setDefaultState() {
         if (args.note == null) {
-            mainViewModel.setNoteInteractionBodyState(DefaultState)
+          //  mainViewModel.setNoteInteractionBodyState(EditState)
         } else {
-            mainViewModel.setNoteInteractionBodyState(DefaultState)
+            //mainViewModel.setNoteInteractionBodyState(DefaultState)
         }
     }
 
@@ -65,9 +76,27 @@ class AddUpdateFragment : BaseFragment() {
                 is EditState -> {
                     binding.addTextLayout.noteBody.showKeyboard()
                     binding.addTextLayout.noteBody.enableContentInteraction()
+                    printLogD(className,"body-editstate")
                 }
                 is DefaultState -> {
                     binding.addTextLayout.noteBody.disableContentInteraction()
+                    printLogD(className,"body-DefaultState")
+                }
+            }
+        }
+
+        mainViewModel.noteTitleInteractionState.observe(viewLifecycleOwner) {
+            when (it) {
+
+                is EditState -> {
+                    binding.addTextLayout.noteTitle.enableContentInteraction()
+                    binding.addTextLayout.noteTitle.showKeyboard()
+                    printLogD(className,"title-editstate")
+                }
+
+                is DefaultState -> {
+                    binding.addTextLayout.noteTitle.disableContentInteraction()
+                    printLogD(className,"title-editstate")
                 }
             }
         }
@@ -79,25 +108,38 @@ class AddUpdateFragment : BaseFragment() {
         }
     }
 
-    private fun backButtonOnClick() {
+    fun onBackPressed() {
+        binding.appBar.hideKeyboard()
+        saveRecord()
+        findNavController().navigateUp()
+    }
+
+    private fun toolBarBackButton() {
         binding.appBar.setNavigationOnClickListener {
-            it.hideKeyboard()
-            saveRecord()
-            findNavController().navigateUp()
+            onBackPressed()
         }
+    }
+
+    private fun setupOnBackPressDispatcher() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun saveRecord() {
         //if(getNoteTitle().isNotEmpty() && getNoteBody().isNotEmpty()){
-            val newData = NoteModel(
-                header = getNoteTitle(),
-                body = getNoteBody(),
-                dates = Dates(dateCreated = Date(), dateModified = Date()),
-                category = ColorCategory.OPTION_FIVE
-            )
-            crudViewModel.insertRecord(newData)
-            printLogD(className, "onStart")
-       // }
+        val newData = NoteModel(
+            header = getNoteTitle(),
+            body = getNoteBody(),
+            dates = Dates(dateCreated = Date(), dateModified = Date()),
+            category = ColorCategory.OPTION_FIVE
+        )
+        crudViewModel.insertRecord(newData)
+        printLogD(className, "onStart")
+        // }
     }
 
     private fun getNoteTitle(): String {
