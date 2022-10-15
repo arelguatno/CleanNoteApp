@@ -1,5 +1,6 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +9,16 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
+import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.*
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
-import com.example.noteapp.cleannoteapp.util.extensions.disableContentInteraction
-import com.example.noteapp.cleannoteapp.util.extensions.enableContentInteraction
-import com.example.noteapp.cleannoteapp.util.extensions.hideKeyboard
-import com.example.noteapp.cleannoteapp.util.extensions.showKeyboard
+import com.example.noteapp.cleannoteapp.util.extensions.*
 import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -46,6 +46,8 @@ class AddUpdateFragment : BaseFragment() {
         subscribeObservers()
         setupOnBackPressDispatcher()
         toolBarBackButton()
+        recordData()
+        menu()
         binding.addTextLayout.noteBody.setOnClickListener {
             onClickNoteBody()
         }
@@ -53,7 +55,19 @@ class AddUpdateFragment : BaseFragment() {
         binding.addTextLayout.noteTitle.setOnClickListener {
             onClickNoteTitle()
         }
+    }
 
+    private fun menu() {
+        binding.appBar.setOnMenuItemClickListener {
+
+            when (it.itemId) {
+                R.id.menu_color_category -> {
+                    view?.hideKeyboard()
+                    launchSortBy()
+                }
+            }
+            true
+        }
     }
 
     private fun onClickNoteTitle() {
@@ -82,11 +96,9 @@ class AddUpdateFragment : BaseFragment() {
                 is EditState -> {
                     binding.addTextLayout.noteBody.showKeyboard()
                     binding.addTextLayout.noteBody.enableContentInteraction()
-                    printLogD(className, "body-edit state")
                 }
                 is DefaultState -> {
                     binding.addTextLayout.noteBody.disableContentInteraction()
-                    printLogD(className, "body-DefaultState")
                 }
             }
         }
@@ -97,14 +109,54 @@ class AddUpdateFragment : BaseFragment() {
                 is EditState -> {
                     binding.addTextLayout.noteTitle.enableContentInteraction()
                     binding.addTextLayout.noteTitle.showKeyboard()
-                    printLogD(className, "title-edit state")
                 }
 
                 is DefaultState -> {
                     binding.addTextLayout.noteTitle.disableContentInteraction()
-                    printLogD(className, "title-edit state")
                 }
             }
+        }
+
+        mainViewModel.colorSelected.observe(viewLifecycleOwner) {
+            setTheme(it)
+        }
+    }
+
+    private fun setTheme(colorCategory: ColorCategory) {
+        when (colorCategory) {
+            ColorCategory.OPTION_ONE -> {
+                binding.main.setThemeOne()
+                binding.appBar.setThemeOne()
+            }
+            ColorCategory.OPTION_TWO -> {
+                binding.main.setThemeTwo()
+                binding.appBar.setThemeTwo()
+            }
+            ColorCategory.OPTION_THREE -> {
+                binding.main.setThemeThree()
+                binding.appBar.setThemeThree()
+            }
+            ColorCategory.OPTION_FOUR -> {
+                binding.main.setThemeFour()
+                binding.appBar.setThemeFour()
+            }
+            ColorCategory.OPTION_FIVE -> {
+                binding.main.setThemeFive()
+                binding.appBar.setThemeFive()
+            }
+            ColorCategory.OPTION_SIX -> {
+                binding.main.setThemeSix()
+                binding.appBar.setThemeSix()
+            }
+            ColorCategory.OPTION_SEVEN -> {
+                binding.main.setThemeSeven()
+                binding.appBar.setThemeSeven()
+            }
+            ColorCategory.OPTION_EIGHT -> {
+                binding.main.setThemeEight()
+                binding.appBar.setThemeEight()
+            }
+            else -> {}
         }
     }
 
@@ -135,16 +187,19 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun saveRecord() {
-        //if(getNoteTitle().isNotEmpty() && getNoteBody().isNotEmpty()){
+        if (getNoteTitle().isNullOrEmpty() && getNoteBody().isNullOrEmpty()) {
+            printLogD(className, "Both records are empty")
+            return
+        }
+
         val newData = NoteModel(
             header = getNoteTitle(),
             body = getNoteBody(),
             dates = Dates(dateCreated = Date(), dateModified = Date()),
-            category = ColorCategory.OPTION_FIVE
+            category = getColor()
         )
         crudViewModel.insertRecord(newData)
-        printLogD(className, "onStart")
-        // }
+        printLogD(className, "Record Saved")
     }
 
     private fun getNoteTitle(): String {
@@ -155,4 +210,66 @@ class AddUpdateFragment : BaseFragment() {
         return binding.addTextLayout.noteBody.text.toString()
     }
 
+    private fun getColor(): ColorCategory {
+        return mainViewModel.colorSelected.value!!
+    }
+
+    private fun recordData() {
+        binding.addTextLayout.noteBody.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+
+            } else {
+                printLogD(className, "Lost Focus")
+            }
+        }
+    }
+
+    private fun launchSortBy() {
+        val view = LayoutChangeColorBinding.inflate(layoutInflater)
+
+        view.colorOne.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_ONE)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.colorTwo.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_TWO)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.colorThree.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_THREE)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.colorFour.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_FOUR)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.colorFive.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_FIVE)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.colorSix.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_SIX)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.colorSeven.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_SEVEN)
+            bottomSheetDialog.dismiss()
+        }
+
+        view.colorEight.setOnClickListener {
+            mainViewModel.setColorCategory(ColorCategory.OPTION_EIGHT)
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.dismissWithAnimation
+        bottomSheetDialog.setCancelable(true)
+        bottomSheetDialog.setContentView(view.root)
+        bottomSheetDialog.show()
+    }
 }

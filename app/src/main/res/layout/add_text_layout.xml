@@ -11,10 +11,10 @@
         android:id="@+id/note_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@android:color/transparent"
         android:hint="Header"
         android:inputType="textCapSentences"
-        android:layout_marginBottom="10dp"
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold" />
@@ -33,15 +33,30 @@
         android:layout_marginBottom="10dp"
         android:background="@color/line_separator" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/note_body"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:gravity="top"
-        android:focusable="true"
-        android:inputType="textCapSentences"
-        android:hint="What's up?"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/note_body"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:focusable="true"
+            android:inputType="textCapSentences"
+            android:hint="What's up?"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+<!--    <com.yahiaangelo.markdownedittext.MarkdownEditText-->
+<!--        android:id="@+id/edittext"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
+
+    <!--    <com.yahiaangelo.markdownedittext.MarkdownStylesBar-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="48dp"-->
+    <!--        android:id="@+id/stylesbar"-->
+    <!--        android:clipToPadding="false"-->
+    <!--        android:paddingStart="8dp"-->
+    <!--        android:paddingEnd="8dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
 </androidx.appcompat.widget.LinearLayoutCompat>

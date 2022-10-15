@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menu_filterBy"
+        android:id="@+id/menu_color_category"
         android:icon="@drawable/circle_category"
         android:title=""
         app:itemIconSize="5dp"

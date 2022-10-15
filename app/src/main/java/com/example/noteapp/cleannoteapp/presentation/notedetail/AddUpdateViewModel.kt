@@ -2,6 +2,7 @@ package com.example.noteapp.cleannoteapp.presentation.notedetail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,9 @@ class AddUpdateViewModel @Inject constructor(
     val noteBodyInteractionState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.noteBodyState
 
+    val colorSelected: LiveData<ColorCategory>
+        get() = noteInteractionManager.colorSelected
+
     fun isEditingBody() = noteInteractionManager.isEditingBody()
     fun isEditingTitle() = noteInteractionManager.isEditingTitle()
     fun checkEditState() = noteInteractionManager.checkEditState()
@@ -29,5 +33,9 @@ class AddUpdateViewModel @Inject constructor(
 
     fun setNoteInteractionTitleState(state: NoteInteractionState) {
         noteInteractionManager.setNewNoteTitleState(state)
+    }
+
+    fun setColorCategory(color: ColorCategory) {
+        noteInteractionManager.setColorCategory(color)
     }
 }

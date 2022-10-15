@@ -28,13 +28,20 @@ class NoteViewModel @Inject constructor(
         }.flow.cachedIn(viewModelScope).map { notesModel ->
             notesModel.filter {
                 convertDateToString(it)
+                checkIfHeaderIsEmpty(it)
             }
         }
     }
-
     private fun convertDateToString(noteModel: NoteModel): Boolean {
         noteModel.dates?.dateModifiedStringValue =
             noteModel.dates?.dateModified?.appMainFormat().toString()
+        return true
+    }
+
+    private fun checkIfHeaderIsEmpty(noteModel: NoteModel): Boolean {
+        if (noteModel.header.isNullOrEmpty()) {
+            noteModel.header = noteModel.body.toString()
+        }
         return true
     }
 }

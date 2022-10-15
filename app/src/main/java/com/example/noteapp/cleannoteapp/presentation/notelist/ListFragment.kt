@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
@@ -17,7 +16,6 @@ import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.notelist.ListFragmentDirections.actionListFragmentToAddUpdateFragment2
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,7 +25,6 @@ class ListFragment : BaseFragment() {
     private lateinit var binding: FragmentListBinding
     private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
     private val viewModel: NoteViewModel by viewModels()
-    private lateinit var bottomSheetDialog: BottomSheetDialog
     private val className = this.javaClass.simpleName
 
     override fun onCreateView(
@@ -35,7 +32,6 @@ class ListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(layoutInflater)
-        bottomSheetDialog = BottomSheetDialog(requireContext())
         //var bottomNav =
 
         ScrollAwareFABBehavior(
@@ -63,7 +59,7 @@ class ListFragment : BaseFragment() {
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 //        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.fetchRecordData().collectLatest {
                 noteListAdapter.submitData(it)
             }
@@ -108,6 +104,7 @@ class ListFragment : BaseFragment() {
             showNavigationBottom(false)
             bottomSheetDialog.dismiss()
         }
+
         bottomSheetDialog.dismissWithAnimation
         bottomSheetDialog.setCancelable(true)
         bottomSheetDialog.setContentView(view.root)
