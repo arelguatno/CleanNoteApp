@@ -54,10 +54,13 @@ class AddUpdateFragment : BaseFragment() {
 
         setDefaultState()
         subscribeObservers()
-        setupOnBackPressDispatcher()
-        toolBarBackButton()
+
+        initOnBackPressDispatcher()
+        initToolBarBackButton()
+
+        initMenu()
         recordData()
-        menu()
+
 
         binding.addTextLayout.noteBody.setOnClickListener {
             onClickNoteBody()
@@ -68,7 +71,7 @@ class AddUpdateFragment : BaseFragment() {
         }
     }
 
-    private fun menu() {
+    private fun initMenu() {
         menuItem = binding.appBar.menu.findItem(R.id.menu_color_category)
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -121,7 +124,6 @@ class AddUpdateFragment : BaseFragment() {
 
         mainViewModel.noteTitleInteractionState.observe(viewLifecycleOwner) {
             when (it) {
-
                 is EditState -> {
                     binding.addTextLayout.noteTitle.enableContentInteraction()
                     binding.addTextLayout.noteTitle.showKeyboard()
@@ -133,8 +135,7 @@ class AddUpdateFragment : BaseFragment() {
                 else -> {}
             }
         }
-
-        mainViewModel.colorSelected.observe(viewLifecycleOwner) {
+        mainViewModel.themeSelected.observe(viewLifecycleOwner) {
             setTheme(it)
         }
     }
@@ -214,18 +215,13 @@ class AddUpdateFragment : BaseFragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        // loadTheme(1) //TODO setBackToDefault
-    }
-
-    private fun toolBarBackButton() {
+    private fun initToolBarBackButton() {
         binding.appBar.setNavigationOnClickListener {
             onBackPressed()
         }
     }
 
-    private fun setupOnBackPressDispatcher() {
+    private fun initOnBackPressDispatcher() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 onBackPressed()
@@ -259,13 +255,13 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun getColor(): ColorCategory {
-        return mainViewModel.colorSelected.value!!
+        return mainViewModel.themeSelected.value!!
     }
 
     private fun recordData() {
         binding.addTextLayout.noteBody.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-
+                //TODO
             } else {
                 printLogD(className, "Lost Focus")
             }
@@ -294,7 +290,7 @@ class AddUpdateFragment : BaseFragment() {
             mainViewModel.setThemeState(EditState)
             requireActivity().recreate()
             bottomSheetDialog.dismiss()
-            mainViewModel.setColorCategory(cat)
+            mainViewModel.setThemeSelected(cat)
         }
     }
 }

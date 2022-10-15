@@ -19,10 +19,6 @@ open class BaseFragment : Fragment() {
     lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var sharedPref: SharedPreferences
 
-    companion object {
-
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         bottomSheetDialog = BottomSheetDialog(requireContext())

@@ -14,7 +14,7 @@ class NoteInteractionManager {
     private val _noteBodyState: MutableLiveData<NoteInteractionState> =
         MutableLiveData(DefaultState)
 
-    private val _colorState: MutableLiveData<ColorCategory> =
+    private val _themeSelected: MutableLiveData<ColorCategory> =
         MutableLiveData(ColorCategory.OPTION_ONE)
 
     private val _themeState: MutableLiveData<NoteInteractionState> =
@@ -26,8 +26,8 @@ class NoteInteractionManager {
     val noteBodyState: LiveData<NoteInteractionState>
         get() = _noteBodyState
 
-    val colorSelected: LiveData<ColorCategory>
-        get() = _colorState
+    val themeSelected: LiveData<ColorCategory>
+        get() = _themeSelected
 
     val themeState: LiveData<NoteInteractionState>
         get() = _themeState
@@ -58,8 +58,8 @@ class NoteInteractionManager {
         }
     }
 
-    fun setColorCategory(state: ColorCategory) {
-        _colorState.value = state
+    fun setThemeSelected(state: ColorCategory) {
+        _themeSelected.value = state
     }
 
     fun setThemeState(state: NoteInteractionState) {

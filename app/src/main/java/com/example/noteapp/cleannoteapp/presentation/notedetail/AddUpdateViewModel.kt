@@ -19,8 +19,8 @@ class AddUpdateViewModel @Inject constructor(
     val noteBodyInteractionState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.noteBodyState
 
-    val colorSelected: LiveData<ColorCategory>
-        get() = noteInteractionManager.colorSelected
+    val themeSelected: LiveData<ColorCategory>
+        get() = noteInteractionManager.themeSelected
 
     val setThemeState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.themeState
@@ -38,8 +38,8 @@ class AddUpdateViewModel @Inject constructor(
         noteInteractionManager.setNewNoteTitleState(state)
     }
 
-    fun setColorCategory(color: ColorCategory) {
-        noteInteractionManager.setColorCategory(color)
+    fun setThemeSelected(color: ColorCategory) {
+        noteInteractionManager.setThemeSelected(color)
     }
 
     fun setThemeState(state: NoteInteractionState) {
