@@ -57,16 +57,22 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun onClick_noteTitle() {
-        if (!mainViewModel.isEditingBody()) {
+        if (!mainViewModel.isEditingTitle()) {
             mainViewModel.setNoteInteractionTitleState(EditState)
+        }
+    }
+
+    fun onClick_noteBody() {
+        if (!mainViewModel.isEditingBody()) {
+            mainViewModel.setNoteInteractionBodyState(EditState)
         }
     }
 
     private fun setDefaultState() {
         if (args.note == null) {
-          //  mainViewModel.setNoteInteractionBodyState(EditState)
+            mainViewModel.setNoteInteractionBodyState(EditState)
         } else {
-            //mainViewModel.setNoteInteractionBodyState(DefaultState)
+            mainViewModel.setNoteInteractionBodyState(DefaultState)
         }
     }
 
@@ -76,11 +82,11 @@ class AddUpdateFragment : BaseFragment() {
                 is EditState -> {
                     binding.addTextLayout.noteBody.showKeyboard()
                     binding.addTextLayout.noteBody.enableContentInteraction()
-                    printLogD(className,"body-editstate")
+                    printLogD(className, "body-editstate")
                 }
                 is DefaultState -> {
                     binding.addTextLayout.noteBody.disableContentInteraction()
-                    printLogD(className,"body-DefaultState")
+                    printLogD(className, "body-DefaultState")
                 }
             }
         }
@@ -91,20 +97,14 @@ class AddUpdateFragment : BaseFragment() {
                 is EditState -> {
                     binding.addTextLayout.noteTitle.enableContentInteraction()
                     binding.addTextLayout.noteTitle.showKeyboard()
-                    printLogD(className,"title-editstate")
+                    printLogD(className, "title-editstate")
                 }
 
                 is DefaultState -> {
                     binding.addTextLayout.noteTitle.disableContentInteraction()
-                    printLogD(className,"title-editstate")
+                    printLogD(className, "title-editstate")
                 }
             }
-        }
-    }
-
-    fun onClick_noteBody() {
-        if (!mainViewModel.isEditingBody()) {
-            mainViewModel.setNoteInteractionBodyState(EditState)
         }
     }
 

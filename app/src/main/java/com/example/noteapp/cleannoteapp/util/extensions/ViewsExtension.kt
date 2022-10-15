@@ -3,11 +3,11 @@ package com.example.noteapp.cleannoteapp.util.extensions
 import android.widget.EditText
 
 fun EditText.disableContentInteraction() {
-   // keyListener = null
-    // isFocusable = false
-    //isFocusableInTouchMode = false
-//    isCursorVisible = false
-//    clearFocus()
+    keyListener = null
+     isFocusable = false
+    isFocusableInTouchMode = false
+    isCursorVisible = false
+    clearFocus()
 }
 
 fun EditText.enableContentInteraction() {
