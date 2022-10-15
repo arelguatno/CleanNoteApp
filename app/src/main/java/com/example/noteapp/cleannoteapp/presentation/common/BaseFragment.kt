@@ -4,11 +4,17 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateViewModel
+import com.example.noteapp.cleannoteapp.util.printLogD
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 open class BaseFragment : Fragment() {
     lateinit var bottomSheetDialog: BottomSheetDialog
     private lateinit var sharedPref: SharedPreferences
@@ -17,27 +23,11 @@ open class BaseFragment : Fragment() {
         super.onAttach(context)
         bottomSheetDialog = BottomSheetDialog(requireContext())
     }
-
-    open fun showNavigationBottom(visible: Boolean) {
-        var bottomNav =
-            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        if (visible) {
-            bottomNav.visibility = View.VISIBLE
-        } else {
-            bottomNav.visibility = View.INVISIBLE
-        }
-    }
-
     fun loadTheme(uniqueID: Int) {
-        sharedPref =
-            requireActivity().getSharedPreferences(
-                getString(R.string.color_id),
-                Context.MODE_PRIVATE
-            )!!
+        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)!!
         with(sharedPref.edit()) {
             putInt(getString(com.example.noteapp.cleannoteapp.R.string.color_id), uniqueID)
             apply()
         }
-        requireActivity().recreate()
     }
 }

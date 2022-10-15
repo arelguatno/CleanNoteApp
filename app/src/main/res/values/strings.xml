@@ -11,4 +11,5 @@
     <string name="select">Select</string>
     <string name="view">View</string>
     <string name="color_id">color_id</string>
+    <string name="default_color">default_color_shared_pref</string>
 </resources>

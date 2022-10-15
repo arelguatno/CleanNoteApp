@@ -1,5 +1,6 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,12 @@ import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import com.example.noteapp.cleannoteapp.databinding.SortBySheetDialogBinding
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
+import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
+import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateFragment
 import com.example.noteapp.cleannoteapp.presentation.notelist.ListFragmentDirections.actionListFragmentToAddUpdateFragment2
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
+import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -32,7 +36,11 @@ class ListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(layoutInflater)
-        //var bottomNav =
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         ScrollAwareFABBehavior(
             recyclerView = binding.recyclerView,
@@ -40,20 +48,11 @@ class ListFragment : BaseFragment() {
             requireActivity().findViewById(R.id.bottomNavigationView)
         ).start()
 
-        showNavigationBottom(true)
         menuInit()
         initList()
-
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-       // setDefaultTheme(0)
     }
 
 
@@ -97,15 +96,15 @@ class ListFragment : BaseFragment() {
 
         view.txt.setOnClickListener {
             bottomSheetDialog.dismiss()
-            val detailView = actionListFragmentToAddUpdateFragment2(null)
-            findNavController().navigate(detailView)
-            showNavigationBottom(false)
+            val intent = Intent(requireContext(), AddUpdateActivity::class.java)
+            startActivity(intent)
+//            val detailView = actionListFragmentToAddUpdateFragment2(null)
+//            findNavController().navigate(detailView)
             bottomSheetDialog.dismiss()
         }
 
         view.checklist.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addUpdateFragment2)
-            showNavigationBottom(false)
             bottomSheetDialog.dismiss()
         }
 
