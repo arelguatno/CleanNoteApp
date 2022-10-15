@@ -47,22 +47,22 @@ class AddUpdateFragment : BaseFragment() {
         setupOnBackPressDispatcher()
         toolBarBackButton()
         binding.addTextLayout.noteBody.setOnClickListener {
-            onClick_noteBody()
+            onClickNoteBody()
         }
 
         binding.addTextLayout.noteTitle.setOnClickListener {
-            onClick_noteTitle()
+            onClickNoteTitle()
         }
 
     }
 
-    private fun onClick_noteTitle() {
+    private fun onClickNoteTitle() {
         if (!mainViewModel.isEditingTitle()) {
             mainViewModel.setNoteInteractionTitleState(EditState)
         }
     }
 
-    fun onClick_noteBody() {
+    private fun onClickNoteBody() {
         if (!mainViewModel.isEditingBody()) {
             mainViewModel.setNoteInteractionBodyState(EditState)
         }
@@ -82,7 +82,7 @@ class AddUpdateFragment : BaseFragment() {
                 is EditState -> {
                     binding.addTextLayout.noteBody.showKeyboard()
                     binding.addTextLayout.noteBody.enableContentInteraction()
-                    printLogD(className, "body-editstate")
+                    printLogD(className, "body-edit state")
                 }
                 is DefaultState -> {
                     binding.addTextLayout.noteBody.disableContentInteraction()
@@ -97,21 +97,26 @@ class AddUpdateFragment : BaseFragment() {
                 is EditState -> {
                     binding.addTextLayout.noteTitle.enableContentInteraction()
                     binding.addTextLayout.noteTitle.showKeyboard()
-                    printLogD(className, "title-editstate")
+                    printLogD(className, "title-edit state")
                 }
 
                 is DefaultState -> {
                     binding.addTextLayout.noteTitle.disableContentInteraction()
-                    printLogD(className, "title-editstate")
+                    printLogD(className, "title-edit state")
                 }
             }
         }
     }
 
     fun onBackPressed() {
-        binding.appBar.hideKeyboard()
-        saveRecord()
-        findNavController().navigateUp()
+        view?.hideKeyboard()
+        if (mainViewModel.checkEditState()) {
+            saveRecord()
+            mainViewModel.exitEditState()
+            findNavController().popBackStack()
+        } else {
+            findNavController().popBackStack()
+        }
     }
 
     private fun toolBarBackButton() {

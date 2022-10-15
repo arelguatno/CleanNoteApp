@@ -20,6 +20,8 @@ class AddUpdateViewModel @Inject constructor(
 
     fun isEditingBody() = noteInteractionManager.isEditingBody()
     fun isEditingTitle() = noteInteractionManager.isEditingTitle()
+    fun checkEditState() = noteInteractionManager.checkEditState()
+    fun exitEditState() = noteInteractionManager.exitEditState()
 
     fun setNoteInteractionBodyState(state: NoteInteractionState) {
         noteInteractionManager.setNewNoteBodyState(state)
