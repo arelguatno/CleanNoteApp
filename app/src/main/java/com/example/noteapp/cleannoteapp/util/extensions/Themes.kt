@@ -1,14 +1,7 @@
 package com.example.noteapp.cleannoteapp.util.extensions
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.view.View
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
-import androidx.core.content.ContextCompat
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 
 fun View.setThemeOne() {
     this.setBackgroundResource(R.color.color_one_secondary)

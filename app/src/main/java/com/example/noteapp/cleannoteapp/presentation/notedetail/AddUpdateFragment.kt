@@ -138,6 +138,10 @@ class AddUpdateFragment : BaseFragment() {
         mainViewModel.themeSelected.observe(viewLifecycleOwner) {
             setTheme(it)
         }
+
+        mainViewModel.currentDate.observe(viewLifecycleOwner){
+            binding.addTextLayout.txtDate.text = it.appMainFormatWithTime()
+        }
     }
 
     private fun getImage(color: Int): Drawable {

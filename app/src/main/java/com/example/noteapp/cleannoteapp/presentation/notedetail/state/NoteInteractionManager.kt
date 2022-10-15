@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
+import java.util.*
 
 
 class NoteInteractionManager {
@@ -20,6 +21,12 @@ class NoteInteractionManager {
     private val _themeState: MutableLiveData<NoteInteractionState> =
         MutableLiveData(DefaultState)
 
+    private val _currentDate: MutableLiveData<Date> =
+        MutableLiveData(Date())
+
+    val currentDate: LiveData<Date>
+        get() = _currentDate
+
     val noteTitleState: LiveData<NoteInteractionState>
         get() = _noteTitleState
 
@@ -32,6 +39,26 @@ class NoteInteractionManager {
     val themeState: LiveData<NoteInteractionState>
         get() = _themeState
 
+    fun setThemeSelected(state: ColorCategory) {
+        _themeSelected.value = state
+    }
+
+    fun setThemeState(state: NoteInteractionState) {
+        _themeState.value = state
+    }
+
+    fun setCurrentDate(state: Date) {
+        _currentDate.value = state
+    }
+
+    fun exitEditState() {
+        _noteTitleState.value = DefaultState
+        _noteBodyState.value = DefaultState
+    }
+
+    fun isEditingTitle() = noteTitleState.value.toString() == EditState.toString()
+
+    fun isEditingBody() = noteBodyState.value.toString() == EditState.toString()
 
     fun setNewNoteBodyState(state: NoteInteractionState) {
         if (noteBodyState.toString() != state.toString()) {
@@ -56,23 +83,6 @@ class NoteInteractionManager {
                 else -> {}
             }
         }
-    }
-
-    fun setThemeSelected(state: ColorCategory) {
-        _themeSelected.value = state
-    }
-
-    fun setThemeState(state: NoteInteractionState) {
-        _themeState.value = state
-    }
-
-
-    fun isEditingTitle() = noteTitleState.value.toString() == EditState.toString()
-    fun isEditingBody() = noteBodyState.value.toString() == EditState.toString()
-
-    fun exitEditState() {
-        _noteTitleState.value = DefaultState
-        _noteBodyState.value = DefaultState
     }
 
     // return true if either title or body are in EditState

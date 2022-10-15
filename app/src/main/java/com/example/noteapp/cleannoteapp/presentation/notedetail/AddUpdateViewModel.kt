@@ -6,6 +6,7 @@ import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,9 +26,15 @@ class AddUpdateViewModel @Inject constructor(
     val setThemeState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.themeState
 
+    val currentDate: LiveData<Date>
+        get() = noteInteractionManager.currentDate
+
     fun isEditingBody() = noteInteractionManager.isEditingBody()
+
     fun isEditingTitle() = noteInteractionManager.isEditingTitle()
+
     fun checkEditState() = noteInteractionManager.checkEditState()
+
     fun exitEditState() = noteInteractionManager.exitEditState()
 
     fun setNoteInteractionBodyState(state: NoteInteractionState) {
@@ -44,5 +51,9 @@ class AddUpdateViewModel @Inject constructor(
 
     fun setThemeState(state: NoteInteractionState) {
         noteInteractionManager.setThemeState(state)
+    }
+
+    fun setCurrentDate(date: Date) {
+        noteInteractionManager.setCurrentDate(date)
     }
 }
