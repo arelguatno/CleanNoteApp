@@ -20,7 +20,7 @@ class AddUpdateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        sharedPref = this.getPreferences(MODE_PRIVATE)
         when (mainViewModel.setThemeState.value) {
             EditState -> setTheme(setTheme())
             DefaultState -> setTheme(R.style.Theme_CleanNoteApp_One) //TODO default theme. Can be fix in settings
@@ -37,7 +37,6 @@ class AddUpdateActivity : BaseActivity() {
     }
 
     private fun setTheme(): Int {
-        sharedPref = this.getPreferences(MODE_PRIVATE)
         return when (sharedPref.getInt(this.getString(R.string.color_id), 0)) {
             1 -> R.style.Theme_CleanNoteApp_One
             2 -> R.style.Theme_CleanNoteApp_Two

@@ -157,49 +157,49 @@ class AddUpdateFragment : BaseFragment() {
         printLogD(className, colorCategory.name)
         when (colorCategory) {
             ColorCategory.OPTION_ONE -> {
-                loadTheme(1)
+                saveSelectedTheme(1)
                 binding.main.setThemeOne()
                 binding.appBar.setThemeOne()
                 menuItem?.icon = getImage(R.color.color_one_primary)
             }
             ColorCategory.OPTION_TWO -> {
-                loadTheme(2)
+                saveSelectedTheme(2)
                 binding.main.setThemeTwo()
                 binding.appBar.setThemeTwo()
                 menuItem?.icon = getImage(R.color.color_two_primary)
             }
             ColorCategory.OPTION_THREE -> {
-                loadTheme(3)
+                saveSelectedTheme(3)
                 binding.main.setThemeThree()
                 binding.appBar.setThemeThree()
                 menuItem?.icon = getImage(R.color.color_three_primary)
             }
             ColorCategory.OPTION_FOUR -> {
-                loadTheme(4)
+                saveSelectedTheme(4)
                 binding.main.setThemeFour()
                 binding.appBar.setThemeFour()
                 menuItem?.icon = getImage(R.color.color_four_primary)
             }
             ColorCategory.OPTION_FIVE -> {
-                loadTheme(5)
+                saveSelectedTheme(5)
                 binding.main.setThemeFive()
                 binding.appBar.setThemeFive()
                 menuItem?.icon = getImage(R.color.color_five_primary)
             }
             ColorCategory.OPTION_SIX -> {
-                loadTheme(6)
+                saveSelectedTheme(6)
                 binding.main.setThemeSix()
                 binding.appBar.setThemeSix()
                 menuItem?.icon = getImage(R.color.color_six_primary)
             }
             ColorCategory.OPTION_SEVEN -> {
-                loadTheme(7)
+                saveSelectedTheme(7)
                 binding.main.setThemeSeven()
                 binding.appBar.setThemeSeven()
                 menuItem?.icon = getImage(R.color.color_seven_primary)
             }
             ColorCategory.OPTION_EIGHT -> {
-                loadTheme(8)
+                saveSelectedTheme(8)
                 binding.main.setThemeEight()
                 binding.appBar.setThemeEight()
                 menuItem?.icon = getImage(R.color.color_eight_primary)
