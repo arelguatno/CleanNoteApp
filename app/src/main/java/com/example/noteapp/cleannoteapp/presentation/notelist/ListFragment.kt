@@ -104,6 +104,7 @@ class ListFragment : BaseFragment() {
     private fun lunchColorSelectMenu() {
         val view = LayoutChangeColorBinding.inflate(layoutInflater)
         view.allNotes.isVisible = true
+        view.viewText.text = "Filter"
         lunchBottomSheet(view.root)
     }
 

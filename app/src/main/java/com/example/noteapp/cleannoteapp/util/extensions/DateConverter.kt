@@ -9,7 +9,7 @@ fun Date.appMainFormat(): String {
     val dayOfWeek: String = intDayToString(calendar.get(Calendar.DAY_OF_WEEK))
     val monthDay: String = calendar.get(Calendar.DAY_OF_MONTH).toString()
     val month: String = intMonthLongToString(calendar.get(Calendar.MONTH))
-    val year: String = calendar.get(Calendar.YEAR).toString()
+    calendar.get(Calendar.YEAR).toString()
 
     return "$dayOfWeek, $monthDay $month"
 }
@@ -21,7 +21,6 @@ fun Date.appMainFormatWithTime(): String {
     val dayOfWeek: String = intDayToString(calendar.get(Calendar.DAY_OF_WEEK))
     val monthDay: String = calendar.get(Calendar.DAY_OF_MONTH).toString()
     val month: String = intMonthLongToString(calendar.get(Calendar.MONTH))
-    val year: String = calendar.get(Calendar.YEAR).toString()
     val hourOfDay: String = calendar.get(Calendar.HOUR).toString()
     val minutes: String = calendar.get(Calendar.MINUTE).toString()
     val amPM: String = calendar.get(Calendar.AM_PM).toString().amPm()

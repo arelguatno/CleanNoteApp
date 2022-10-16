@@ -7,13 +7,14 @@
     android:paddingTop="20dp">
 
     <TextView
+        android:id="@+id/view_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
         android:paddingStart="20dp"
         android:text="Change Color"
         android:textColor="@color/black"
         android:textSize="20sp"
-        android:layout_marginBottom="15dp"
         android:textStyle="bold" />
 
     <androidx.core.widget.NestedScrollView
@@ -33,17 +34,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/colors_corners"
-                android:backgroundTint="@color/white"
+                android:background="@drawable/color_bg"
                 android:baselineAligned="false"
                 android:gravity="left"
-                android:visibility="gone"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/ic_baseline_remove_circle_24" />
+                    android:src="@drawable/all_notes" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -60,13 +61,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/colors_corners"
                 android:backgroundTint="@color/color_one_secondary"
                 android:baselineAligned="false"
                 android:gravity="left"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
@@ -77,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:text="Others"
+                    android:text="General"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -95,7 +97,7 @@
                 android:baselineAligned="false"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
@@ -124,7 +126,7 @@
                 android:baselineAligned="false"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
@@ -153,7 +155,7 @@
                 android:baselineAligned="false"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
@@ -182,7 +184,7 @@
                 android:baselineAligned="false"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
@@ -211,7 +213,7 @@
                 android:baselineAligned="false"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
@@ -240,7 +242,7 @@
                 android:baselineAligned="false"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
@@ -264,12 +266,11 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/colors_corners"
-                android:backgroundTint="@color/color_eight_secondary"
+                android:background="@drawable/color_bg"
                 android:baselineAligned="false"
                 android:gravity="left"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="25dp"
