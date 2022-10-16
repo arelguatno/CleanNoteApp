@@ -9,7 +9,7 @@
         app:showAsAction="ifRoom|withText" />
 
     <item
-        android:id="@+id/menu_sortBy"
+        android:id="@+id/menu_pinned"
         android:icon="@drawable/ic_outline_push_pin_24"
         android:title=""
         app:showAsAction="ifRoom|withText" />

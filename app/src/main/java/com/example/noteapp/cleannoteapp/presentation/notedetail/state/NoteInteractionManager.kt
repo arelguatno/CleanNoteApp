@@ -24,6 +24,12 @@ class NoteInteractionManager {
     private val _currentDate: MutableLiveData<Date> =
         MutableLiveData(Date())
 
+    private val _pinnedState: MutableLiveData<NoteInteractionState> =
+        MutableLiveData(DefaultState)
+
+    val pinnedState: LiveData<NoteInteractionState>
+        get() = _pinnedState
+
     val currentDate: LiveData<Date>
         get() = _currentDate
 
@@ -54,11 +60,21 @@ class NoteInteractionManager {
     fun exitEditState() {
         _noteTitleState.value = DefaultState
         _noteBodyState.value = DefaultState
+        _pinnedState.value = DefaultState
+    }
+
+    fun setPinnedState(state: NoteInteractionState) {
+        if (pinnedState.toString() != state.toString()) {
+            _pinnedState.value = state
+        }
     }
 
     fun isEditingTitle() = noteTitleState.value.toString() == EditState.toString()
 
     fun isEditingBody() = noteBodyState.value.toString() == EditState.toString()
+
+    fun isEditingPin() = pinnedState.value.toString() == EditState.toString()
+
 
     fun setNewNoteBodyState(state: NoteInteractionState) {
         if (noteBodyState.toString() != state.toString()) {

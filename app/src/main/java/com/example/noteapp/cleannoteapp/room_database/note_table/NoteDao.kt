@@ -11,6 +11,6 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecord(noteModel: NoteModel)
 
-    @Query("SELECT * FROM notes_table ORDER BY dates_dateModified DESC")
+    @Query("SELECT * FROM notes_table ORDER BY pinned DESC, pinned ASC")
     fun fetchNotesData(): PagingSource<Int, NoteModel>
 }

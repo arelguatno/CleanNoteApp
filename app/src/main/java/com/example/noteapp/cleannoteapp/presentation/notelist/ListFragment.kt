@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
@@ -61,7 +62,7 @@ class ListFragment : BaseFragment() {
         binding.recyclerView.adapter = noteListAdapter
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-//        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+       // binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         lifecycleScope.launch {
             viewModel.fetchRecordData().collectLatest {
@@ -98,13 +99,10 @@ class ListFragment : BaseFragment() {
             bottomSheetDialog.dismiss()
             val intent = Intent(requireContext(), AddUpdateActivity::class.java)
             startActivity(intent)
-//            val detailView = actionListFragmentToAddUpdateFragment2(null)
-//            findNavController().navigate(detailView)
             bottomSheetDialog.dismiss()
         }
 
         view.checklist.setOnClickListener {
-            findNavController().navigate(R.id.action_listFragment_to_addUpdateFragment2)
             bottomSheetDialog.dismiss()
         }
 

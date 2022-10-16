@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -22,6 +23,7 @@ import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.extensions.*
 import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
+import es.dmoral.toasty.Toasty
 import java.util.*
 
 
@@ -30,7 +32,8 @@ class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
     private val crudViewModel: NoteViewModel by viewModels()
     private val mainViewModel: AddUpdateViewModel by activityViewModels()
-    private var menuItem: MenuItem? = null
+    private var menuItemColorCategory: MenuItem? = null
+    private var menuItemPinned: MenuItem? = null
 
     private val className = this.javaClass.simpleName
     private lateinit var activityMain: AddUpdateActivity
@@ -72,16 +75,40 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun initMenu() {
-        menuItem = binding.appBar.menu.findItem(R.id.menu_color_category)
+        menuItemColorCategory = binding.appBar.menu.findItem(R.id.menu_color_category)
+        menuItemPinned = binding.appBar.menu.findItem(R.id.menu_pinned)
+
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_color_category -> {
                     view?.hideKeyboard()
                     launchColor()
                 }
+                R.id.menu_pinned -> onClickPin()
             }
             true
         }
+    }
+
+    private fun onClickPin() {
+        if (!mainViewModel.isEditingPin()) {
+            mainViewModel.setPinnedState(EditState)
+            showCustomToast("Pinned from the top")
+        } else {
+            mainViewModel.setPinnedState(DefaultState)
+        }
+    }
+
+    private fun showCustomToast(message: String) {
+        Toasty.custom(
+            requireContext(),
+            message,
+            R.drawable.app_icon_two,
+            android.R.color.background_dark,
+            Toasty.LENGTH_SHORT,
+            false,
+            true
+        ).show();
     }
 
     private fun onClickNoteTitle() {
@@ -139,8 +166,20 @@ class AddUpdateFragment : BaseFragment() {
             setTheme(it)
         }
 
-        mainViewModel.currentDate.observe(viewLifecycleOwner){
+        mainViewModel.currentInteractionDate.observe(viewLifecycleOwner) {
             binding.addTextLayout.txtDate.text = it.appMainFormatWithTime()
+        }
+
+        mainViewModel.pinnedInteractionState.observe(viewLifecycleOwner) {
+            when (it) {
+                is EditState -> {
+                    menuItemPinned?.pinOnClick(resources)
+                }
+                is DefaultState -> {
+                    menuItemPinned?.pinUnClick(resources)
+                }
+                else -> {}
+            }
         }
     }
 
@@ -160,49 +199,49 @@ class AddUpdateFragment : BaseFragment() {
                 saveSelectedTheme(1)
                 binding.main.setThemeOne()
                 binding.appBar.setThemeOne()
-                menuItem?.icon = getImage(R.color.color_one_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_one_primary)
             }
             ColorCategory.OPTION_TWO -> {
                 saveSelectedTheme(2)
                 binding.main.setThemeTwo()
                 binding.appBar.setThemeTwo()
-                menuItem?.icon = getImage(R.color.color_two_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_two_primary)
             }
             ColorCategory.OPTION_THREE -> {
                 saveSelectedTheme(3)
                 binding.main.setThemeThree()
                 binding.appBar.setThemeThree()
-                menuItem?.icon = getImage(R.color.color_three_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_three_primary)
             }
             ColorCategory.OPTION_FOUR -> {
                 saveSelectedTheme(4)
                 binding.main.setThemeFour()
                 binding.appBar.setThemeFour()
-                menuItem?.icon = getImage(R.color.color_four_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_four_primary)
             }
             ColorCategory.OPTION_FIVE -> {
                 saveSelectedTheme(5)
                 binding.main.setThemeFive()
                 binding.appBar.setThemeFive()
-                menuItem?.icon = getImage(R.color.color_five_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_five_primary)
             }
             ColorCategory.OPTION_SIX -> {
                 saveSelectedTheme(6)
                 binding.main.setThemeSix()
                 binding.appBar.setThemeSix()
-                menuItem?.icon = getImage(R.color.color_six_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_six_primary)
             }
             ColorCategory.OPTION_SEVEN -> {
                 saveSelectedTheme(7)
                 binding.main.setThemeSeven()
                 binding.appBar.setThemeSeven()
-                menuItem?.icon = getImage(R.color.color_seven_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_seven_primary)
             }
             ColorCategory.OPTION_EIGHT -> {
                 saveSelectedTheme(8)
                 binding.main.setThemeEight()
                 binding.appBar.setThemeEight()
-                menuItem?.icon = getImage(R.color.color_eight_primary)
+                menuItemColorCategory?.icon = getImage(R.color.color_eight_primary)
             }
             else -> {}
         }
@@ -243,8 +282,9 @@ class AddUpdateFragment : BaseFragment() {
         val newData = NoteModel(
             header = getNoteTitle(),
             body = getNoteBody(),
-            dates = Dates(dateCreated = Date(), dateModified = Date()),
-            category = getColor()
+            dates = Dates(dateCreated = getCurrentDate(), dateModified = getViewModelDate()),
+            category = getColor(),
+            pinned = getPinState()
         )
         crudViewModel.insertRecord(newData)
         printLogD(className, "Record Saved")
@@ -256,6 +296,18 @@ class AddUpdateFragment : BaseFragment() {
 
     private fun getNoteBody(): String {
         return binding.addTextLayout.noteBody.text.toString()
+    }
+
+    private fun getViewModelDate(): Date {
+        return mainViewModel.currentInteractionDate.value!!
+    }
+
+    private fun getPinState(): Boolean {
+        return mainViewModel.isEditingPin()
+    }
+
+    private fun getCurrentDate(): Date {
+        return Date()
     }
 
     private fun getColor(): ColorCategory {
@@ -292,7 +344,7 @@ class AddUpdateFragment : BaseFragment() {
     private fun executeTheme(view: LinearLayout, cat: ColorCategory) {
         view.setOnClickListener {
             mainViewModel.setThemeState(EditState)
-            requireActivity().recreate()
+            requireActivity().recreate()  // restart activity life cycle to set a new theme
             bottomSheetDialog.dismiss()
             mainViewModel.setThemeSelected(cat)
         }

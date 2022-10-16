@@ -21,11 +21,8 @@ class AddUpdateActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedPref = this.getPreferences(MODE_PRIVATE)
-        when (mainViewModel.setThemeState.value) {
-            EditState -> setTheme(setTheme())
-            DefaultState -> setTheme(R.style.Theme_CleanNoteApp_One) //TODO default theme. Can be fix in settings
-            else -> {}
-        }
+
+        loadTheme()
 
         setContentView(R.layout.activity_add_update)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -34,6 +31,14 @@ class AddUpdateActivity : BaseActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragmentContainerView)
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    private fun loadTheme() {
+        when (mainViewModel.setThemeState.value) {
+            EditState -> setTheme(setTheme())
+            DefaultState -> setTheme(R.style.Theme_CleanNoteApp_One) //TODO default theme. Can be fix in settings
+            else -> {}
+        }
     }
 
     private fun setTheme(): Int {

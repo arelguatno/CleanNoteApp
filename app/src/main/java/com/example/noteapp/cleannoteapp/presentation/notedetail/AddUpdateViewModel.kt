@@ -20,18 +20,23 @@ class AddUpdateViewModel @Inject constructor(
     val noteBodyInteractionState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.noteBodyState
 
+    val pinnedInteractionState: LiveData<NoteInteractionState>
+        get() = noteInteractionManager.pinnedState
+
     val themeSelected: LiveData<ColorCategory>
         get() = noteInteractionManager.themeSelected
 
     val setThemeState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.themeState
 
-    val currentDate: LiveData<Date>
+    val currentInteractionDate: LiveData<Date>
         get() = noteInteractionManager.currentDate
 
     fun isEditingBody() = noteInteractionManager.isEditingBody()
 
     fun isEditingTitle() = noteInteractionManager.isEditingTitle()
+
+    fun isEditingPin() = noteInteractionManager.isEditingPin()
 
     fun checkEditState() = noteInteractionManager.checkEditState()
 
@@ -51,6 +56,10 @@ class AddUpdateViewModel @Inject constructor(
 
     fun setThemeState(state: NoteInteractionState) {
         noteInteractionManager.setThemeState(state)
+    }
+
+    fun setPinnedState(state: NoteInteractionState) {
+        noteInteractionManager.setPinnedState(state)
     }
 
     fun setCurrentDate(date: Date) {

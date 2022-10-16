@@ -13,7 +13,8 @@ data class NoteModel(
     var body: String? = "",
     @Embedded(prefix = "dates_")
     var dates: Dates?,
-    var category: ColorCategory? = ColorCategory.OPTION_ONE
+    var category: ColorCategory? = ColorCategory.OPTION_ONE,
+    var pinned: Boolean = false
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

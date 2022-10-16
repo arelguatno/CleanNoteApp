@@ -2,6 +2,7 @@ package com.example.noteapp.cleannoteapp.presentation.notelist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,9 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
         holder.binding.date.text = item.dates!!.dateModifiedStringValue
         holder.binding.body.text = item.body
         colorCategory(item.category, holder)
+
+        if (item.pinned) holder.binding.imgPin.isVisible = true
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
