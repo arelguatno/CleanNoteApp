@@ -67,7 +67,6 @@ class ListFragment : BaseFragment() {
         binding.recyclerView.adapter = noteListAdapter
         binding.recyclerView.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        // binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         lifecycleScope.launch {
             viewModel.fetchRecordData().collectLatest {
@@ -98,6 +97,19 @@ class ListFragment : BaseFragment() {
 
     private fun lunchViewByMenu() {
         val view = ViewBySheetDialogBinding.inflate(layoutInflater)
+
+        view.list.setOnClickListener {
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            noteListAdapter.notifyDataSetChanged()
+            bottomSheetDialog.dismiss()
+        }
+
+        view.grid.setOnClickListener {
+            binding.recyclerView.layoutManager =
+                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            noteListAdapter.notifyDataSetChanged()
+            bottomSheetDialog.dismiss()
+        }
         lunchBottomSheet(view.root)
     }
 
