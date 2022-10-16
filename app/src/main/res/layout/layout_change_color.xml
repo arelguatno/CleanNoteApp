@@ -13,6 +13,7 @@
         android:text="Change Color"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:layout_marginBottom="15dp"
         android:textStyle="bold" />
 
     <androidx.core.widget.NestedScrollView
@@ -26,14 +27,41 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/all_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/colors_corners"
+                android:backgroundTint="@color/white"
+                android:baselineAligned="false"
+                android:gravity="left"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_baseline_remove_circle_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="All notes"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/color_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/colors_corners"
                 android:backgroundTint="@color/color_one_secondary"
                 android:baselineAligned="false"

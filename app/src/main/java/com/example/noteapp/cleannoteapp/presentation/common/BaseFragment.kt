@@ -33,10 +33,17 @@ open class BaseFragment : Fragment() {
         sharedPref.save(getString(R.string.color_id), uniqueID)
     }
 
-    fun setupToast() {
+    private fun setupToast() {
         val toasty = Toasty.Config.getInstance()
         toasty.setGravity(Gravity.TOP, 0, 100)
         toasty.allowQueue(true)
         toasty.apply()
+    }
+
+    fun lunchBottomSheet(view: View) {
+        bottomSheetDialog.dismissWithAnimation
+        bottomSheetDialog.setCancelable(true)
+        bottomSheetDialog.setContentView(view)
+        bottomSheetDialog.show()
     }
 }

@@ -334,11 +334,7 @@ class AddUpdateFragment : BaseFragment() {
         executeTheme(view.colorSix, ColorCategory.OPTION_SIX)
         executeTheme(view.colorSeven, ColorCategory.OPTION_SEVEN)
         executeTheme(view.colorEight, ColorCategory.OPTION_EIGHT)
-
-        bottomSheetDialog.dismissWithAnimation
-        bottomSheetDialog.setCancelable(true)
-        bottomSheetDialog.setContentView(view.root)
-        bottomSheetDialog.show()
+        lunchBottomSheet(view.root)
     }
 
     private fun executeTheme(view: LinearLayout, cat: ColorCategory) {

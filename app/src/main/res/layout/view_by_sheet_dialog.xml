@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
-        android:text="Sort By"
+        android:text="View By"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -20,20 +20,20 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="left"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingTop="20dp">
 
         <ImageView
             android:layout_width="@dimen/bottom_sheet_image_size"
             android:layout_height="@dimen/bottom_sheet_image_size"
             android:layout_marginRight="15dp"
-            android:src="@drawable/ic_modified_time" />
+            android:src="@drawable/ic_baseline_dehaze_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Modified Time"
+            android:text="List"
             android:textSize="@dimen/bottom_sheet_text_size"
             android:textStyle="bold" />
     </LinearLayout>
@@ -43,42 +43,20 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="left"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingTop="20dp">
 
         <ImageView
             android:layout_width="@dimen/bottom_sheet_image_size"
             android:layout_height="@dimen/bottom_sheet_image_size"
             android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_create_new_folder_24" />
+            android:src="@drawable/ic_baseline_grid_view_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Created Time"
-            android:textSize="@dimen/bottom_sheet_text_size"
-            android:textStyle="bold" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_calendar_month_24" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reminder Time"
+            android:text="Grid"
             android:textSize="@dimen/bottom_sheet_text_size"
             android:textStyle="bold" />
     </LinearLayout>
@@ -88,20 +66,20 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="left"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingTop="20dp">
 
         <ImageView
             android:layout_width="@dimen/bottom_sheet_image_size"
             android:layout_height="@dimen/bottom_sheet_image_size"
             android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_color_lens_24" />
+            android:src="@drawable/ic_baseline_view_agenda_24" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color"
+            android:text="Details"
             android:textSize="@dimen/bottom_sheet_text_size"
             android:textStyle="bold" />
     </LinearLayout>
