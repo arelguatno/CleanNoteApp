@@ -1,6 +1,7 @@
 package com.example.noteapp.cleannoteapp.room_database.note_table
 
 import androidx.paging.PagingSource
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(
@@ -12,5 +13,9 @@ class NoteRepository @Inject constructor(
 
     fun fetchWalletsRecord(): PagingSource<Int, NoteModel> {
         return noteDao.fetchNotesData()
+    }
+
+    fun fetchNotesPerCategory(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchNotesPerCategory(category)
     }
 }

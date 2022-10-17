@@ -9,5 +9,5 @@ enum class ColorCategory {
     OPTION_SIX,
     OPTION_SEVEN,
     OPTION_EIGHT,
-    OTHERS
+    DEFAULT
 }

@@ -1,28 +1,27 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
-import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
-import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
-import com.example.noteapp.cleannoteapp.databinding.SortBySheetDialogBinding
-import com.example.noteapp.cleannoteapp.databinding.ViewBySheetDialogBinding
+import com.example.noteapp.cleannoteapp.databinding.*
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
+import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
+import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
-import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateFragment
-import com.example.noteapp.cleannoteapp.presentation.notelist.ListFragmentDirections.actionListFragmentToAddUpdateFragment2
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
+import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +32,8 @@ import kotlinx.coroutines.launch
 class ListFragment : BaseFragment() {
     private lateinit var binding: FragmentListBinding
     private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
-    private val viewModel: NoteViewModel by viewModels()
+    private val crudViewModel: NoteViewModel by viewModels()
+    private val mainViewModel: ListViewModel by activityViewModels()
     private val className = this.javaClass.simpleName
 
     override fun onCreateView(
@@ -47,30 +47,80 @@ class ListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ScrollAwareFABBehavior(
-            recyclerView = binding.recyclerView,
-            floatingActionButton = binding.floatingActionButton,
-            requireActivity().findViewById(R.id.bottomNavigationView)
-        ).start()
 
+        initScrollBehaviour()
+        initMenuState()
         initMenu()
         initList()
+        initColorSelected()
 
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
         }
     }
 
+    private fun initColorSelected() {
+        BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
+            override fun userSelectedColor(colorBinding: ColorCategory) {
+                bottomSheetDialog.dismiss()
+                mainViewModel.setByColorCategory(colorBinding)
+            }
+        })
+    }
+
+    private fun initMenuState() {
+        mainViewModel.viewByMenuInteractionState.observe(viewLifecycleOwner) {
+            when (it) {
+                ViewBy.List -> {
+                    //TODO
+                }
+                ViewBy.Grid -> {
+                    binding.recyclerView.layoutManager = getGridLayoutManager()
+                }
+                ViewBy.Details -> {
+                    binding.recyclerView.layoutManager = getDetailsLayoutManger()
+                }
+                ViewBy.Default -> {
+                    binding.recyclerView.layoutManager = getGridLayoutManager()
+                }
+            }
+            noteListAdapter.notifyDataSetChanged()
+            bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun getGridLayoutManager(): RecyclerView.LayoutManager {
+        return StaggeredGridLayoutManager(GRID_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL)
+    }
+
+    private fun getDetailsLayoutManger(): LinearLayoutManager {
+        return LinearLayoutManager(requireContext())
+    }
+
+    private fun initScrollBehaviour() {
+        ScrollAwareFABBehavior(
+            recyclerView = binding.recyclerView,
+            floatingActionButton = binding.floatingActionButton,
+            requireActivity().findViewById(R.id.bottomNavigationView)
+        ).start()
+    }
+
 
     private fun initList() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
-        binding.recyclerView.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
-        lifecycleScope.launch {
-            viewModel.fetchRecordData().collectLatest {
-                noteListAdapter.submitData(it)
+        mainViewModel.viewByColorInteractionState.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                if (it.equals(ColorCategory.DEFAULT)) {
+                    crudViewModel.fetchRecordData().collectLatest {
+                        noteListAdapter.submitData(it)
+                    }
+                } else {
+                    crudViewModel.fetchNotesPerCategory(it).collectLatest {
+                        noteListAdapter.submitData(it)
+                    }
+                }
             }
         }
     }
@@ -98,17 +148,12 @@ class ListFragment : BaseFragment() {
     private fun lunchViewByMenu() {
         val view = ViewBySheetDialogBinding.inflate(layoutInflater)
 
-        view.list.setOnClickListener {
-            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            noteListAdapter.notifyDataSetChanged()
-            bottomSheetDialog.dismiss()
+        view.details.setOnClickListener {
+            mainViewModel.setViewByMenuState(ViewBy.Details)
         }
 
         view.grid.setOnClickListener {
-            binding.recyclerView.layoutManager =
-                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            noteListAdapter.notifyDataSetChanged()
-            bottomSheetDialog.dismiss()
+            mainViewModel.setViewByMenuState(ViewBy.Grid)
         }
         lunchBottomSheet(view.root)
     }
@@ -127,8 +172,8 @@ class ListFragment : BaseFragment() {
 
     private fun lunchChoice() {
         val layout = AddBottomSheetDialogBinding.inflate(layoutInflater)
+
         layout.txt.setOnClickListener {
-            bottomSheetDialog.dismiss()
             val intent = Intent(requireContext(), AddUpdateActivity::class.java)
             startActivity(intent)
             bottomSheetDialog.dismiss()

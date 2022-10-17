@@ -5,12 +5,20 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import java.util.Locale.Category
 
 @Dao
 interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRecord(noteModel: NoteModel)
 
+
+    // All Notes
     @Query("SELECT * FROM notes_table ORDER BY pinned DESC, dates_dateModified DESC")
     fun fetchNotesData(): PagingSource<Int, NoteModel>
+
+    // Per Category
+    @Query("SELECT * FROM notes_table WHERE category = :category ORDER BY pinned DESC, dates_dateModified DESC")
+    fun fetchNotesPerCategory(category: ColorCategory): PagingSource<Int, NoteModel>
 }
