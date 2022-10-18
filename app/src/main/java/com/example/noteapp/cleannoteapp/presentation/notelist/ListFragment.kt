@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,10 +19,8 @@ import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
-import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
-import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -32,9 +29,9 @@ import kotlinx.coroutines.launch
 class ListFragment : BaseFragment() {
     private lateinit var binding: FragmentListBinding
     private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
-    private val crudViewModel: NoteViewModel by viewModels()
-    private val mainViewModel: ListViewModel by activityViewModels()
+    private val viewModel: ListViewModel by activityViewModels()
     private val className = this.javaClass.simpleName
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,13 +62,13 @@ class ListFragment : BaseFragment() {
         BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
             override fun userSelectedColor(colorBinding: ColorCategory) {
                 bottomSheetDialog.dismiss()
-                mainViewModel.setByColorCategory(colorBinding)
+                viewModel.setByColorCategory(colorBinding)
             }
         })
     }
 
     private fun initMenuState() {
-        mainViewModel.viewByMenuInteractionState.observe(viewLifecycleOwner) {
+        viewModel.viewByMenuInteractionState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewBy.List -> {
                     //TODO
@@ -112,9 +109,9 @@ class ListFragment : BaseFragment() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
 
-        mainViewModel.viewByColorInteractionState.observe(viewLifecycleOwner) {
+        viewModel.viewByColorInteractionState.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
-                if (it.equals(ColorCategory.DEFAULT)) {
+                if (it.equals(colorCategoryViewModel.getCategoryDefault())) {
                     crudViewModel.fetchRecordData().collectLatest {
                         noteListAdapter.submitData(it)
                     }
@@ -151,11 +148,11 @@ class ListFragment : BaseFragment() {
         val view = ViewBySheetDialogBinding.inflate(layoutInflater)
 
         view.details.setOnClickListener {
-            mainViewModel.setViewByMenuState(ViewBy.Details)
+            viewModel.setViewByMenuState(ViewBy.Details)
         }
 
         view.grid.setOnClickListener {
-            mainViewModel.setViewByMenuState(ViewBy.Grid)
+            viewModel.setViewByMenuState(ViewBy.Grid)
         }
         lunchBottomSheet(view.root)
     }

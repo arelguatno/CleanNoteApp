@@ -16,6 +16,7 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
 import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategoryViewModel
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
@@ -35,9 +36,7 @@ import java.util.*
 class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
     private val className = this.javaClass.simpleName
-
-    private val crudViewModel: NoteViewModel by viewModels()
-    private val mainViewModel: AddUpdateViewModel by activityViewModels()
+    private val viewModel: AddUpdateViewModel by activityViewModels()
 
     private var menuItemColorCategory: MenuItem? = null
     private var menuItemPinned: MenuItem? = null
@@ -88,10 +87,10 @@ class AddUpdateFragment : BaseFragment() {
     private fun initColorSelectedListener() {
         BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
             override fun userSelectedColor(colorBinding: ColorCategory) {
-                mainViewModel.setThemeState(EditState) // open main activity for theme change
+                viewModel.setThemeState(EditState) // open main activity for theme change
                 requireActivity().recreate()  // restart activity life cycle to set a new theme
                 bottomSheetDialog.dismiss()
-                mainViewModel.setThemeSelected(colorBinding)
+                viewModel.setThemeSelected(colorBinding)
             }
         })
     }
@@ -113,11 +112,11 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun onClickPin() {
-        if (!mainViewModel.isEditingPin()) {
-            mainViewModel.setPinnedState(EditState)
+        if (!viewModel.isEditingPin()) {
+            viewModel.setPinnedState(EditState)
             showCustomToast("Pinned from the top")
         } else {
-            mainViewModel.setPinnedState(DefaultState)
+            viewModel.setPinnedState(DefaultState)
         }
     }
 
@@ -134,14 +133,14 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun onClickNoteTitle() {
-        if (!mainViewModel.isEditingTitle()) {
-            mainViewModel.setNoteInteractionTitleState(EditState)
+        if (!viewModel.isEditingTitle()) {
+            viewModel.setNoteInteractionTitleState(EditState)
         }
     }
 
     private fun onClickNoteBody() {
-        if (!mainViewModel.isEditingBody()) {
-            mainViewModel.setNoteInteractionBodyState(EditState)
+        if (!viewModel.isEditingBody()) {
+            viewModel.setNoteInteractionBodyState(EditState)
         }
     }
 
@@ -151,14 +150,14 @@ class AddUpdateFragment : BaseFragment() {
         )
 
         if (newNew == null) {
-            mainViewModel.setNoteInteractionBodyState(EditState)
+            viewModel.setNoteInteractionBodyState(EditState)
         } else {
-            mainViewModel.setNoteInteractionBodyState(DefaultState)
+            viewModel.setNoteInteractionBodyState(DefaultState)
         }
     }
 
     private fun subscribeObservers() {
-        mainViewModel.noteBodyInteractionState.observe(viewLifecycleOwner) {
+        viewModel.noteBodyInteractionState.observe(viewLifecycleOwner) {
             when (it) {
                 is EditState -> {
                     binding.addTextLayout.noteBody.showKeyboard()
@@ -171,7 +170,7 @@ class AddUpdateFragment : BaseFragment() {
             }
         }
 
-        mainViewModel.noteTitleInteractionState.observe(viewLifecycleOwner) {
+        viewModel.noteTitleInteractionState.observe(viewLifecycleOwner) {
             when (it) {
                 is EditState -> {
                     binding.addTextLayout.noteTitle.enableContentInteraction()
@@ -184,15 +183,15 @@ class AddUpdateFragment : BaseFragment() {
                 else -> {}
             }
         }
-        mainViewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
+        viewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
             setTheme(it)
         }
 
-        mainViewModel.currentInteractionDate.observe(viewLifecycleOwner) {
+        viewModel.currentInteractionDate.observe(viewLifecycleOwner) {
             binding.addTextLayout.txtDate.text = it.appMainFormatWithTime()
         }
 
-        mainViewModel.pinnedInteractionState.observe(viewLifecycleOwner) {
+        viewModel.pinnedInteractionState.observe(viewLifecycleOwner) {
             when (it) {
                 is EditState -> {
                     menuItemPinned?.pinOnClick(resources)
@@ -218,50 +217,50 @@ class AddUpdateFragment : BaseFragment() {
         printLogD(className, colorCategory.name)
         when (colorCategory) {
             ColorCategory.OPTION_ONE -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_ONE)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryOne())
                 binding.main.setThemeOne()
                 binding.appBar.setThemeOne()
                 menuItemColorCategory?.icon = getImage(R.color.color_one_primary)
             }
             ColorCategory.OPTION_TWO -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_TWO)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryTwo())
                 binding.main.setThemeTwo()
                 binding.appBar.setThemeTwo()
                 menuItemColorCategory?.icon = getImage(R.color.color_two_primary)
             }
             ColorCategory.OPTION_THREE -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_THREE)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryThree())
                 binding.main.setThemeThree()
                 binding.appBar.setThemeThree()
                 menuItemColorCategory?.icon = getImage(R.color.color_three_primary)
             }
             ColorCategory.OPTION_FOUR -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_FOUR)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryFour())
                 binding.main.setThemeFour()
                 binding.appBar.setThemeFour()
                 menuItemColorCategory?.icon = getImage(R.color.color_four_primary)
             }
             ColorCategory.OPTION_FIVE -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_FIVE)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryFive())
                 saveSelectedTheme(5)
                 binding.main.setThemeFive()
                 binding.appBar.setThemeFive()
                 menuItemColorCategory?.icon = getImage(R.color.color_five_primary)
             }
             ColorCategory.OPTION_SIX -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_SIX)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategorySix())
                 binding.main.setThemeSix()
                 binding.appBar.setThemeSix()
                 menuItemColorCategory?.icon = getImage(R.color.color_six_primary)
             }
             ColorCategory.OPTION_SEVEN -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_SEVEN)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategorySeven())
                 binding.main.setThemeSeven()
                 binding.appBar.setThemeSeven()
                 menuItemColorCategory?.icon = getImage(R.color.color_seven_primary)
             }
             ColorCategory.OPTION_EIGHT -> {
-                mainViewModel.storeThemeSelected(ColorCategory.OPTION_EIGHT)
+                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryEight())
                 binding.main.setThemeEight()
                 binding.appBar.setThemeEight()
                 menuItemColorCategory?.icon = getImage(R.color.color_eight_primary)
@@ -272,9 +271,9 @@ class AddUpdateFragment : BaseFragment() {
 
     fun onBackPressed() {
         view?.hideKeyboard()
-        if (mainViewModel.checkEditState()) {
+        if (viewModel.checkEditState()) {
             saveRecord()
-            mainViewModel.exitEditState()
+            viewModel.exitEditState()
             requireActivity().finish()
         } else {
             requireActivity().finish()
@@ -322,11 +321,11 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun getViewModelDate(): Date {
-        return mainViewModel.currentInteractionDate.value!!
+        return viewModel.currentInteractionDate.value!!
     }
 
     private fun getPinState(): Boolean {
-        return mainViewModel.isEditingPin()
+        return viewModel.isEditingPin()
     }
 
     private fun getCurrentDate(): Date {
@@ -334,7 +333,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun getColor(): ColorCategory {
-        return mainViewModel.themeSelectedInteraction.value!!
+        return viewModel.themeSelectedInteraction.value!!
     }
 
     private fun recordData() {
