@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.models.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
@@ -18,8 +18,6 @@ class AddUpdateViewModel @Inject constructor(
     private val editor: SharedPreferences.Editor,
     private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
-
-
     private val noteInteractionManager: NoteInteractionManager = NoteInteractionManager()
 
     val noteTitleInteractionState: LiveData<NoteInteractionState>

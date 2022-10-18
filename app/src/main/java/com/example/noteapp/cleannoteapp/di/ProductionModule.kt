@@ -3,9 +3,8 @@ package com.example.noteapp.cleannoteapp.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.example.noteapp.cleannoteapp.models.PreferenceKeys
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.room_database.AppRoomDatabase
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

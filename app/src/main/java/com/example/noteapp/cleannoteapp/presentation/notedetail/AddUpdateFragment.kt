@@ -10,13 +10,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
 import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
-import com.example.noteapp.cleannoteapp.models.enums.ColorCategoryViewModel
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
@@ -24,7 +22,6 @@ import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteIntera
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
-import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.extensions.*
 import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +33,7 @@ import java.util.*
 class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
     private val className = this.javaClass.simpleName
-    private val viewModel: AddUpdateViewModel by activityViewModels()
+    private val viewModel: AddUpdateViewModel by viewModels()
 
     private var menuItemColorCategory: MenuItem? = null
     private var menuItemPinned: MenuItem? = null
@@ -214,7 +211,6 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun setTheme(colorCategory: ColorCategory) {
-        printLogD(className, colorCategory.name)
         when (colorCategory) {
             ColorCategory.OPTION_ONE -> {
                 viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryOne())

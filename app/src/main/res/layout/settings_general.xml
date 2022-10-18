@@ -30,7 +30,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/selectLanguage"
+                android:id="@+id/default_color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -51,11 +51,13 @@
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/imageColor"
                     android:layout_width="25dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="10dp"
                     android:contentDescription="TODO"
-                    android:src="@drawable/category_one" />
+                    android:src="@drawable/category_one"
+                    card_view:tint="@color/color_four_primary" />
             </LinearLayout>
 
         </LinearLayout>

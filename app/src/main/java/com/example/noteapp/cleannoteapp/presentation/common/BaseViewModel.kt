@@ -1,11 +1,12 @@
-package com.example.noteapp.cleannoteapp.models.enums
+package com.example.noteapp.cleannoteapp.presentation.common
 
 import androidx.lifecycle.ViewModel
+import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ColorCategoryViewModel @Inject constructor(
+open class BaseViewModel @Inject constructor(
 ) : ViewModel() {
     fun getCategoryOne(): ColorCategory {
         return ColorCategory.OPTION_ONE

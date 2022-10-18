@@ -29,10 +29,4 @@ class ListViewModel @Inject constructor(
     fun setByColorCategory(state: ColorCategory) {
         noteInteractionManager.setColorCategory(state)
     }
-
-
-    fun setasdasd(){
-        noteInteractionManager.setColorCategory(ColorCategory.OPTION_ONE)
-    }
-
 }
