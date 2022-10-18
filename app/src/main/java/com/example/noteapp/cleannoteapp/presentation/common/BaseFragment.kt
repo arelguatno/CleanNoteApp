@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.AddBottomSheetDialogBinding
+import com.example.noteapp.cleannoteapp.models.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.presentation.MyApplication
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateViewModel
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.example.noteapp.cleannoteapp.util.printLogD
@@ -16,28 +18,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
+import javax.inject.Inject
 
 @AndroidEntryPoint
-open class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment() {
     lateinit var bottomSheetDialog: BottomSheetDialog
+
+    @Inject
     lateinit var sharedPref: SharedPreferences
+
+    @Inject
+    lateinit var sharedPrefEditor: SharedPreferences.Editor
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         bottomSheetDialog = BottomSheetDialog(requireContext())
-        sharedPref = requireActivity().getPreferences(Context.MODE_PRIVATE)!!
-        setupToast()
     }
 
     fun saveSelectedTheme(uniqueID: Int) {
+//        sharedPref2.putInt(THEME_FILTER_PREFERENCE,uniqueID)
+//        sharedPref2.apply()
         sharedPref.save(getString(R.string.color_id), uniqueID)
-    }
-
-    private fun setupToast() {
-        val toasty = Toasty.Config.getInstance()
-        toasty.setGravity(Gravity.TOP, 0, 100)
-        toasty.allowQueue(true)
-        toasty.apply()
     }
 
     fun lunchBottomSheet(view: View) {

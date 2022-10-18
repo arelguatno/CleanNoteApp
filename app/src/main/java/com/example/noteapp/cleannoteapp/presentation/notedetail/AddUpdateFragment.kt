@@ -4,10 +4,12 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.*
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
@@ -15,6 +17,8 @@ import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
 import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
+import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
+import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
@@ -34,7 +38,6 @@ class AddUpdateFragment : BaseFragment() {
     private val mainViewModel: AddUpdateViewModel by activityViewModels()
     private var menuItemColorCategory: MenuItem? = null
     private var menuItemPinned: MenuItem? = null
-
     private val className = this.javaClass.simpleName
     private lateinit var activityMain: AddUpdateActivity
 
@@ -44,6 +47,11 @@ class AddUpdateFragment : BaseFragment() {
     ): View {
         binding = FragmentAddUpdateBinding.inflate(layoutInflater)
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        initColorSelectedListener() //registerColor change click listener
     }
 
     override fun onAttach(context: Context) {
@@ -57,6 +65,7 @@ class AddUpdateFragment : BaseFragment() {
 
         setDefaultState()
         subscribeObservers()
+
 
         initOnBackPressDispatcher()
         initToolBarBackButton()
@@ -74,6 +83,17 @@ class AddUpdateFragment : BaseFragment() {
         }
     }
 
+    private fun initColorSelectedListener() {
+        BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
+            override fun userSelectedColor(colorBinding: ColorCategory) {
+                mainViewModel.setThemeState(EditState) // open main activity for theme change
+                requireActivity().recreate()  // restart activity life cycle to set a new theme
+                bottomSheetDialog.dismiss()
+                mainViewModel.setThemeSelected(colorBinding)
+            }
+        })
+    }
+
     private fun initMenu() {
         menuItemColorCategory = binding.appBar.menu.findItem(R.id.menu_color_category)
         menuItemPinned = binding.appBar.menu.findItem(R.id.menu_pinned)
@@ -82,7 +102,7 @@ class AddUpdateFragment : BaseFragment() {
             when (it.itemId) {
                 R.id.menu_color_category -> {
                     view?.hideKeyboard()
-                    launchColor()
+                    launchColorChange()
                 }
                 R.id.menu_pinned -> onClickPin()
             }
@@ -108,7 +128,7 @@ class AddUpdateFragment : BaseFragment() {
             Toasty.LENGTH_SHORT,
             false,
             true
-        ).show();
+        ).show()
     }
 
     private fun onClickNoteTitle() {
@@ -162,7 +182,7 @@ class AddUpdateFragment : BaseFragment() {
                 else -> {}
             }
         }
-        mainViewModel.themeSelected.observe(viewLifecycleOwner) {
+        mainViewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
             setTheme(it)
         }
 
@@ -196,49 +216,50 @@ class AddUpdateFragment : BaseFragment() {
         printLogD(className, colorCategory.name)
         when (colorCategory) {
             ColorCategory.OPTION_ONE -> {
-                saveSelectedTheme(1)
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_ONE)
                 binding.main.setThemeOne()
                 binding.appBar.setThemeOne()
                 menuItemColorCategory?.icon = getImage(R.color.color_one_primary)
             }
             ColorCategory.OPTION_TWO -> {
-                saveSelectedTheme(2)
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_TWO)
                 binding.main.setThemeTwo()
                 binding.appBar.setThemeTwo()
                 menuItemColorCategory?.icon = getImage(R.color.color_two_primary)
             }
             ColorCategory.OPTION_THREE -> {
-                saveSelectedTheme(3)
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_THREE)
                 binding.main.setThemeThree()
                 binding.appBar.setThemeThree()
                 menuItemColorCategory?.icon = getImage(R.color.color_three_primary)
             }
             ColorCategory.OPTION_FOUR -> {
-                saveSelectedTheme(4)
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_FOUR)
                 binding.main.setThemeFour()
                 binding.appBar.setThemeFour()
                 menuItemColorCategory?.icon = getImage(R.color.color_four_primary)
             }
             ColorCategory.OPTION_FIVE -> {
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_FIVE)
                 saveSelectedTheme(5)
                 binding.main.setThemeFive()
                 binding.appBar.setThemeFive()
                 menuItemColorCategory?.icon = getImage(R.color.color_five_primary)
             }
             ColorCategory.OPTION_SIX -> {
-                saveSelectedTheme(6)
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_SIX)
                 binding.main.setThemeSix()
                 binding.appBar.setThemeSix()
                 menuItemColorCategory?.icon = getImage(R.color.color_six_primary)
             }
             ColorCategory.OPTION_SEVEN -> {
-                saveSelectedTheme(7)
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_SEVEN)
                 binding.main.setThemeSeven()
                 binding.appBar.setThemeSeven()
                 menuItemColorCategory?.icon = getImage(R.color.color_seven_primary)
             }
             ColorCategory.OPTION_EIGHT -> {
-                saveSelectedTheme(8)
+                mainViewModel.storeThemeSelected(ColorCategory.OPTION_EIGHT)
                 binding.main.setThemeEight()
                 binding.appBar.setThemeEight()
                 menuItemColorCategory?.icon = getImage(R.color.color_eight_primary)
@@ -311,7 +332,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun getColor(): ColorCategory {
-        return mainViewModel.themeSelected.value!!
+        return mainViewModel.themeSelectedInteraction.value!!
     }
 
     private fun recordData() {
@@ -324,25 +345,9 @@ class AddUpdateFragment : BaseFragment() {
         }
     }
 
-    private fun launchColor() {
+    private fun launchColorChange() {
         val view = LayoutChangeColorBinding.inflate(layoutInflater)
-        executeTheme(view.colorOne, ColorCategory.OPTION_ONE)
-        executeTheme(view.colorTwo, ColorCategory.OPTION_TWO)
-        executeTheme(view.colorThree, ColorCategory.OPTION_THREE)
-        executeTheme(view.colorFour, ColorCategory.OPTION_FOUR)
-        executeTheme(view.colorFive, ColorCategory.OPTION_FIVE)
-        executeTheme(view.colorSix, ColorCategory.OPTION_SIX)
-        executeTheme(view.colorSeven, ColorCategory.OPTION_SEVEN)
-        executeTheme(view.colorEight, ColorCategory.OPTION_EIGHT)
+        view.allNotes.isVisible = false
         lunchBottomSheet(view.root)
-    }
-
-    private fun executeTheme(view: LinearLayout, cat: ColorCategory) {
-        view.setOnClickListener {
-            mainViewModel.setThemeState(EditState)
-            requireActivity().recreate()  // restart activity life cycle to set a new theme
-            bottomSheetDialog.dismiss()
-            mainViewModel.setThemeSelected(cat)
-        }
     }
 }

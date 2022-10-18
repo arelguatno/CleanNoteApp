@@ -1,19 +1,20 @@
 package com.example.noteapp.cleannoteapp.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
+import com.example.noteapp.cleannoteapp.models.PreferenceKeys
 import com.example.noteapp.cleannoteapp.room_database.AppRoomDatabase
-import com.example.noteapp.cleannoteapp.room_database.note_table.NoteDao
-import dagger.hilt.InstallIn
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class Module {
+class ProductionModule {
 
     @Singleton
     @Provides
@@ -23,8 +24,14 @@ class Module {
         "com.example.noteapp.cleannoteapp.local.db"
     ).build()
 
+    @Singleton
     @Provides
-    fun provideNoteDao(appRoomDatabase: AppRoomDatabase): NoteDao{
-        return appRoomDatabase.noteDao()
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences {
+        return context.getSharedPreferences(
+            PreferenceKeys.NOTE_PREFERENCES,
+            Context.MODE_PRIVATE
+        )
     }
 }

@@ -1,17 +1,25 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.models.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
+import com.example.noteapp.cleannoteapp.util.extensions.save
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AddUpdateViewModel @Inject constructor(
+    private val editor: SharedPreferences.Editor,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
+
+
     private val noteInteractionManager: NoteInteractionManager = NoteInteractionManager()
 
     val noteTitleInteractionState: LiveData<NoteInteractionState>
@@ -23,7 +31,7 @@ class AddUpdateViewModel @Inject constructor(
     val pinnedInteractionState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.pinnedState
 
-    val themeSelected: LiveData<ColorCategory>
+    val themeSelectedInteraction: LiveData<ColorCategory>
         get() = noteInteractionManager.themeSelected
 
     val setThemeState: LiveData<NoteInteractionState>
@@ -64,5 +72,28 @@ class AddUpdateViewModel @Inject constructor(
 
     fun setCurrentDate(date: Date) {
         noteInteractionManager.setCurrentDate(date)
+    }
+
+    fun storeThemeSelected(category: ColorCategory) {
+        sharedPreferences.save(THEME_FILTER_PREFERENCE, category.toString())
+    }
+
+    fun getSharedPreferences(): Int {
+        return when (sharedPreferences.getString(
+            THEME_FILTER_PREFERENCE,
+            ColorCategory.DEFAULT.toString()
+        )) {
+            ColorCategory.OPTION_ONE.toString() -> R.style.Theme_CleanNoteApp_One
+            ColorCategory.OPTION_TWO.toString() -> R.style.Theme_CleanNoteApp_Two
+            ColorCategory.OPTION_THREE.toString() -> R.style.Theme_CleanNoteApp_Three
+            ColorCategory.OPTION_FOUR.toString() -> R.style.Theme_CleanNoteApp_Four
+            ColorCategory.OPTION_FIVE.toString() -> R.style.Theme_CleanNoteApp_Five
+            ColorCategory.OPTION_SIX.toString() -> R.style.Theme_CleanNoteApp_Six
+            ColorCategory.OPTION_SEVEN.toString() -> R.style.Theme_CleanNoteApp_Seven
+            ColorCategory.OPTION_EIGHT.toString() -> R.style.Theme_CleanNoteApp_Eight
+            else -> {
+                R.style.Theme_CleanNoteApp
+            }
+        }
     }
 }

@@ -35,7 +35,6 @@ class ListFragment : BaseFragment() {
     private val crudViewModel: NoteViewModel by viewModels()
     private val mainViewModel: ListViewModel by activityViewModels()
     private val className = this.javaClass.simpleName
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,19 +46,22 @@ class ListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         initScrollBehaviour()
         initMenuState()
         initMenu()
         initList()
-        initColorSelected()
 
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
         }
     }
 
-    private fun initColorSelected() {
+    override fun onStart() {
+        super.onStart()
+        initColorSelectedListener()
+    }
+
+    private fun initColorSelectedListener() {
         BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
             override fun userSelectedColor(colorBinding: ColorCategory) {
                 bottomSheetDialog.dismiss()

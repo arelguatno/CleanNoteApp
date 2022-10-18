@@ -1,7 +1,7 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
-import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddUpdateActivity : BaseActivity() {
-    private lateinit var sharedPref: SharedPreferences
+    private val viewModel: AddUpdateViewModel by viewModels()
 
     companion object {
         const val DETAIL_FRAGMENT =
@@ -20,10 +20,8 @@ class AddUpdateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPref = this.getPreferences(MODE_PRIVATE)
 
         loadTheme()
-
         setContentView(R.layout.activity_add_update)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
@@ -35,23 +33,13 @@ class AddUpdateActivity : BaseActivity() {
 
     private fun loadTheme() {
         when (mainViewModel.setThemeState.value) {
-            EditState -> setTheme(setTheme())
+            EditState -> setTheme(this@AddUpdateActivity.setTheme())
             DefaultState -> setTheme(R.style.Theme_CleanNoteApp_One) //TODO default theme. Can be fix in settings
             else -> {}
         }
     }
 
     private fun setTheme(): Int {
-        return when (sharedPref.getInt(this.getString(R.string.color_id), 0)) {
-            1 -> R.style.Theme_CleanNoteApp_One
-            2 -> R.style.Theme_CleanNoteApp_Two
-            3 -> R.style.Theme_CleanNoteApp_Three
-            4 -> R.style.Theme_CleanNoteApp_Four
-            5 -> R.style.Theme_CleanNoteApp_Five
-            6 -> R.style.Theme_CleanNoteApp_Six
-            7 -> R.style.Theme_CleanNoteApp_Seven
-            8 -> R.style.Theme_CleanNoteApp_Eight
-            else -> R.style.Theme_CleanNoteApp
-        }
+        return viewModel.getSharedPreferences()
     }
 }
