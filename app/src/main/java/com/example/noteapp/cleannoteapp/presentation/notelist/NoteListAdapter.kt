@@ -34,7 +34,7 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
         holder.binding.body.text = item.body
         colorCategory(item.category, holder)
 
-        if (item.pinned) holder.binding.imgPin.isVisible = true
+        holder.binding.imgPin.isVisible = item.pinned
 
     }
 
