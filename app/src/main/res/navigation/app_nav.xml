@@ -33,7 +33,20 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.noteapp.cleannoteapp.presentation.settings.SettingsFragment"
+        android:name="com.example.noteapp.cleannoteapp.presentation.settings.GeneralSettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_settingsFragment2"
+            app:destination="@id/settingsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment2"
+        android:name="com.example.noteapp.cleannoteapp.presentation.settings.SettingsFragment"
+        android:label="fragment_settings2"
+        tools:layout="@layout/settings_settings" >
+        <action
+            android:id="@+id/action_settingsFragment2_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
 </navigation>

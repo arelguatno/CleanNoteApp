@@ -36,8 +36,6 @@ abstract class BaseFragment : Fragment() {
     }
 
     fun saveSelectedTheme(uniqueID: Int) {
-//        sharedPref2.putInt(THEME_FILTER_PREFERENCE,uniqueID)
-//        sharedPref2.apply()
         sharedPref.save(getString(R.string.color_id), uniqueID)
     }
 

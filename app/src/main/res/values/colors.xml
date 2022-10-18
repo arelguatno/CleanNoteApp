@@ -13,6 +13,8 @@
     <color name="gray">#808080</color>
     <color name="bg_color">#eff2fc</color>
     <color name="blue">#0000FF</color>
+    <color name="card_view_bg_color">#FFFFFF</color>
+    <color name="bg_white_color">#EFF2f8</color>
     <color name="note_it_launcher_three_background">#FFFFFF</color>
     <color name="color_one_primary">#ffba05</color>
     <color name="color_one_secondary">#fff5dd</color>

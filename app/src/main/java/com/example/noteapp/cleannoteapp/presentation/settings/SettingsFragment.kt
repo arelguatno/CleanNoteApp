@@ -6,22 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.databinding.FragmentSettingsBinding
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.noteapp.cleannoteapp.databinding.SettingsFeedbackWidgetBinding
+import com.example.noteapp.cleannoteapp.databinding.SettingsSettingsBinding
+import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 
-class SettingsFragment : Fragment() {
-    private lateinit var binding: FragmentSettingsBinding
-
+class SettingsFragment : BaseFragment() {
+    private lateinit var binding: SettingsSettingsBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        binding = FragmentSettingsBinding.inflate(layoutInflater)
+    ): View {
+        binding = SettingsSettingsBinding.inflate(layoutInflater)
         return binding.root
-    }
-
-    companion object {
-
     }
 }

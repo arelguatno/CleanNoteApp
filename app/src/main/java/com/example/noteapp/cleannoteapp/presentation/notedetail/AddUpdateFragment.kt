@@ -34,11 +34,14 @@ import java.util.*
 @AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
+    private val className = this.javaClass.simpleName
+
     private val crudViewModel: NoteViewModel by viewModels()
     private val mainViewModel: AddUpdateViewModel by activityViewModels()
+
     private var menuItemColorCategory: MenuItem? = null
     private var menuItemPinned: MenuItem? = null
-    private val className = this.javaClass.simpleName
+
     private lateinit var activityMain: AddUpdateActivity
 
     override fun onCreateView(
@@ -65,7 +68,6 @@ class AddUpdateFragment : BaseFragment() {
 
         setDefaultState()
         subscribeObservers()
-
 
         initOnBackPressDispatcher()
         initToolBarBackButton()

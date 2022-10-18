@@ -4,14 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".presentation.settings.SettingsFragment">
+    tools:context=".presentation.settings.GeneralSettingsFragment">
 
     <include
         android:id="@+id/settings_app_name"
         layout="@layout/settings_recycbin_archive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="15dp" />
+
+    <include
+        android:id="@+id/settings_widget"
+        layout="@layout/settings_feedback_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="15dp" />
 
 </LinearLayout>

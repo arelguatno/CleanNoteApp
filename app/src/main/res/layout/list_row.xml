@@ -20,9 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewOne"
-        android:layout_margin="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         app:cardElevation="0dp"
-        card_view:cardCornerRadius="5dp">
+        card_view:cardCornerRadius="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
