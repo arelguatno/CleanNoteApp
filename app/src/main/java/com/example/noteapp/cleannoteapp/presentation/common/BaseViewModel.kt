@@ -47,7 +47,7 @@ open class BaseViewModel @Inject constructor(
         return ColorCategory.DEFAULT
     }
 
-    fun getSecondaryColor(colorCategory: ColorCategory): Int {
+    fun getColorPrimary(colorCategory: ColorCategory): Int {
         return when (colorCategory) {
             ColorCategory.OPTION_ONE -> {
                 R.color.color_one_primary

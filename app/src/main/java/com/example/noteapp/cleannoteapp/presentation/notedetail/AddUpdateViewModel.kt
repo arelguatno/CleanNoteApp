@@ -78,11 +78,8 @@ class AddUpdateViewModel @Inject constructor(
         sharedPreferences.save(THEME_FILTER_PREFERENCE, category.toString())
     }
 
-    fun getColorFromSharedPref(value: String): Int {
-        return when (sharedPreferences.getString(
-            value,
-            getCategoryDefault().toString()
-        )) {
+    fun getThemeColorForActivity(value: String): Int {
+        return when (sharedPreferences.getString(value, getCategoryDefault().toString())) {
             ColorCategory.OPTION_ONE.toString() -> R.style.Theme_CleanNoteApp_One
             ColorCategory.OPTION_TWO.toString() -> R.style.Theme_CleanNoteApp_Two
             ColorCategory.OPTION_THREE.toString() -> R.style.Theme_CleanNoteApp_Three
@@ -104,9 +101,17 @@ class AddUpdateViewModel @Inject constructor(
             }
         }
     }
+
     private fun getColorSettingsMenu(): String? {
         return sharedPreferences.getString(
             PreferenceKeys.SETTINGS_DEFAULT_COLOR,
+            getCategoryDefault().toString()
+        )
+    }
+
+    private fun getColorSharedPrefFromFragment(value: String): String? {
+        return sharedPreferences.getString(
+            value,
             getCategoryDefault().toString()
         )
     }

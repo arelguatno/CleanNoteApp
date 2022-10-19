@@ -53,7 +53,7 @@ class SettingsFragment : BaseFragment() {
         viewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
             binding.settingsGeneral.imageColor.setImageDrawable(
                 getImage(
-                    viewModel.getSecondaryColor(
+                    viewModel.getColorPrimary(
                         it
                     )
                 )

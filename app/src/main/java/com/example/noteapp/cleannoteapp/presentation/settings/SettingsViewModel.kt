@@ -23,14 +23,17 @@ class SettingsViewModel @Inject constructor(
     }
 
     internal fun loadDefaultColor() {
-        val color = sharedPref.getString(
-            PreferenceKeys.SETTINGS_DEFAULT_COLOR,
-            getCategoryDefault().toString()
-        )
         for (i in ColorCategory.values()) {
-            if (color.equals(i.toString())) {
+            if (getColorSettingsMenu().equals(i.toString())) {
                 setThemeSelected(i)
             }
         }
+    }
+
+    private fun getColorSettingsMenu(): String? {
+        return sharedPref.getString(
+            PreferenceKeys.SETTINGS_DEFAULT_COLOR,
+            getCategoryDefault().toString()
+        )
     }
 }

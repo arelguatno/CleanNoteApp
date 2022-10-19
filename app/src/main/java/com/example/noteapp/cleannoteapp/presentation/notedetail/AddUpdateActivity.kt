@@ -40,13 +40,13 @@ class AddUpdateActivity : BaseActivity() {
                 setTheme(this@AddUpdateActivity.setTheme())
             }
             DefaultState -> {
-                setTheme(viewModel.getColorFromSharedPref(SETTINGS_DEFAULT_COLOR))
+                setTheme(viewModel.getThemeColorForActivity(SETTINGS_DEFAULT_COLOR))
             }
             else -> {}
         }
     }
 
     private fun setTheme(): Int {
-        return viewModel.getColorFromSharedPref(THEME_FILTER_PREFERENCE)
+        return viewModel.getThemeColorForActivity(THEME_FILTER_PREFERENCE)
     }
 }
