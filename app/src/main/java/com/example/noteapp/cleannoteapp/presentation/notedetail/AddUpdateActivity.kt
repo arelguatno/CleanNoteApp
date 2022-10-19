@@ -7,7 +7,11 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.SETTINGS_DEFAULT_COLOR
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
 import dagger.hilt.android.AndroidEntryPoint
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion as PreferenceKeys1
 
 @AndroidEntryPoint
 class AddUpdateActivity : BaseActivity() {
@@ -20,7 +24,6 @@ class AddUpdateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         loadTheme()
         setContentView(R.layout.activity_add_update)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -33,13 +36,17 @@ class AddUpdateActivity : BaseActivity() {
 
     private fun loadTheme() {
         when (mainViewModel.setThemeState.value) {
-            EditState -> setTheme(this@AddUpdateActivity.setTheme())
-            DefaultState -> setTheme(R.style.Theme_CleanNoteApp_One) //TODO default theme. Can be fix in settings
+            EditState -> {
+                setTheme(this@AddUpdateActivity.setTheme())
+            }
+            DefaultState -> {
+                setTheme(viewModel.getColorFromSharedPref(SETTINGS_DEFAULT_COLOR))
+            }
             else -> {}
         }
     }
 
     private fun setTheme(): Int {
-        return viewModel.getSharedPreferences()
+        return viewModel.getColorFromSharedPref(THEME_FILTER_PREFERENCE)
     }
 }

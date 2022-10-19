@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
@@ -33,7 +34,7 @@ import java.util.*
 class AddUpdateFragment : BaseFragment() {
     private lateinit var binding: FragmentAddUpdateBinding
     private val className = this.javaClass.simpleName
-    private val viewModel: AddUpdateViewModel by viewModels()
+    private val viewModel: AddUpdateViewModel by activityViewModels()
 
     private var menuItemColorCategory: MenuItem? = null
     private var menuItemPinned: MenuItem? = null
@@ -146,12 +147,16 @@ class AddUpdateFragment : BaseFragment() {
             AddUpdateActivity.DETAIL_FRAGMENT
         )
 
-        if (newNew == null) {
-            viewModel.setNoteInteractionBodyState(EditState)
-        } else {
+        if (newNew == null) { // New note
+            if (!viewModel.isEditingBody()) {
+                viewModel.loadDefaultColor()
+                viewModel.setNoteInteractionBodyState(EditState)
+            }
+        } else {  //edit note
             viewModel.setNoteInteractionBodyState(DefaultState)
         }
     }
+
 
     private fun subscribeObservers() {
         viewModel.noteBodyInteractionState.observe(viewLifecycleOwner) {

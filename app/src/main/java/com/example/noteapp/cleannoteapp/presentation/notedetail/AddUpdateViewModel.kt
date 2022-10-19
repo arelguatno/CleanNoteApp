@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -17,7 +19,7 @@ import javax.inject.Inject
 class AddUpdateViewModel @Inject constructor(
     private val editor: SharedPreferences.Editor,
     private val sharedPreferences: SharedPreferences
-) : ViewModel() {
+) : BaseViewModel() {
     private val noteInteractionManager: NoteInteractionManager = NoteInteractionManager()
 
     val noteTitleInteractionState: LiveData<NoteInteractionState>
@@ -76,10 +78,10 @@ class AddUpdateViewModel @Inject constructor(
         sharedPreferences.save(THEME_FILTER_PREFERENCE, category.toString())
     }
 
-    fun getSharedPreferences(): Int {
+    fun getColorFromSharedPref(value: String): Int {
         return when (sharedPreferences.getString(
-            THEME_FILTER_PREFERENCE,
-            ColorCategory.DEFAULT.toString()
+            value,
+            getCategoryDefault().toString()
         )) {
             ColorCategory.OPTION_ONE.toString() -> R.style.Theme_CleanNoteApp_One
             ColorCategory.OPTION_TWO.toString() -> R.style.Theme_CleanNoteApp_Two
@@ -93,5 +95,19 @@ class AddUpdateViewModel @Inject constructor(
                 R.style.Theme_CleanNoteApp
             }
         }
+    }
+
+    internal fun loadDefaultColor() {
+        for (i in ColorCategory.values()) {
+            if (getColorSettingsMenu().equals(i.toString())) {
+                setThemeSelected(i)
+            }
+        }
+    }
+    private fun getColorSettingsMenu(): String? {
+        return sharedPreferences.getString(
+            PreferenceKeys.SETTINGS_DEFAULT_COLOR,
+            getCategoryDefault().toString()
+        )
     }
 }

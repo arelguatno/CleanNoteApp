@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -24,11 +25,13 @@ abstract class BaseFragment : Fragment() {
 
     val colorCategoryViewModel: BaseViewModel by activityViewModels()
     val crudViewModel: NoteViewModel by activityViewModels()
+    lateinit var layoutChangeColorBinding: LayoutChangeColorBinding
 
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         bottomSheetDialog = BottomSheetDialog(requireContext())
+        layoutChangeColorBinding = LayoutChangeColorBinding.inflate(layoutInflater)
     }
 
     fun saveSelectedTheme(uniqueID: Int) {

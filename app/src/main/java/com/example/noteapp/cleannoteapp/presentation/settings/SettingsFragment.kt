@@ -28,7 +28,6 @@ import com.example.noteapp.cleannoteapp.util.printLogD
 class SettingsFragment : BaseFragment() {
     private lateinit var binding: SettingsSettingsBinding
     private val className = this.javaClass.simpleName
-
     private val viewModel: SettingsViewModel by viewModels()
 
     override fun onCreateView(
@@ -41,7 +40,6 @@ class SettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initMenu()
         viewModel.loadDefaultColor()
         subscribeObservers()
@@ -53,46 +51,24 @@ class SettingsFragment : BaseFragment() {
 
     private fun subscribeObservers() {
         viewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
-            when (it) {
-                ColorCategory.OPTION_ONE -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_one_primary))
-                }
-                ColorCategory.OPTION_TWO -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_two_primary))
-                }
-                ColorCategory.OPTION_THREE -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_three_primary))
-                }
-                ColorCategory.OPTION_FOUR -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_four_primary))
-                }
-                ColorCategory.OPTION_FIVE -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_five_primary))
-                }
-                ColorCategory.OPTION_SIX -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_six_primary))
-                }
-                ColorCategory.OPTION_SEVEN -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_seven_primary))
-                }
-                ColorCategory.OPTION_EIGHT -> {
-                    binding.settingsGeneral.imageColor.setImageDrawable(getImage(R.color.color_eight_primary))
-                }
-                else -> {}
-            }
+            binding.settingsGeneral.imageColor.setImageDrawable(
+                getImage(
+                    viewModel.getSecondaryColor(
+                        it
+                    )
+                )
+            )
         }
     }
 
     override fun onStart() {
         super.onStart()
         initColorSelectedListener()
-
     }
 
     private fun launchDefaultColor() {
-        val view = LayoutChangeColorBinding.inflate(layoutInflater)
-        view.allNotes.isVisible = false
-        lunchBottomSheet(view.root)
+        layoutChangeColorBinding.allNotes.isVisible = false
+        lunchBottomSheet(layoutChangeColorBinding.root)
     }
 
     private fun initColorSelectedListener() {
