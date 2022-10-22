@@ -1,150 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="20dp"
-    android:paddingBottom="40dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:text="Sort By"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+    <data>
+        <variable
+            name="sortBy"
+            type="com.example.noteapp.cleannoteapp.models.enums.SortBy" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
+        android:orientation="vertical"
         android:paddingTop="20dp"
-        android:paddingRight="20dp">
-
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/ic_modified_time" />
+        android:paddingBottom="40dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Modified Time"
-            android:textSize="@dimen/bottom_sheet_text_size"
+            android:paddingStart="20dp"
+            android:text="Sort By"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/sort_by_modified_time"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_check_24"
-            android:visibility="gone" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="20dp">
-
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_create_new_folder_24" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Created Time"
-            android:textSize="@dimen/bottom_sheet_text_size"
-            android:textStyle="bold" />
+            android:baselineAligned="false"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:sortByOnClick="@{sortBy.MODIFIED_TIME}"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
 
-        <ImageView
-            android:id="@+id/sort_by_created_time"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_check_24"
-            android:visibility="gone" />
-    </LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/bottom_sheet_image_size"
+                android:layout_height="@dimen/bottom_sheet_image_size"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_modified_time" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Modified Time"
+                android:textSize="@dimen/bottom_sheet_text_size"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_calendar_month_24" />
+            <ImageView
+                android:id="@+id/sort_by_modified_time"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_check_24"
+                android:visibility="gone" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Reminder Time"
-            android:textSize="@dimen/bottom_sheet_text_size"
-            android:textStyle="bold" />
+            android:baselineAligned="false"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:sortByOnClick="@{sortBy.CREATED_TIME}"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp">
 
-        <ImageView
-            android:id="@+id/sort_by_reminder_time"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_check_24"
-            android:visibility="gone" />
-    </LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/bottom_sheet_image_size"
+                android:layout_height="@dimen/bottom_sheet_image_size"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_baseline_create_new_folder_24" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
-        android:paddingRight="20dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Created Time"
+                android:textSize="@dimen/bottom_sheet_text_size"
+                android:textStyle="bold" />
 
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_color_lens_24" />
+            <ImageView
+                android:id="@+id/sort_by_created_time"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_check_24"
+                android:visibility="gone" />
+        </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Color"
-            android:textSize="@dimen/bottom_sheet_text_size"
-            android:textStyle="bold" />
+            android:baselineAligned="false"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:sortByOnClick="@{sortBy.REMINDER_TIME}"
+            android:paddingRight="20dp">
 
-        <ImageView
-            android:id="@+id/sort_by_color"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_check_24"
-            android:visibility="gone" />
+            <ImageView
+                android:layout_width="@dimen/bottom_sheet_image_size"
+                android:layout_height="@dimen/bottom_sheet_image_size"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_baseline_calendar_month_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reminder Time"
+                android:textSize="@dimen/bottom_sheet_text_size"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/sort_by_reminder_time"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_check_24"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="left"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:sortByOnClick="@{sortBy.COLOR}"
+            android:paddingRight="20dp">
+
+            <ImageView
+                android:layout_width="@dimen/bottom_sheet_image_size"
+                android:layout_height="@dimen/bottom_sheet_image_size"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_baseline_color_lens_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Color"
+                android:textSize="@dimen/bottom_sheet_text_size"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/sort_by_color"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_check_24"
+                android:visibility="gone" />
+        </LinearLayout>
+
     </LinearLayout>
-
-</LinearLayout>
+</layout>

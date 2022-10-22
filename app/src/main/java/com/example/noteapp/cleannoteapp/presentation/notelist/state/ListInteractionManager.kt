@@ -3,6 +3,7 @@ package com.example.noteapp.cleannoteapp.presentation.notelist.state
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 
 class ListInteractionManager {
@@ -25,5 +26,15 @@ class ListInteractionManager {
 
     fun setColorCategory(state: ColorCategory) {
         _colorCategory.value = state
+    }
+
+    private val _sortBy: MutableLiveData<SortBy> =
+        MutableLiveData(SortBy.MODIFIED_TIME)
+
+    val sortBy: LiveData<SortBy>
+        get() = _sortBy
+
+    fun setSortBy(state: SortBy) {
+        _sortBy.value = state
     }
 }

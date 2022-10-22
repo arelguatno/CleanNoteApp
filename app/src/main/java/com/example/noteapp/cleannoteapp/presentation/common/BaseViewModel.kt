@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.models.ColorModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.SortBy
+import com.example.noteapp.cleannoteapp.models.enums.SortBy.*
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -134,6 +136,15 @@ open class BaseViewModel @Inject constructor(
                     theme = R.style.Theme_CleanNoteApp_One
                 )
             }
+        }
+    }
+
+    fun getSortByID(sortBy: SortBy): Int {
+        return when (sortBy) {
+            MODIFIED_TIME -> R.id.sort_by_modified_time
+            CREATED_TIME -> R.id.sort_by_created_time
+            REMINDER_TIME -> R.id.sort_by_reminder_time
+            COLOR -> R.id.sort_by_color
         }
     }
 }

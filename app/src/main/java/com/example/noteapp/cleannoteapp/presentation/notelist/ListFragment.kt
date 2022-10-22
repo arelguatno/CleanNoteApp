@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
+import com.example.noteapp.cleannoteapp.presentation.data_binding.SortByBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
@@ -46,6 +48,7 @@ class ListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadDefaultColor()
+        viewModel.defaultSortBy()
         initScrollBehaviour()
         initMenuState()
         initMenu()
@@ -59,6 +62,17 @@ class ListFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         initColorSelectedListener()
+        initSortByListener()
+    }
+
+    private fun initSortByListener() {
+        BindingAdapters.setSortByOnClickListener(object : SortByBinding {
+            override fun onClick(sortBy: SortBy) {
+                viewModel.setSortCategory(sortBy)
+                viewModel.saveSortBy(sortBy)
+                bottomSheetDialog.dismiss()
+            }
+        })
     }
 
     private fun initColorSelectedListener() {
@@ -115,11 +129,11 @@ class ListFragment : BaseFragment() {
 
         viewModel.viewByColorInteractionState.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
-                if (it.equals(viewModel.getCategoryAllNotes())) {
+                if (it.equals(viewModel.getCategoryAllNotes())) { // all notes
                     crudViewModel.fetchRecordData().collectLatest {
                         noteListAdapter.submitData(it)
                     }
-                } else {
+                } else { //per color
                     crudViewModel.fetchNotesPerCategory(it).collectLatest {
                         noteListAdapter.submitData(it)
                     }
@@ -172,6 +186,8 @@ class ListFragment : BaseFragment() {
 
     private fun lunchSortByMenu() {
         val view = SortBySheetDialogBinding.inflate(layoutInflater)
+        view.root.findViewById<ImageView>(viewModel.getSortByID(viewModel.sortByInteractionState.value!!))
+            .isVisible = true
         lunchBottomSheet(view.root)
     }
 
