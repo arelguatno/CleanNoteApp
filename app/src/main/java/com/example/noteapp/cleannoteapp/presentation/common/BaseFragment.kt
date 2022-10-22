@@ -24,20 +24,11 @@ abstract class BaseFragment : Fragment() {
     @Inject
     lateinit var sharedPrefEditor: SharedPreferences.Editor
 
-    val colorCategoryViewModel: BaseViewModel by activityViewModels()
     val crudViewModel: NoteViewModel by activityViewModels()
-
-    //lateinit var layoutChangeColorBinding: LayoutChangeColorBinding
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         bottomSheetDialog = BottomSheetDialog(requireContext())
-       // layoutChangeColorBinding = LayoutChangeColorBinding.inflate(layoutInflater)
-    }
-
-    fun saveSelectedTheme(uniqueID: Int) {
-        sharedPref.save(getString(R.string.color_id), uniqueID)
     }
 
     fun lunchBottomSheet(view: View) {
