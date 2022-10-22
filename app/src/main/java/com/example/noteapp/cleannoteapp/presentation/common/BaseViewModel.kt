@@ -3,6 +3,7 @@ package com.example.noteapp.cleannoteapp.presentation.common
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.models.ColorModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,35 +48,89 @@ open class BaseViewModel @Inject constructor(
         return ColorCategory.DEFAULT
     }
 
-    fun getColorPrimary(colorCategory: ColorCategory): Int {
+    fun getColorCategoryItem(colorCategory: ColorCategory): ColorModel {
         return when (colorCategory) {
             ColorCategory.OPTION_ONE -> {
-                R.color.color_one_primary
+                ColorModel(
+                    primaryColor = R.color.color_one_primary,
+                    secondaryColor = R.color.color_one_secondary,
+                    selectedItem = R.id.selected_one,
+                    theme = R.style.Theme_CleanNoteApp_One
+                )
             }
             ColorCategory.OPTION_TWO -> {
-                R.color.color_two_primary
+                ColorModel(
+                    primaryColor = R.color.color_two_primary,
+                    secondaryColor = R.color.color_two_secondary,
+                    selectedItem = R.id.selected_two,
+                    theme = R.style.Theme_CleanNoteApp_Two
+                )
             }
             ColorCategory.OPTION_THREE -> {
-                R.color.color_three_primary
+                ColorModel(
+                    primaryColor = R.color.color_three_primary,
+                    secondaryColor = R.color.color_three_secondary,
+                    selectedItem = R.id.selected_three,
+                    theme = R.style.Theme_CleanNoteApp_Three
+                )
             }
             ColorCategory.OPTION_FOUR -> {
-                R.color.color_four_primary
+                ColorModel(
+                    primaryColor = R.color.color_four_primary,
+                    secondaryColor = R.color.color_four_secondary,
+                    selectedItem = R.id.selected_four,
+                    theme = R.style.Theme_CleanNoteApp_Four
+                )
             }
             ColorCategory.OPTION_FIVE -> {
-                R.color.color_five_primary
+                ColorModel(
+                    primaryColor = R.color.color_five_primary,
+                    secondaryColor = R.color.color_five_secondary,
+                    selectedItem = R.id.selected_five,
+                    theme = R.style.Theme_CleanNoteApp_Five
+                )
             }
             ColorCategory.OPTION_SIX -> {
-                R.color.color_six_primary
+                ColorModel(
+                    primaryColor = R.color.color_six_primary,
+                    secondaryColor = R.color.color_six_secondary,
+                    selectedItem = R.id.selected_six,
+                    theme = R.style.Theme_CleanNoteApp_Six
+                )
             }
             ColorCategory.OPTION_SEVEN -> {
-                R.color.color_seven_primary
+                ColorModel(
+                    primaryColor = R.color.color_seven_primary,
+                    secondaryColor = R.color.color_seven_secondary,
+                    selectedItem = R.id.selected_seven,
+                    theme = R.style.Theme_CleanNoteApp_Seven
+                )
             }
             ColorCategory.OPTION_EIGHT -> {
-                R.color.color_eight_primary
+                ColorModel(
+                    primaryColor = R.color.color_eight_primary,
+                    secondaryColor = R.color.color_eight_secondary,
+                    selectedItem = R.id.selected_eight,
+                    theme = R.style.Theme_CleanNoteApp_Eight
+                )
             }
             ColorCategory.DEFAULT -> {
-                R.color.color_one_primary
+                ColorModel(
+                    primaryColor = R.color.color_one_primary,
+                    secondaryColor = R.color.color_one_secondary,
+                    selectedItem = R.id.selected_one,
+                    theme = R.style.Theme_CleanNoteApp_One
+                )
             }
         }
+    }
+
+    fun convertStringToColorCategory(value: String): ColorCategory {
+        for (i in ColorCategory.values()) {
+            if (value == i.toString()) {
+                return i
+            }
+        }
+        return getCategoryOne() //default
     }
 }

@@ -1,15 +1,15 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
+/**/
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
@@ -75,7 +75,7 @@ class AddUpdateViewModel @Inject constructor(
     }
 
     fun storeThemeSelected(category: ColorCategory) {
-        sharedPreferences.save(THEME_FILTER_PREFERENCE, category.toString())
+        sharedPreferences.save(USER_DYNAMIC_THEME_PREFERENCE, category.toString())
     }
 
     fun getThemeColorForActivity(value: String): Int {
@@ -89,7 +89,7 @@ class AddUpdateViewModel @Inject constructor(
             ColorCategory.OPTION_SEVEN.toString() -> R.style.Theme_CleanNoteApp_Seven
             ColorCategory.OPTION_EIGHT.toString() -> R.style.Theme_CleanNoteApp_Eight
             else -> {
-                R.style.Theme_CleanNoteApp
+                R.style.Theme_CleanNoteApp_One
             }
         }
     }

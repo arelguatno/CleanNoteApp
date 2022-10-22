@@ -7,7 +7,7 @@ class PreferenceKeys {
         const val NOTE_PREFERENCES: String = "com.example.noteapp.cleannoteapp.models"
 
         // Shared Preference Keys
-        const val THEME_FILTER_PREFERENCE: String = "$NOTE_PREFERENCES.THEME_FILTER"
+        const val USER_DYNAMIC_THEME_PREFERENCE: String = "$NOTE_PREFERENCES.USER_DYNAMIC_THEME_PREFERENCE"
 
 
         // Settings - Default Color

@@ -6,6 +6,8 @@ import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
+import com.example.noteapp.cleannoteapp.util.extensions.save
+import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -33,7 +35,11 @@ class SettingsViewModel @Inject constructor(
     private fun getColorSettingsMenu(): String? {
         return sharedPref.getString(
             PreferenceKeys.SETTINGS_DEFAULT_COLOR,
-            getCategoryDefault().toString()
+            getCategoryOne().toString()
         )
+    }
+
+    fun saveDefaultColor(color: String){
+        sharedPref.save(PreferenceKeys.SETTINGS_DEFAULT_COLOR, color)
     }
 }

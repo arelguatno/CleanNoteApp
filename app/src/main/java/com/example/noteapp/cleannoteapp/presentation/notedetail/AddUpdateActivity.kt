@@ -7,11 +7,9 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
-import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.SETTINGS_DEFAULT_COLOR
-import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.THEME_FILTER_PREFERENCE
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import dagger.hilt.android.AndroidEntryPoint
-import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion as PreferenceKeys1
 
 @AndroidEntryPoint
 class AddUpdateActivity : BaseActivity() {
@@ -37,16 +35,12 @@ class AddUpdateActivity : BaseActivity() {
     private fun loadTheme() {
         when (mainViewModel.setThemeState.value) {
             EditState -> {
-                setTheme(this@AddUpdateActivity.setTheme())
+                setTheme(viewModel.getThemeColorForActivity(USER_DYNAMIC_THEME_PREFERENCE))
             }
             DefaultState -> {
                 setTheme(viewModel.getThemeColorForActivity(SETTINGS_DEFAULT_COLOR))
             }
             else -> {}
         }
-    }
-
-    private fun setTheme(): Int {
-        return viewModel.getThemeColorForActivity(THEME_FILTER_PREFERENCE)
     }
 }

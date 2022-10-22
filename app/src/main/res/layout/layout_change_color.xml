@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="category"
             type="com.example.noteapp.cleannoteapp.models.enums.ColorCategory" />
@@ -19,7 +20,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:paddingStart="20dp"
-            android:text="Change Color"
+            android:paddingEnd="20dp"
+            android:text="@string/change_color"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -44,7 +46,7 @@
                     android:background="@drawable/color_bg"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.DEFAULT}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp"
                     android:visibility="visible">
@@ -55,13 +57,22 @@
                         android:src="@drawable/all_notes" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="All notes"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:text="@string/all_notes"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_all"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -75,7 +86,7 @@
                     android:backgroundTint="@color/color_one_secondary"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_ONE}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -85,13 +96,22 @@
                         android:src="@color/color_one_primary" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="General"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:text="@string/general"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_one"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription=""
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -105,7 +125,7 @@
                     android:backgroundTint="@color/color_two_secondary"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_TWO}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -117,11 +137,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="Work"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:text="@string/work"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_two"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -135,7 +164,7 @@
                     android:backgroundTint="@color/color_three_secondary"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_THREE}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -147,11 +176,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:text="Personal"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:text="@string/personal"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_three"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -165,7 +203,7 @@
                     android:backgroundTint="@color/color_four_secondary"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_FOUR}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -177,11 +215,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_four"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -195,7 +242,7 @@
                     android:backgroundTint="@color/color_five_secondary"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_FIVE}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -207,11 +254,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_five"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -225,7 +281,7 @@
                     android:backgroundTint="@color/color_six_secondary"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_SIX}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -237,11 +293,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_six"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -255,7 +320,7 @@
                     android:backgroundTint="@color/color_seven_secondary"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_SEVEN}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -267,11 +332,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_seven"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -284,7 +358,7 @@
                     android:background="@drawable/color_bg"
                     android:baselineAligned="false"
                     android:colorCategoryOnClick="@{category.OPTION_EIGHT}"
-                    android:gravity="left"
+                    android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp">
 
@@ -297,10 +371,19 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
+                        android:layout_weight="1"
                         android:text=""
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/selected_eight"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/todo"
+                        android:src="@drawable/ic_baseline_check_24" />
                 </LinearLayout>
 
             </LinearLayout>

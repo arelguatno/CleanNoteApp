@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
 import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
@@ -217,7 +216,7 @@ class AddUpdateFragment : BaseFragment() {
 
     private fun setTheme(colorCategory: ColorCategory) {
         when (colorCategory) {
-            ColorCategory.OPTION_ONE -> {
+            ColorCategory.OPTION_ONE, ColorCategory.DEFAULT -> {
                 viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryOne())
                 binding.main.setThemeOne()
                 binding.appBar.setThemeOne()
@@ -266,7 +265,6 @@ class AddUpdateFragment : BaseFragment() {
                 binding.appBar.setThemeEight()
                 menuItemColorCategory?.icon = getImage(R.color.color_eight_primary)
             }
-            else -> {}
         }
     }
 
