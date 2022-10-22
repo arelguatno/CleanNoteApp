@@ -22,6 +22,7 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryB
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
+import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

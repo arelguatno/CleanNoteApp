@@ -42,7 +42,7 @@ class ListViewModel @Inject constructor(
     private fun getColorSettingsMenu(): String? {
         return sharedPref.getString(
             PreferenceKeys.LIST_VIEW_COLOR_THEME,
-            getCategoryOne().toString()
+            getCategoryAllNotes().toString()
         )
     }
 
