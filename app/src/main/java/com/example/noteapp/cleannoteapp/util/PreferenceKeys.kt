@@ -9,8 +9,10 @@ class PreferenceKeys {
         // Shared Preference Keys
         const val USER_DYNAMIC_THEME_PREFERENCE: String = "$NOTE_PREFERENCES.USER_DYNAMIC_THEME_PREFERENCE"
 
-
         // Settings - Default Color
         const val SETTINGS_DEFAULT_COLOR: String = "$NOTE_PREFERENCES.SETTINGS_DEFAULT_COLOR"
+
+        //List View - Color Picker
+        const val LIST_VIEW_COLOR_THEME: String = "$NOTE_PREFERENCES.LIST_VIEW_COLOR_THEME"
     }
 }

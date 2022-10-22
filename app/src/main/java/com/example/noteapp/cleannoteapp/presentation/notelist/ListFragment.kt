@@ -22,7 +22,6 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryB
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
-import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,6 +44,7 @@ class ListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.loadDefaultColor()
         initScrollBehaviour()
         initMenuState()
         initMenu()
@@ -63,8 +63,9 @@ class ListFragment : BaseFragment() {
     private fun initColorSelectedListener() {
         BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
             override fun userSelectedColor(colorBinding: ColorCategory) {
-                bottomSheetDialog.dismiss()
                 viewModel.setByColorCategory(colorBinding)
+                viewModel.saveDefaultColor(colorBinding)
+                bottomSheetDialog.dismiss()
             }
         })
     }

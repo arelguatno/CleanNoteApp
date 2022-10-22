@@ -8,6 +8,7 @@ import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteIntera
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.example.noteapp.cleannoteapp.util.printLogD
+import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -25,11 +26,9 @@ class SettingsViewModel @Inject constructor(
     }
 
     internal fun loadDefaultColor() {
-        for (i in ColorCategory.values()) {
-            if (getColorSettingsMenu().equals(i.toString())) {
-                setThemeSelected(i)
-            }
-        }
+        val color =
+            GsonBuilder().create().fromJson(getColorSettingsMenu(), ColorCategory::class.java)
+        setThemeSelected(color)
     }
 
     private fun getColorSettingsMenu(): String? {
@@ -39,7 +38,10 @@ class SettingsViewModel @Inject constructor(
         )
     }
 
-    fun saveDefaultColor(color: String){
-        sharedPref.save(PreferenceKeys.SETTINGS_DEFAULT_COLOR, color)
+    fun saveDefaultColor(value: ColorCategory) {
+        sharedPref.save(
+            PreferenceKeys.SETTINGS_DEFAULT_COLOR,
+            GsonBuilder().create().toJson(value)
+        )
     }
 }

@@ -20,9 +20,10 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="left"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingRight="20dp">
 
         <ImageView
             android:layout_width="@dimen/bottom_sheet_image_size"
@@ -33,9 +34,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Modified Time"
             android:textSize="@dimen/bottom_sheet_text_size"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/sort_by_modified_time"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_baseline_check_24"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,9 +53,10 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="left"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingRight="20dp">
 
         <ImageView
             android:layout_width="@dimen/bottom_sheet_image_size"
@@ -56,18 +67,29 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Created Time"
             android:textSize="@dimen/bottom_sheet_text_size"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/sort_by_created_time"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_baseline_check_24"
+            android:visibility="gone" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="left"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingRight="20dp">
 
         <ImageView
             android:layout_width="@dimen/bottom_sheet_image_size"
@@ -78,9 +100,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Reminder Time"
             android:textSize="@dimen/bottom_sheet_text_size"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/sort_by_reminder_time"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_baseline_check_24"
+            android:visibility="gone" />
     </LinearLayout>
 
     <LinearLayout
@@ -88,9 +119,10 @@
         android:layout_height="wrap_content"
         android:baselineAligned="false"
         android:gravity="left"
+        android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
-        android:orientation="horizontal">
+        android:paddingRight="20dp">
 
         <ImageView
             android:layout_width="@dimen/bottom_sheet_image_size"
@@ -101,9 +133,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Color"
             android:textSize="@dimen/bottom_sheet_text_size"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/sort_by_color"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/todo"
+            android:src="@drawable/ic_baseline_check_24"
+            android:visibility="gone" />
     </LinearLayout>
 
 </LinearLayout>

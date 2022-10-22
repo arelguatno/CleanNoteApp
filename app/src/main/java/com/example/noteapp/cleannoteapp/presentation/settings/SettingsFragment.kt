@@ -68,7 +68,7 @@ class SettingsFragment : BaseFragment() {
         BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
             override fun userSelectedColor(colorBinding: ColorCategory) {
                 viewModel.setThemeSelected(colorBinding)
-                viewModel.saveDefaultColor(colorBinding.toString())
+                viewModel.saveDefaultColor(colorBinding)
                 bottomSheetDialog.dismiss()
             }
         })
