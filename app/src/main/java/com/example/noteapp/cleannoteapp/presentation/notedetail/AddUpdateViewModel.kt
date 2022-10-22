@@ -76,8 +76,11 @@ class AddUpdateViewModel @Inject constructor(
         noteInteractionManager.setCurrentDate(date)
     }
 
-    fun storeThemeSelected(category: ColorCategory) {
-        sharedPreferences.save(USER_DYNAMIC_THEME_PREFERENCE, category.toString())
+    fun storeDynamicThemeSelected(category: ColorCategory) {
+        sharedPreferences.save(
+            USER_DYNAMIC_THEME_PREFERENCE,
+            GsonBuilder().create().toJson(category)
+        )
     }
 
     fun getThemeColorForActivity(value: String): Int {

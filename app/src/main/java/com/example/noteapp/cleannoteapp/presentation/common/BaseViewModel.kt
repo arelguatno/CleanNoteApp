@@ -136,13 +136,4 @@ open class BaseViewModel @Inject constructor(
             }
         }
     }
-
-    fun convertStringToColorCategory(value: String): ColorCategory {
-        for (i in ColorCategory.values()) {
-            if (value == i.toString()) {
-                return i
-            }
-        }
-        return getCategoryOne() //default
-    }
 }

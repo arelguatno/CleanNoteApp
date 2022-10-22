@@ -215,58 +215,11 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun setTheme(colorCategory: ColorCategory) {
-        when (colorCategory) {
-            ColorCategory.OPTION_ONE, ColorCategory.DEFAULT -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryOne())
-                binding.main.setThemeOne()
-                binding.appBar.setThemeOne()
-                menuItemColorCategory?.icon = getImage(R.color.color_one_primary)
-            }
-            ColorCategory.OPTION_TWO -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryTwo())
-                binding.main.setThemeTwo()
-                binding.appBar.setThemeTwo()
-                menuItemColorCategory?.icon = getImage(R.color.color_two_primary)
-            }
-            ColorCategory.OPTION_THREE -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryThree())
-                binding.main.setThemeThree()
-                binding.appBar.setThemeThree()
-                menuItemColorCategory?.icon = getImage(R.color.color_three_primary)
-            }
-            ColorCategory.OPTION_FOUR -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryFour())
-                binding.main.setThemeFour()
-                binding.appBar.setThemeFour()
-                menuItemColorCategory?.icon = getImage(R.color.color_four_primary)
-            }
-            ColorCategory.OPTION_FIVE -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryFive())
-                saveSelectedTheme(5)
-                binding.main.setThemeFive()
-                binding.appBar.setThemeFive()
-                menuItemColorCategory?.icon = getImage(R.color.color_five_primary)
-            }
-            ColorCategory.OPTION_SIX -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategorySix())
-                binding.main.setThemeSix()
-                binding.appBar.setThemeSix()
-                menuItemColorCategory?.icon = getImage(R.color.color_six_primary)
-            }
-            ColorCategory.OPTION_SEVEN -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategorySeven())
-                binding.main.setThemeSeven()
-                binding.appBar.setThemeSeven()
-                menuItemColorCategory?.icon = getImage(R.color.color_seven_primary)
-            }
-            ColorCategory.OPTION_EIGHT -> {
-                viewModel.storeThemeSelected(colorCategoryViewModel.getCategoryEight())
-                binding.main.setThemeEight()
-                binding.appBar.setThemeEight()
-                menuItemColorCategory?.icon = getImage(R.color.color_eight_primary)
-            }
-            ColorCategory.ALL_NOTES -> TODO()
-        }
+        viewModel.storeDynamicThemeSelected(colorCategory)
+        binding.main.setBackgroundResource(viewModel.getColorCategoryItem(colorCategory).secondaryColor)
+        binding.appBar.setBackgroundResource(viewModel.getColorCategoryItem(colorCategory).secondaryColor)
+        menuItemColorCategory?.icon =
+            getImage(viewModel.getColorCategoryItem(colorCategory).primaryColor)
     }
 
     fun onBackPressed() {
