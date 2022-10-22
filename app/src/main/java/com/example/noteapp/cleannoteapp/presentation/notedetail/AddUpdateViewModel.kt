@@ -11,6 +11,8 @@ import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteIntera
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import com.example.noteapp.cleannoteapp.util.extensions.save
+import com.example.noteapp.cleannoteapp.util.printLogD
+import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
@@ -79,39 +81,20 @@ class AddUpdateViewModel @Inject constructor(
     }
 
     fun getThemeColorForActivity(value: String): Int {
-        return when (sharedPreferences.getString(value, getCategoryDefault().toString())) {
-            ColorCategory.OPTION_ONE.toString() -> R.style.Theme_CleanNoteApp_One
-            ColorCategory.OPTION_TWO.toString() -> R.style.Theme_CleanNoteApp_Two
-            ColorCategory.OPTION_THREE.toString() -> R.style.Theme_CleanNoteApp_Three
-            ColorCategory.OPTION_FOUR.toString() -> R.style.Theme_CleanNoteApp_Four
-            ColorCategory.OPTION_FIVE.toString() -> R.style.Theme_CleanNoteApp_Five
-            ColorCategory.OPTION_SIX.toString() -> R.style.Theme_CleanNoteApp_Six
-            ColorCategory.OPTION_SEVEN.toString() -> R.style.Theme_CleanNoteApp_Seven
-            ColorCategory.OPTION_EIGHT.toString() -> R.style.Theme_CleanNoteApp_Eight
-            else -> {
-                R.style.Theme_CleanNoteApp_One
-            }
-        }
+        val color = sharedPreferences.getString(value, getCategoryOne().toString())
+        val customOb = GsonBuilder().create().fromJson(color, ColorCategory::class.java)
+        return getColorCategoryItem(customOb).theme
     }
 
     internal fun loadDefaultColor() {
-        for (i in ColorCategory.values()) {
-            if (getColorSettingsMenu().equals(i.toString())) {
-                setThemeSelected(i)
-            }
-        }
+        val color =
+            GsonBuilder().create().fromJson(getColorSettingsMenu(), ColorCategory::class.java)
+        setThemeSelected(color)
     }
 
     private fun getColorSettingsMenu(): String? {
         return sharedPreferences.getString(
             PreferenceKeys.SETTINGS_DEFAULT_COLOR,
-            getCategoryDefault().toString()
-        )
-    }
-
-    private fun getColorSharedPrefFromFragment(value: String): String? {
-        return sharedPreferences.getString(
-            value,
             getCategoryDefault().toString()
         )
     }
