@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
+import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.ListInteractionManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale.Category
@@ -12,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ListViewModel @Inject constructor(
 
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val noteInteractionManager: ListInteractionManager = ListInteractionManager()
 

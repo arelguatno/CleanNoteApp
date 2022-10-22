@@ -18,7 +18,7 @@ class ListInteractionManager {
     }
 
     private val _colorCategory: MutableLiveData<ColorCategory> =
-        MutableLiveData(ColorCategory.DEFAULT)
+        MutableLiveData(ColorCategory.ALL_NOTES)
 
     val colorCategory: LiveData<ColorCategory>
         get() = _colorCategory

@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.databinding.SettingsSettingsBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
@@ -38,21 +39,15 @@ class SettingsFragment : BaseFragment() {
         subscribeObservers()
 
         binding.settingsGeneral.defaultColor.setOnClickListener {
-            launchDefaultColor()
+            launchDefaultColorBottomSheet()
         }
     }
 
     private fun subscribeObservers() {
         viewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
-
             binding.settingsGeneral.imageColor.setImageDrawable(
                 getImage(viewModel.getColorCategoryItem(it).primaryColor)
             )
-
-            layoutChangeColorBinding.root.findViewById<ImageView>(viewModel.getColorCategoryItem(it).selectedItem)
-                .isVisible = true
-
-            layoutChangeColorBinding.allNotes.isVisible = false
         }
     }
 
@@ -61,8 +56,12 @@ class SettingsFragment : BaseFragment() {
         initColorSelectedListener()
     }
 
-    private fun launchDefaultColor() {
-        lunchBottomSheet(layoutChangeColorBinding.root)
+    private fun launchDefaultColorBottomSheet() {
+        val view = LayoutChangeColorBinding.inflate(layoutInflater)
+        view.allNotes.isVisible = false
+        view.root.findViewById<ImageView>(viewModel.getColorCategoryItem(viewModel.themeSelectedInteraction.value!!).selectedItem)
+            .isVisible = true
+        lunchBottomSheet(view.root)
     }
 
     private fun initColorSelectedListener() {

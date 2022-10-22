@@ -45,7 +45,7 @@
                     android:layout_marginRight="20dp"
                     android:background="@drawable/color_bg"
                     android:baselineAligned="false"
-                    android:colorCategoryOnClick="@{category.DEFAULT}"
+                    android:colorCategoryOnClick="@{category.ALL_NOTES}"
                     android:gravity="start"
                     android:orientation="horizontal"
                     android:padding="15dp"
@@ -68,11 +68,11 @@
 
                     <ImageView
                         android:id="@+id/selected_all"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -107,11 +107,11 @@
 
                     <ImageView
                         android:id="@+id/selected_one"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription=""
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -146,11 +146,11 @@
 
                     <ImageView
                         android:id="@+id/selected_two"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -185,11 +185,11 @@
 
                     <ImageView
                         android:id="@+id/selected_three"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -224,11 +224,11 @@
 
                     <ImageView
                         android:id="@+id/selected_four"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -263,11 +263,11 @@
 
                     <ImageView
                         android:id="@+id/selected_five"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -302,11 +302,11 @@
 
                     <ImageView
                         android:id="@+id/selected_six"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -341,11 +341,11 @@
 
                     <ImageView
                         android:id="@+id/selected_seven"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -379,11 +379,11 @@
 
                     <ImageView
                         android:id="@+id/selected_eight"
-                        android:visibility="gone"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:contentDescription="@string/todo"
-                        android:src="@drawable/ic_baseline_check_24" />
+                        android:src="@drawable/ic_baseline_check_24"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>

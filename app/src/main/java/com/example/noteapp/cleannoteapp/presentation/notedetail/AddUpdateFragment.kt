@@ -265,6 +265,7 @@ class AddUpdateFragment : BaseFragment() {
                 binding.appBar.setThemeEight()
                 menuItemColorCategory?.icon = getImage(R.color.color_eight_primary)
             }
+            ColorCategory.ALL_NOTES -> TODO()
         }
     }
 

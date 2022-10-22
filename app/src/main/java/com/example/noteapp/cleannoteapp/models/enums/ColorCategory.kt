@@ -1,6 +1,7 @@
 package com.example.noteapp.cleannoteapp.models.enums
 
 enum class ColorCategory {
+    ALL_NOTES,
     OPTION_ONE,
     OPTION_TWO,
     OPTION_THREE,

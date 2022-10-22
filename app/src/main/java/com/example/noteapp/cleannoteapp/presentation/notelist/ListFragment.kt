@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -112,7 +113,7 @@ class ListFragment : BaseFragment() {
 
         viewModel.viewByColorInteractionState.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
-                if (it.equals(colorCategoryViewModel.getCategoryDefault())) {
+                if (it.equals(viewModel.getCategoryAllNotes())) {
                     crudViewModel.fetchRecordData().collectLatest {
                         noteListAdapter.submitData(it)
                     }
@@ -162,6 +163,8 @@ class ListFragment : BaseFragment() {
         val view = LayoutChangeColorBinding.inflate(layoutInflater)
         view.allNotes.isVisible = true
         view.viewText.text = "Filter"
+        view.root.findViewById<ImageView>(viewModel.getColorCategoryItem(viewModel.viewByColorInteractionState.value!!).selectedItem)
+            .isVisible = true
         lunchBottomSheet(view.root)
     }
 
