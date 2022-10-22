@@ -254,6 +254,7 @@ class AddUpdateFragment : BaseFragment() {
             printLogD(className, "Both records are empty")
             return
         }
+        printLogD(className,getColor().toString())
 
         val newData = NoteModel(
             header = getNoteTitle(),
