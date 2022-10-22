@@ -10,6 +10,7 @@ import com.example.noteapp.cleannoteapp.presentation.notelist.state.ListInteract
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_COLOR_THEME
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_SORT_BY
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_VIEW_BY
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -44,13 +45,13 @@ class ListViewModel @Inject constructor(
     }
 
     internal fun loadDefaultColor() {
-        val ggg = sharedPref.getString(
+        val sharedValue = sharedPref.getString(
             LIST_VIEW_COLOR_THEME,
             getCategoryAllNotes().toString()
         )
 
         val color =
-            GsonBuilder().create().fromJson(ggg, ColorCategory::class.java)
+            GsonBuilder().create().fromJson(sharedValue, ColorCategory::class.java)
         setByColorCategory(color)
     }
 
@@ -61,19 +62,36 @@ class ListViewModel @Inject constructor(
         )
     }
 
-    internal fun defaultSortBy() {
-        val ggg = sharedPref.getString(
+    internal fun loadDefaultSortBy() {
+        val sharedValue = sharedPref.getString(
             LIST_VIEW_SORT_BY,
-            SortBy.COLOR.toString()
+            getSortByModifiedTime().toString()
         )
         val sortBy =
-            GsonBuilder().create().fromJson(ggg, SortBy::class.java)
+            GsonBuilder().create().fromJson(sharedValue, SortBy::class.java)
         setSortCategory(sortBy)
     }
 
     fun saveSortBy(value: SortBy) {
         sharedPref.save(
             LIST_VIEW_SORT_BY,
+            GsonBuilder().create().toJson(value)
+        )
+    }
+
+    internal fun loadDefaultViewBy() {
+        val sharedValue = sharedPref.getString(
+            LIST_VIEW_VIEW_BY,
+            getViewByGrid().toString()
+        )
+        val viewBy =
+            GsonBuilder().create().fromJson(sharedValue, ViewBy::class.java)
+        setViewByMenuState(viewBy)
+    }
+
+    fun saveViewBy(value: ViewBy) {
+        sharedPref.save(
+            LIST_VIEW_VIEW_BY,
             GsonBuilder().create().toJson(value)
         )
     }

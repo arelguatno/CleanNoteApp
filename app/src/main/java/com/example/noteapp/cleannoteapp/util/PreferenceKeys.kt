@@ -18,5 +18,8 @@ class PreferenceKeys {
 
         //List View - Sort By
         const val LIST_VIEW_SORT_BY: String = "$NOTE_PREFERENCES.LIST_VIEW_SORT_BY"
+
+        //List View - View By
+        const val LIST_VIEW_VIEW_BY: String = "$NOTE_PREFERENCES.LIST_VIEW_VIEW_BY"
     }
 }

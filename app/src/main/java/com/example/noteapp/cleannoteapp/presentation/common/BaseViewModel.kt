@@ -7,6 +7,7 @@ import com.example.noteapp.cleannoteapp.models.ColorModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.SortBy.*
+import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,36 +15,17 @@ import javax.inject.Inject
 @HiltViewModel
 open class BaseViewModel @Inject constructor(
 ) : ViewModel() {
+
+    fun getViewByGrid(): ViewBy {
+        return ViewBy.Grid
+    }
+
     fun getCategoryOne(): ColorCategory {
         return ColorCategory.OPTION_ONE
     }
 
-    fun getCategoryTwo(): ColorCategory {
-        return ColorCategory.OPTION_TWO
-    }
-
-    fun getCategoryThree(): ColorCategory {
-        return ColorCategory.OPTION_THREE
-    }
-
-    fun getCategoryFour(): ColorCategory {
-        return ColorCategory.OPTION_FOUR
-    }
-
-    fun getCategoryFive(): ColorCategory {
-        return ColorCategory.OPTION_FIVE
-    }
-
-    fun getCategorySix(): ColorCategory {
-        return ColorCategory.OPTION_SIX
-    }
-
-    fun getCategorySeven(): ColorCategory {
-        return ColorCategory.OPTION_SEVEN
-    }
-
-    fun getCategoryEight(): ColorCategory {
-        return ColorCategory.OPTION_EIGHT
+    fun getSortByModifiedTime(): SortBy {
+        return MODIFIED_TIME
     }
 
     fun getCategoryDefault(): ColorCategory {
@@ -145,6 +127,15 @@ open class BaseViewModel @Inject constructor(
             CREATED_TIME -> R.id.sort_by_created_time
             REMINDER_TIME -> R.id.sort_by_reminder_time
             COLOR -> R.id.sort_by_color
+        }
+    }
+
+    fun getViewByID(view: ViewBy): Int {
+        return when (view) {
+            ViewBy.List -> R.id.view_by_list
+            ViewBy.Grid -> R.id.view_by_grid
+            ViewBy.Details -> R.id.view_by_details
+            ViewBy.Default -> R.id.view_by_grid
         }
     }
 }

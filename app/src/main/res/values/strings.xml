@@ -17,4 +17,8 @@
     <string name="general">General</string>
     <string name="work">Work</string>
     <string name="personal">Personal</string>
+    <string name="view_by">View By</string>
+    <string name="list">List</string>
+    <string name="grid">Grid</string>
+    <string name="details">Details</string>
 </resources>

@@ -1,90 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingTop="20dp"
-    android:paddingBottom="40dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:text="View By"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+    <data>
+
+        <variable
+            name="viewBy"
+            type="com.example.noteapp.cleannoteapp.models.enums.ViewBy" />
+    </data>
 
     <LinearLayout
-        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp">
-
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginRight="15dp"
-            android:src="@drawable/ic_baseline_dehaze_24" />
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="40dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="List"
-            android:textSize="@dimen/bottom_sheet_text_size"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/view_by"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/grid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp">
-
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_grid_view_24" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/list"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Grid"
-            android:textSize="@dimen/bottom_sheet_text_size"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:baselineAligned="false"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:viewByOnClick="@{viewBy.List}">
 
-    <LinearLayout
-        android:id="@+id/details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:gravity="left"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp">
+            <ImageView
+                android:layout_width="@dimen/bottom_sheet_image_size"
+                android:layout_height="@dimen/bottom_sheet_image_size"
+                android:layout_marginEnd="15dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_dehaze_24" />
 
-        <ImageView
-            android:layout_width="@dimen/bottom_sheet_image_size"
-            android:layout_height="@dimen/bottom_sheet_image_size"
-            android:layout_marginEnd="15dp"
-            android:src="@drawable/ic_baseline_view_agenda_24" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/list"
+                android:textSize="@dimen/bottom_sheet_text_size"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/view_by_list"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_check_24"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/grid"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Details"
-            android:textSize="@dimen/bottom_sheet_text_size"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:baselineAligned="false"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:viewByOnClick="@{viewBy.Grid}">
 
-</LinearLayout>
+            <ImageView
+                android:layout_width="@dimen/bottom_sheet_image_size"
+                android:layout_height="@dimen/bottom_sheet_image_size"
+                android:layout_marginEnd="15dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_grid_view_24" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/grid"
+                android:textSize="@dimen/bottom_sheet_text_size"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/view_by_grid"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_check_24"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="start"
+            android:orientation="horizontal"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:viewByOnClick="@{viewBy.Details}">
+
+            <ImageView
+                android:layout_width="@dimen/bottom_sheet_image_size"
+                android:layout_height="@dimen/bottom_sheet_image_size"
+                android:layout_marginEnd="15dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_view_agenda_24" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/details"
+                android:textSize="@dimen/bottom_sheet_text_size"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/view_by_details"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/ic_baseline_check_24"
+                android:visibility="gone" />
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

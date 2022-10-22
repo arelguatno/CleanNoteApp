@@ -1,7 +1,8 @@
 package com.example.noteapp.cleannoteapp.presentation.data_binding
 
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
+import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 
-interface SortByBinding {
-    fun onClick(sortBy: SortBy)
+interface ViewByBinding {
+    fun onClick(viewBy: ViewBy)
 }

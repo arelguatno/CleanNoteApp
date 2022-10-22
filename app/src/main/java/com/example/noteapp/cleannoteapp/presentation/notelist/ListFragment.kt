@@ -21,10 +21,10 @@ import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
 import com.example.noteapp.cleannoteapp.presentation.data_binding.SortByBinding
+import com.example.noteapp.cleannoteapp.presentation.data_binding.ViewByBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
-import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -48,7 +48,9 @@ class ListFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadDefaultColor()
-        viewModel.defaultSortBy()
+        viewModel.loadDefaultSortBy()
+        viewModel.loadDefaultViewBy()
+
         initScrollBehaviour()
         initMenuState()
         initMenu()
@@ -63,6 +65,17 @@ class ListFragment : BaseFragment() {
         super.onStart()
         initColorSelectedListener()
         initSortByListener()
+        initViewByListener()
+    }
+
+    private fun initViewByListener() {
+        BindingAdapters.setViewByOnClickListener(object : ViewByBinding {
+            override fun onClick(viewBy: ViewBy) {
+                viewModel.setViewByMenuState(viewBy)
+                viewModel.saveViewBy(viewBy)
+                bottomSheetDialog.dismiss()
+            }
+        })
     }
 
     private fun initSortByListener() {
@@ -127,6 +140,18 @@ class ListFragment : BaseFragment() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
 
+        viewModel.sortByInteractionState.observe(viewLifecycleOwner) {
+//            lifecycleScope.launch {
+//                when (it) {
+//                    SortBy.MODIFIED_TIME -> {
+//                    }
+//                    SortBy.CREATED_TIME -> TODO()
+//                    SortBy.REMINDER_TIME -> TODO()
+//                    SortBy.COLOR -> TODO()
+//                }
+//            }
+        }
+
         viewModel.viewByColorInteractionState.observe(viewLifecycleOwner) {
             lifecycleScope.launch {
                 if (it.equals(viewModel.getCategoryAllNotes())) { // all notes
@@ -164,14 +189,8 @@ class ListFragment : BaseFragment() {
 
     private fun lunchViewByMenu() {
         val view = ViewBySheetDialogBinding.inflate(layoutInflater)
-
-        view.details.setOnClickListener {
-            viewModel.setViewByMenuState(ViewBy.Details)
-        }
-
-        view.grid.setOnClickListener {
-            viewModel.setViewByMenuState(ViewBy.Grid)
-        }
+        view.root.findViewById<ImageView>(viewModel.getViewByID(viewModel.viewByMenuInteractionState.value!!))
+            .isVisible = true
         lunchBottomSheet(view.root)
     }
 
