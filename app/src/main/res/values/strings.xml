@@ -18,7 +18,10 @@
     <string name="work">Work</string>
     <string name="personal">Personal</string>
     <string name="view_by">View By</string>
-    <string name="list">List</string>
+    <string name="list">List - TODO</string>
     <string name="grid">Grid</string>
     <string name="details">Details</string>
+    <string name="edited_sun_9_oct_4_54_pm">Edited: Sun 9 Oct 4:54 pm</string>
+    <string name="what_s_up">What\'s up?</string>
+    <string name="header">Header</string>
 </resources>
