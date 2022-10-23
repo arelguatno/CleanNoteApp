@@ -9,9 +9,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.*
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
@@ -29,6 +27,7 @@ import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class ListFragment : BaseFragment() {
@@ -53,7 +52,6 @@ class ListFragment : BaseFragment() {
         viewModel.loadDefaultViewBy()
 
         initScrollBehaviour()
-        initMenuState()
         initMenu()
         initFetchList()
 
@@ -67,6 +65,7 @@ class ListFragment : BaseFragment() {
         initColorSelectedListener()
         initSortByListener()
         initViewByListener()
+        initMenuState()
     }
 
     private fun initViewByListener() {
@@ -107,21 +106,23 @@ class ListFragment : BaseFragment() {
                 }
                 ViewBy.Grid -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()
+                    noteListAdapter.notifyDataSetChanged()
                 }
                 ViewBy.Details -> {
                     binding.recyclerView.layoutManager = getDetailsLayoutManger()
+                    noteListAdapter.notifyDataSetChanged()
                 }
                 ViewBy.Default -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()
+                    noteListAdapter.notifyDataSetChanged()
                 }
             }
-            noteListAdapter.notifyDataSetChanged()
             bottomSheetDialog.dismiss()
         }
     }
 
     private fun getGridLayoutManager(): RecyclerView.LayoutManager {
-        return StaggeredGridLayoutManager(GRID_SPAN_COUNT, StaggeredGridLayoutManager.VERTICAL)
+        return StaggeredGridLayoutManager(GRID_SPAN_COUNT, OrientationHelper.VERTICAL)
     }
 
     private fun getDetailsLayoutManger(): LinearLayoutManager {
@@ -140,12 +141,13 @@ class ListFragment : BaseFragment() {
     private fun initFetchList() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
-
+        //  binding.recyclerView.smoothSnapToPosition(0)
 
         lifecycleScope.launch {
             viewModel.combineObserver.collectLatest {
                 crudViewModel.fetchListViewRecords(it.colorCategory, it.sortBy)
                     .collectLatest { data ->
+                        printLogD(className, data.toString())
                         noteListAdapter.submitData(data)
                     }
             }

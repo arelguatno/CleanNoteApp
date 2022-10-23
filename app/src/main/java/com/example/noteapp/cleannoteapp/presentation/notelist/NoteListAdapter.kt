@@ -18,7 +18,7 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NoteModel>() {
             override fun areItemsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {
-                return oldItem.body == newItem.body
+                return false
             }
 
             override fun areContentsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {

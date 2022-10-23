@@ -26,28 +26,6 @@ class NoteViewModel @Inject constructor(
         }
     }
 
-    fun fetchRecordData(): Flow<PagingData<NoteModel>> {
-        return Pager(PagingConfig(pageSize = 10)) {
-            repository.fetchWalletsRecord()
-        }.flow.cachedIn(viewModelScope).map { notesModel ->
-            notesModel.filter {
-                convertDateToString(it)
-                checkIfHeaderIsEmpty(it)
-            }
-        }
-    }
-
-    fun fetchNotesPerCategory(category: ColorCategory): Flow<PagingData<NoteModel>> {
-        return Pager(PagingConfig(pageSize = 10)) {
-            repository.fetchNotesPerCategory(category)
-        }.flow.cachedIn(viewModelScope).map { notesModel ->
-            notesModel.filter {
-                convertDateToString(it)
-                checkIfHeaderIsEmpty(it)
-            }
-        }
-    }
-
     private fun convertDateToString(noteModel: NoteModel): Boolean {
         noteModel.dates?.dateModifiedStringValue =
             noteModel.dates?.dateModified?.appMainFormat().toString()
