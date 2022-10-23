@@ -148,7 +148,7 @@ class AddUpdateFragment : BaseFragment() {
         )
 
         if (newNew == null) { // New note
-            if (!viewModel.isEditingBody()) {
+            if (!viewModel.isEditingBody() && !viewModel.isEditingTitle()) {
                 viewModel.loadDefaultColor()
                 viewModel.setNoteInteractionBodyState(EditState)
             }
@@ -254,7 +254,7 @@ class AddUpdateFragment : BaseFragment() {
             printLogD(className, "Both records are empty")
             return
         }
-        printLogD(className,getColor().toString())
+        printLogD(className, getColor().toString())
 
         val newData = NoteModel(
             header = getNoteTitle(),
