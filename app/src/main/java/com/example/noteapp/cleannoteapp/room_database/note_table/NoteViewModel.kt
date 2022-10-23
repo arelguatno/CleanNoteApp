@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.SortBy
+import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.util.extensions.appMainFormat
+import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class NoteViewModel @Inject constructor(
     private val repository: NoteRepository
-) : ViewModel() {
+) : BaseViewModel() {
 
     fun insertRecord(note: NoteModel) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -56,5 +59,79 @@ class NoteViewModel @Inject constructor(
             noteModel.header = noteModel.body.toString()
         }
         return true
+    }
+
+    fun fetchListViewRecords(colorCategory: ColorCategory, sortBy: SortBy): Flow<PagingData<NoteModel>> {
+        when (sortBy) {
+            SortBy.MODIFIED_TIME -> {
+                if (colorCategory == getCategoryAllNotes()) {
+                    printLogD(null,"MODIFIED_TIME")
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchAllSortByModifiedTime()
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
+                } else {
+
+                }
+            }
+            SortBy.CREATED_TIME -> {
+                if (colorCategory == getCategoryAllNotes()) {
+                    printLogD(null,"CREATED_TIME")
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchAllSortByCreatedTime()
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
+                } else {
+
+                }
+            }
+            SortBy.REMINDER_TIME -> {
+                if (colorCategory == getCategoryAllNotes()) { // TODO
+                    printLogD(null,"REMINDER_TIME")
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchWalletsRecord()
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
+                } else {
+
+                }
+            }
+            SortBy.COLOR -> {
+                if (colorCategory == getCategoryAllNotes()) {
+                    printLogD(null,"COLOR")
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchAllSortByColor()
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
+                } else {
+
+                }
+            }
+        }
+
+        return Pager(PagingConfig(pageSize = 10)) {
+            repository.fetchWalletsRecord()
+        }.flow.cachedIn(viewModelScope).map { notesModel ->
+            notesModel.filter {
+                convertDateToString(it)
+                checkIfHeaderIsEmpty(it)
+            }
+        }
     }
 }

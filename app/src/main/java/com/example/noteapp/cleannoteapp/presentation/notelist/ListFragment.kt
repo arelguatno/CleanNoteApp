@@ -25,6 +25,7 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ViewByBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
+import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -140,29 +141,13 @@ class ListFragment : BaseFragment() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
 
-        viewModel.sortByInteractionState.observe(viewLifecycleOwner) {
-//            lifecycleScope.launch {
-//                when (it) {
-//                    SortBy.MODIFIED_TIME -> {
-//                    }
-//                    SortBy.CREATED_TIME -> TODO()
-//                    SortBy.REMINDER_TIME -> TODO()
-//                    SortBy.COLOR -> TODO()
-//                }
-//            }
-        }
 
-        viewModel.viewByColorInteractionState.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                if (it.equals(viewModel.getCategoryAllNotes())) { // all notes
-                    crudViewModel.fetchRecordData().collectLatest {
-                        noteListAdapter.submitData(it)
+        lifecycleScope.launch {
+            viewModel.combineObserver.collectLatest {
+                crudViewModel.fetchListViewRecords(it.colorCategory, it.sortBy)
+                    .collectLatest { data ->
+                        noteListAdapter.submitData(data)
                     }
-                } else { //per color
-                    crudViewModel.fetchNotesPerCategory(it).collectLatest {
-                        noteListAdapter.submitData(it)
-                    }
-                }
             }
         }
     }

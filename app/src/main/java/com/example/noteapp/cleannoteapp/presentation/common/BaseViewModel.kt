@@ -38,7 +38,7 @@ open class BaseViewModel @Inject constructor(
 
     fun getColorCategoryItem(colorCategory: ColorCategory): ColorModel {
         return when (colorCategory) {
-            ColorCategory.OPTION_ONE -> {
+            ColorCategory.OPTION_ONE, ColorCategory.DEFAULT  -> {
                 ColorModel(
                     primaryColor = R.color.color_one_primary,
                     secondaryColor = R.color.color_one_secondary,
@@ -100,14 +100,6 @@ open class BaseViewModel @Inject constructor(
                     secondaryColor = R.color.color_eight_secondary,
                     selectedItem = R.id.selected_eight,
                     theme = R.style.Theme_CleanNoteApp_Eight
-                )
-            }
-            ColorCategory.DEFAULT -> {
-                ColorModel(
-                    primaryColor = R.color.color_one_primary,
-                    secondaryColor = R.color.color_one_secondary,
-                    selectedItem = R.id.selected_one,
-                    theme = R.style.Theme_CleanNoteApp_One
                 )
             }
             ColorCategory.ALL_NOTES -> {

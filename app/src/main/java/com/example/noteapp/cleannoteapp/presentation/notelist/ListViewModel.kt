@@ -2,6 +2,9 @@ package com.example.noteapp.cleannoteapp.presentation.notelist
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asFlow
+import com.example.noteapp.cleannoteapp.models.CombineSortAndColorModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
@@ -14,6 +17,7 @@ import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,19 +30,29 @@ class ListViewModel @Inject constructor(
     val viewByMenuInteractionState: LiveData<ViewBy>
         get() = noteInteractionManager.viewByMenu
 
-    fun setViewByMenuState(state: ViewBy) {
-        noteInteractionManager.setViewByMenu(state)
-    }
 
     val viewByColorInteractionState: LiveData<ColorCategory>
         get() = noteInteractionManager.colorCategory
+
+    val sortByInteractionState: LiveData<SortBy>
+        get() = noteInteractionManager.sortBy
+
+    val combineObserver =
+        combine(
+            viewByColorInteractionState.asFlow(),
+            sortByInteractionState.asFlow()
+        ) { colorCat, sortBy ->
+            CombineSortAndColorModel(colorCat, sortBy)
+        }
+
+    fun setViewByMenuState(state: ViewBy) {
+        noteInteractionManager.setViewByMenu(state)
+    }
 
     fun setByColorCategory(state: ColorCategory) {
         noteInteractionManager.setColorCategory(state)
     }
 
-    val sortByInteractionState: LiveData<SortBy>
-        get() = noteInteractionManager.sortBy
 
     fun setSortCategory(state: SortBy) {
         noteInteractionManager.setSortBy(state)

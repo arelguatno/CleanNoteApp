@@ -92,7 +92,7 @@ class AddUpdateViewModel @Inject constructor(
     internal fun loadDefaultColor() {
         val vv = sharedPreferences.getString(
             PreferenceKeys.SETTINGS_DEFAULT_COLOR,
-            getCategoryOne().toString()
+            getCategoryDefault().toString()
         )
         val color =
             GsonBuilder().create().fromJson(vv, ColorCategory::class.java)
