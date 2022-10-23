@@ -21,6 +21,7 @@ class NoteRepository @Inject constructor(
     }
 
 
+    // A
     fun fetchAllSortByModifiedTime(): PagingSource<Int, NoteModel> {
         return noteDao.fetchAllSortByModifiedTime()
     }
@@ -31,5 +32,18 @@ class NoteRepository @Inject constructor(
 
     fun fetchAllSortByColor(): PagingSource<Int, NoteModel> {
         return noteDao.fetchAllSortByColor()
+    }
+
+    // B
+    fun fetchPerColorSortByModifiedTime(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchPerColorSortByModifiedTime(category)
+    }
+
+    fun fetchPerColorSortByCreatedTime(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchPerColorSortByCreatedTime(category)
+    }
+
+    fun fetchPerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchPerColorSortByColor(category)
     }
 }

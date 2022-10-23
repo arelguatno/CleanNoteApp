@@ -55,7 +55,7 @@ class ListFragment : BaseFragment() {
         initScrollBehaviour()
         initMenuState()
         initMenu()
-        initList()
+        initFetchList()
 
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
@@ -137,7 +137,7 @@ class ListFragment : BaseFragment() {
     }
 
 
-    private fun initList() {
+    private fun initFetchList() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
 

@@ -61,11 +61,13 @@ class NoteViewModel @Inject constructor(
         return true
     }
 
-    fun fetchListViewRecords(colorCategory: ColorCategory, sortBy: SortBy): Flow<PagingData<NoteModel>> {
+    fun fetchListViewRecords(
+        colorCategory: ColorCategory,
+        sortBy: SortBy
+    ): Flow<PagingData<NoteModel>> {
         when (sortBy) {
             SortBy.MODIFIED_TIME -> {
                 if (colorCategory == getCategoryAllNotes()) {
-                    printLogD(null,"MODIFIED_TIME")
                     return Pager(PagingConfig(pageSize = 10)) {
                         repository.fetchAllSortByModifiedTime()
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -75,12 +77,18 @@ class NoteViewModel @Inject constructor(
                         }
                     }
                 } else {
-
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchPerColorSortByModifiedTime(colorCategory)
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
                 }
             }
             SortBy.CREATED_TIME -> {
                 if (colorCategory == getCategoryAllNotes()) {
-                    printLogD(null,"CREATED_TIME")
                     return Pager(PagingConfig(pageSize = 10)) {
                         repository.fetchAllSortByCreatedTime()
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -90,12 +98,18 @@ class NoteViewModel @Inject constructor(
                         }
                     }
                 } else {
-
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchPerColorSortByCreatedTime(colorCategory)
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
                 }
             }
-            SortBy.REMINDER_TIME -> {
-                if (colorCategory == getCategoryAllNotes()) { // TODO
-                    printLogD(null,"REMINDER_TIME")
+            SortBy.REMINDER_TIME -> {  // TODO
+                if (colorCategory == getCategoryAllNotes()) {
                     return Pager(PagingConfig(pageSize = 10)) {
                         repository.fetchWalletsRecord()
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -105,12 +119,18 @@ class NoteViewModel @Inject constructor(
                         }
                     }
                 } else {
-
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchNotesPerCategory(colorCategory)
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
                 }
             }
             SortBy.COLOR -> {
                 if (colorCategory == getCategoryAllNotes()) {
-                    printLogD(null,"COLOR")
                     return Pager(PagingConfig(pageSize = 10)) {
                         repository.fetchAllSortByColor()
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -120,17 +140,15 @@ class NoteViewModel @Inject constructor(
                         }
                     }
                 } else {
-
+                    return Pager(PagingConfig(pageSize = 10)) {
+                        repository.fetchPerColorSortByColor(colorCategory)
+                    }.flow.cachedIn(viewModelScope).map { notesModel ->
+                        notesModel.filter {
+                            convertDateToString(it)
+                            checkIfHeaderIsEmpty(it)
+                        }
+                    }
                 }
-            }
-        }
-
-        return Pager(PagingConfig(pageSize = 10)) {
-            repository.fetchWalletsRecord()
-        }.flow.cachedIn(viewModelScope).map { notesModel ->
-            notesModel.filter {
-                convertDateToString(it)
-                checkIfHeaderIsEmpty(it)
             }
         }
     }
