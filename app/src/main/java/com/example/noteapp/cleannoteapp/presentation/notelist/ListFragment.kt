@@ -1,8 +1,11 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
 import android.content.Intent
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -35,6 +38,7 @@ class ListFragment : BaseFragment() {
     private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
     private val viewModel: ListViewModel by activityViewModels()
     private val className = this.javaClass.simpleName
+    private var menuItemColorCategory: MenuItem? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +55,7 @@ class ListFragment : BaseFragment() {
         viewModel.loadDefaultSortBy()
         viewModel.loadDefaultViewBy()
 
+        initMenuState()
         initScrollBehaviour()
         initMenu()
         initFetchList()
@@ -65,7 +70,6 @@ class ListFragment : BaseFragment() {
         initColorSelectedListener()
         initSortByListener()
         initViewByListener()
-        initMenuState()
     }
 
     private fun initViewByListener() {
@@ -141,10 +145,15 @@ class ListFragment : BaseFragment() {
     private fun initFetchList() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
-        //  binding.recyclerView.smoothSnapToPosition(0)
 
         lifecycleScope.launch {
             viewModel.combineObserver.collectLatest {
+                menuItemColorCategory?.icon =
+                    getImage(
+                        viewModel.getColorCategoryItem(it.colorCategory).primaryColor,
+                        it.colorCategory
+                    )
+
                 crudViewModel.fetchListViewRecords(it.colorCategory, it.sortBy)
                     .collectLatest { data ->
                         printLogD(className, data.toString())
@@ -156,6 +165,7 @@ class ListFragment : BaseFragment() {
 
     private fun initMenu() {
         binding.appBar.inflateMenu(R.menu.list_fragment_menu)
+        menuItemColorCategory = binding.appBar.menu.findItem(R.id.menu_filter_by_color)
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_filter_by_color -> {
@@ -211,5 +221,18 @@ class ListFragment : BaseFragment() {
         }
 
         lunchBottomSheet(layout.root)
+    }
+
+    private fun getImage(color: Int, category: ColorCategory): Drawable {
+        return if (category == viewModel.getCategoryAllNotes()) {
+            resources.getDrawable(R.drawable.all_category, null)
+        } else {
+            val drawable: Drawable = resources.getDrawable(R.drawable.circle_category, null)
+            drawable.setColorFilter(
+                resources.getColor(color, null),
+                PorterDuff.Mode.SRC_IN
+            )
+            drawable
+        }
     }
 }

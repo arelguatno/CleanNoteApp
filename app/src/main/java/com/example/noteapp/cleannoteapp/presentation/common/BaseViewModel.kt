@@ -104,7 +104,7 @@ open class BaseViewModel @Inject constructor(
             }
             ColorCategory.ALL_NOTES -> {
                 ColorModel(
-                    primaryColor = R.color.white,
+                    primaryColor = R.drawable.all_category,
                     secondaryColor = R.color.white,
                     selectedItem = R.id.selected_all,
                     theme = R.style.Theme_CleanNoteApp_One
