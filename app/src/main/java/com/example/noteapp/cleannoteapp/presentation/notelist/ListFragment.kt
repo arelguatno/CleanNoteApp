@@ -9,6 +9,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,19 +26,29 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryB
 import com.example.noteapp.cleannoteapp.presentation.data_binding.SortByBinding
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ViewByBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.*
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.example.noteapp.cleannoteapp.util.printLogD
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class ListFragment : BaseFragment() {
+class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private lateinit var binding: FragmentListBinding
-    private val noteListAdapter: NoteListAdapter by lazy { NoteListAdapter() }
     private val viewModel: ListViewModel by activityViewModels()
+    private val noteListAdapter: NoteListAdapter by lazy {
+        NoteListAdapter(
+            this@ListFragment,
+            viewLifecycleOwner,
+            viewModel.noteInteractionManager.selectedNotes
+        )
+    }
     private val className = this.javaClass.simpleName
     private var menuItemColorCategory: MenuItem? = null
 
@@ -57,12 +69,53 @@ class ListFragment : BaseFragment() {
 
         initMenuState()
         initScrollBehaviour()
+        subscribeObservers()
         initMenu()
         initFetchList()
 
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
         }
+    }
+
+    private fun subscribeObservers() {
+        viewModel.toolbarState.observe(viewLifecycleOwner) {
+            when (it) {
+                is MultiSelectionState -> {
+                    enableMultiSelectToolbarState()
+                    // disableSearchViewToolbarState()
+                }
+                is ListViewState -> {
+                    enableListViewToolbarState()
+                    disableMultiSelectToolbarState()
+                }
+            }
+        }
+
+        viewModel.selectedNotesInteractionState.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding.appBar.title = "${it.size} selected"
+            }
+        }
+    }
+
+    private fun enableMultiSelectToolbarState() {
+        binding.appBar.menu.clear()
+        binding.appBar.inflateMenu(R.menu.multiselection_toolbar)
+        binding.appBar.title = ""
+        binding.appBar.navigationIcon =
+            resources.getDrawable(R.drawable.ic_baseline_close_24, null)
+    }
+
+    private fun enableListViewToolbarState() {
+        binding.appBar.menu.clear()
+        binding.appBar.navigationIcon = null
+        binding.appBar.inflateMenu(R.menu.list_fragment_menu)
+        binding.appBar.title = getString(R.string.app_name)
+    }
+
+    private fun disableMultiSelectToolbarState() {
+        viewModel.clearSelectedNotes()
     }
 
     override fun onStart() {
@@ -110,17 +163,15 @@ class ListFragment : BaseFragment() {
                 }
                 ViewBy.Grid -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()
-                    noteListAdapter.notifyDataSetChanged()
                 }
                 ViewBy.Details -> {
                     binding.recyclerView.layoutManager = getDetailsLayoutManger()
-                    noteListAdapter.notifyDataSetChanged()
                 }
                 ViewBy.Default -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()
-                    noteListAdapter.notifyDataSetChanged()
                 }
             }
+            noteListAdapter.notifyDataSetChanged()
             bottomSheetDialog.dismiss()
         }
     }
@@ -164,7 +215,6 @@ class ListFragment : BaseFragment() {
     }
 
     private fun initMenu() {
-        binding.appBar.inflateMenu(R.menu.list_fragment_menu)
         menuItemColorCategory = binding.appBar.menu.findItem(R.id.menu_filter_by_color)
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -180,6 +230,10 @@ class ListFragment : BaseFragment() {
                 }
             }
             true
+        }
+
+        binding.appBar.setNavigationOnClickListener {
+            viewModel.setToolbarState(ListViewState)
         }
         //  binding.appBar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
     }
@@ -234,5 +288,25 @@ class ListFragment : BaseFragment() {
             )
             drawable
         }
+    }
+
+    override fun onItemSelected(position: Int, item: NoteModel) {
+        if (isMultiSelectionModeEnabled()) {
+            viewModel.addOrRemoveNoteFromSelectedList(item)
+        } else {
+            //TODO Launch view
+        }
+    }
+
+    override fun restoreListPosition() {
+        TODO("Not yet implemented")
+    }
+
+    override fun isMultiSelectionModeEnabled() = viewModel.isMultiSelectionStateActive()
+
+    override fun activateMultiSelectionMode() = viewModel.setToolbarState(MultiSelectionState)
+
+    override fun isNoteSelected(note: NoteModel): Boolean {
+        return viewModel.isNoteSelected(note)
     }
 }

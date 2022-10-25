@@ -9,6 +9,8 @@ import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.ListInteractionManager
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_COLOR_THEME
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_SORT_BY
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_VIEW_BY
@@ -23,14 +25,19 @@ class ListViewModel @Inject constructor(
     private val sharedPref: SharedPreferences
 ) : BaseViewModel() {
 
-    private val noteInteractionManager: ListInteractionManager = ListInteractionManager()
+    val noteInteractionManager: ListInteractionManager = ListInteractionManager()
+
+    val toolbarState: LiveData<NoteListToolbarState>
+        get() = noteInteractionManager.toolbarState
 
     val viewByMenuInteractionState: LiveData<ViewBy>
         get() = noteInteractionManager.viewByMenu
 
-
     val viewByColorInteractionState: LiveData<ColorCategory>
         get() = noteInteractionManager.colorCategory
+
+    val selectedNotesInteractionState:LiveData<ArrayList<NoteModel>>
+        get() = noteInteractionManager.selectedNotes
 
     val sortByInteractionState: LiveData<SortBy>
         get() = noteInteractionManager.sortBy
@@ -42,6 +49,22 @@ class ListViewModel @Inject constructor(
         ) { colorCat, sortBy ->
             CombineSortAndColorModel(colorCat, sortBy)
         }
+
+    fun getSelectedNotes() = noteInteractionManager.getSelectedNotes()
+
+    fun setToolbarState(state: NoteListToolbarState)
+            = noteInteractionManager.setToolbarState(state)
+
+    fun addOrRemoveNoteFromSelectedList(note: NoteModel)
+            = noteInteractionManager.addOrRemoveNoteFromSelectedList(note)
+
+    fun isMultiSelectionStateActive()
+            = noteInteractionManager.isMultiSelectionStateActive()
+
+    fun clearSelectedNotes() = noteInteractionManager.clearSelectedNotes()
+
+    fun isNoteSelected(note: NoteModel): Boolean
+            = noteInteractionManager.isNoteSelected(note)
 
     fun setViewByMenuState(state: ViewBy) {
         noteInteractionManager.setViewByMenu(state)

@@ -3,6 +3,8 @@ package com.example.noteapp.cleannoteapp.presentation.notelist
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -10,10 +12,70 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.ListRowBinding
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.util.extensions.changeColor
+import com.example.noteapp.cleannoteapp.util.printLogD
 
-class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
-    inner class MyViewHolder(val binding: ListRowBinding) :
-        RecyclerView.ViewHolder(binding.root)
+class NoteListAdapter(
+    private val interaction: Interaction? = null,
+    private val lifecycleOwner: LifecycleOwner,
+    private val selectedNotes: LiveData<ArrayList<NoteModel>>
+) : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
+
+    inner class MyViewHolder constructor(
+        private val binding: ListRowBinding,
+        private val interaction: Interaction?,
+        private val lifecycleOwner: LifecycleOwner,
+        private val selectedNotes: LiveData<ArrayList<NoteModel>>,
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        private val COLOR_GREY = R.color.app_background_color
+        private val COLOR_PRIMARY = R.color.colorPrimary
+        private lateinit var note: NoteModel
+
+        fun bind(item: NoteModel) = with(itemView) {
+            setOnClickListener {
+                interaction?.onItemSelected(absoluteAdapterPosition, note)
+            }
+
+            setOnLongClickListener {
+                interaction?.activateMultiSelectionMode()
+                interaction?.onItemSelected(absoluteAdapterPosition, note)
+                true
+            }
+            note = item
+
+            binding.header.text = item.header
+            binding.date.text = item.dates!!.dateModifiedStringValue
+            binding.body.text = item.body
+            colorCategory(item.category, binding)
+
+            binding.imgPin.isVisible = item.pinned
+
+            selectedNotes.observe(lifecycleOwner) { notes ->
+                if (notes != null) {
+                    printLogD("haha",notes.size.toString())
+                    if (notes.contains(note)) {
+                     //   binding.main.setBackgroundResource(R.drawable.color_bg2)
+                        changeColor(
+                            newColor = COLOR_GREY
+                        )
+                    } else {
+                        changeColor(
+                            newColor = COLOR_PRIMARY
+                        )
+                    }
+                } else {
+                   // binding.main.setBackgroundResource(null)
+                    printLogD("haha", notes?.size.toString())
+                    changeColor(
+                        newColor = COLOR_PRIMARY
+                    )
+                }
+            }
+
+        }
+    }
+
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NoteModel>() {
@@ -28,14 +90,11 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.binding.header.text = item!!.header
-        holder.binding.date.text = item.dates!!.dateModifiedStringValue
-        holder.binding.body.text = item.body
-        colorCategory(item.category, holder)
-
-        holder.binding.imgPin.isVisible = item.pinned
-
+        when (holder) {
+            is MyViewHolder -> {
+                getItem(position)?.let { holder.bind(it) }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -44,11 +103,14 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
                 LayoutInflater.from(parent.context),
                 parent,
                 false
-            )
+            ),
+            interaction,
+            lifecycleOwner,
+            selectedNotes,
         )
     }
 
-    private fun colorCategory(item: ColorCategory?, holder: MyViewHolder) {
+    private fun colorCategory(item: ColorCategory?, holder: ListRowBinding) {
         when (item) {
             ColorCategory.OPTION_ONE -> {
                 widgets(holder, R.color.color_one_primary, R.color.color_one_secondary)
@@ -80,8 +142,21 @@ class NoteListAdapter : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolde
         }
     }
 
-    private fun widgets(holder: MyViewHolder, primaryColor: Int, secondaryColor: Int) {
-        holder.binding.notePrimaryColor.setBackgroundResource(primaryColor)
-        holder.binding.noteSecondaryColor.setBackgroundResource(secondaryColor)
+    private fun widgets(holder: ListRowBinding, primaryColor: Int, secondaryColor: Int) {
+        holder.notePrimaryColor.setBackgroundResource(primaryColor)
+        holder.noteSecondaryColor.setBackgroundResource(secondaryColor)
+    }
+
+    interface Interaction {
+
+        fun onItemSelected(position: Int, item: NoteModel)
+
+        fun restoreListPosition()
+
+        fun isMultiSelectionModeEnabled(): Boolean
+
+        fun activateMultiSelectionMode()
+
+        fun isNoteSelected(note: NoteModel): Boolean
     }
 }

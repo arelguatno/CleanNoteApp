@@ -20,13 +20,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewOne"
-        android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="5dp"
         app:cardElevation="0dp"
         card_view:cardCornerRadius="3dp">
 
         <LinearLayout
+            android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -93,8 +94,8 @@
         android:layout_alignBottom="@+id/viewTwo"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
-        android:visibility="gone"
         android:layout_marginBottom="140dp"
-        android:src="@drawable/pin" />
+        android:src="@drawable/pin"
+        android:visibility="gone" />
 
 </RelativeLayout>
