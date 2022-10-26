@@ -17,6 +17,7 @@
     <color name="bg_white_color">#EFF2f8</color>
     <color name="note_it_launcher_three_background">#FFFFFF</color>
     <color name="colorPrimary">#fff</color>
+    <color name="light_color">#8cb2f9</color>
     <color name="app_background_color">#f2f2f2</color>
     <color name="color_one_primary">#ffba05</color>
     <color name="color_one_secondary">#fff5dd</color>

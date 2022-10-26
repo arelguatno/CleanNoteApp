@@ -4,10 +4,12 @@ package com.example.noteapp.cleannoteapp.presentation.notedetail
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import com.example.noteapp.cleannoteapp.util.extensions.save
@@ -30,6 +32,9 @@ class AddUpdateViewModel @Inject constructor(
     val noteBodyInteractionState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.noteBodyState
 
+    val viewStateInteractionState: LiveData<ViewStateModel>
+        get() = noteInteractionManager.viewState
+
     val pinnedInteractionState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.pinnedState
 
@@ -41,6 +46,9 @@ class AddUpdateViewModel @Inject constructor(
 
     val currentInteractionDate: LiveData<Date>
         get() = noteInteractionManager.currentDate
+
+    val viewState: ViewState?
+        get() = noteInteractionManager.viewState.value?.state
 
     fun isEditingBody() = noteInteractionManager.isEditingBody()
 
@@ -70,6 +78,10 @@ class AddUpdateViewModel @Inject constructor(
 
     fun setPinnedState(state: NoteInteractionState) {
         noteInteractionManager.setPinnedState(state)
+    }
+
+    fun setViewState(state: ViewStateModel) {
+        noteInteractionManager.setViewState(state)
     }
 
     fun setCurrentDate(date: Date) {

@@ -104,6 +104,7 @@ dependencies {
     implementation 'com.github.GrenderG:Toasty:1.5.2'
 
     implementation 'com.google.code.gson:gson:2.9.0'
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 //
 //    // Kotlin components
 //    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"

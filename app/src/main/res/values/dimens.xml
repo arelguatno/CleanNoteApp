@@ -3,4 +3,5 @@
     <dimen name="menu_size">20dp</dimen>
     <dimen name="bottom_sheet_text_size">19sp</dimen>
     <dimen name="bottom_sheet_image_size">26dp</dimen>
+    <dimen name="no_bottom_border">0dp</dimen>
 </resources>

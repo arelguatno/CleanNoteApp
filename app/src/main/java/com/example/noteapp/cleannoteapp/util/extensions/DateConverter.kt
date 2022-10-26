@@ -22,7 +22,7 @@ fun Date.appMainFormatWithTime(): String {
     val monthDay: String = calendar.get(Calendar.DAY_OF_MONTH).toString()
     val month: String = intMonthLongToString(calendar.get(Calendar.MONTH))
     val hourOfDay: String = calendar.get(Calendar.HOUR).toString()
-    val minutes: String = calendar.get(Calendar.MINUTE).toString()
+    val minutes: String = calendar.get(Calendar.MINUTE).toString().minutes()
     val amPM: String = calendar.get(Calendar.AM_PM).toString().amPm()
     return "$dayOfWeek, $monthDay $month $hourOfDay:$minutes $amPM"
 }
@@ -32,6 +32,14 @@ fun String.amPm(): String {
         "am"
     } else {
         "pm"
+    }
+}
+
+fun String.minutes(): String {
+    return if (this.toInt() <= 9) {
+        "0$this"
+    } else {
+        this
     }
 }
 

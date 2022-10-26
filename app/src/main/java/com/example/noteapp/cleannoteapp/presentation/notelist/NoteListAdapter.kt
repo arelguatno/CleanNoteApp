@@ -12,20 +12,20 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.ListRowBinding
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
-import com.example.noteapp.cleannoteapp.util.extensions.changeColor
-import com.example.noteapp.cleannoteapp.util.printLogD
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.*
 
 class NoteListAdapter(
     private val interaction: Interaction? = null,
     private val lifecycleOwner: LifecycleOwner,
-    private val selectedNotes: LiveData<ArrayList<NoteModel>>
+    private val selectedNotes: LiveData<ArrayList<NoteModel>>,
 ) : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     inner class MyViewHolder constructor(
         private val binding: ListRowBinding,
         private val interaction: Interaction?,
         private val lifecycleOwner: LifecycleOwner,
-        private val selectedNotes: LiveData<ArrayList<NoteModel>>,
+        private val selectedNotes: LiveData<ArrayList<NoteModel>>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val COLOR_GREY = R.color.app_background_color
@@ -53,23 +53,9 @@ class NoteListAdapter(
 
             selectedNotes.observe(lifecycleOwner) { notes ->
                 if (notes != null) {
-                    printLogD("haha",notes.size.toString())
-                    if (notes.contains(note)) {
-                     //   binding.main.setBackgroundResource(R.drawable.color_bg2)
-                        changeColor(
-                            newColor = COLOR_GREY
-                        )
-                    } else {
-                        changeColor(
-                            newColor = COLOR_PRIMARY
-                        )
-                    }
+                    binding.check.isVisible = notes.contains(note)
                 } else {
-                   // binding.main.setBackgroundResource(null)
-                    printLogD("haha", notes?.size.toString())
-                    changeColor(
-                        newColor = COLOR_PRIMARY
-                    )
+                    binding.check.isVisible = false
                 }
             }
 

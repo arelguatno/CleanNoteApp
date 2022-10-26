@@ -2,15 +2,20 @@ package com.example.noteapp.cleannoteapp.presentation.notedetail.state
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.*
 import java.util.*
 
 
 class NoteInteractionManager {
     private val _noteTitleState: MutableLiveData<NoteInteractionState> =
         MutableLiveData(DefaultState)
+
+    private val _viewState: MutableLiveData<ViewStateModel> =
+        MutableLiveData(ViewStateModel(NewItem, null))
 
     private val _noteBodyState: MutableLiveData<NoteInteractionState> =
         MutableLiveData(DefaultState)
@@ -26,6 +31,9 @@ class NoteInteractionManager {
 
     private val _pinnedState: MutableLiveData<NoteInteractionState> =
         MutableLiveData(DefaultState)
+
+    val viewState: LiveData<ViewStateModel>
+        get() = _viewState
 
     val pinnedState: LiveData<NoteInteractionState>
         get() = _pinnedState
@@ -61,6 +69,12 @@ class NoteInteractionManager {
         _noteTitleState.value = DefaultState
         _noteBodyState.value = DefaultState
         _pinnedState.value = DefaultState
+    }
+
+    fun setViewState(state: ViewStateModel) {
+        if (_viewState.toString() != state.toString()) {
+            _viewState.value = state
+        }
     }
 
     fun setPinnedState(state: NoteInteractionState) {

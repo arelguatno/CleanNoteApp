@@ -1,6 +1,5 @@
 package com.example.noteapp.cleannoteapp.presentation.common
 
-import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.models.ColorModel
@@ -8,7 +7,6 @@ import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.SortBy.*
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
-import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

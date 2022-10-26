@@ -15,20 +15,24 @@ import androidx.fragment.app.activityViewModels
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
 import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
+import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
+import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity.Companion.DETAIL_FRAGMENT
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.*
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.extensions.*
 import com.example.noteapp.cleannoteapp.util.printLogD
+import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import java.util.*
-
 
 @AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
@@ -143,17 +147,21 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun setDefaultState() {
-        val newNew = activityMain.intent.serializable<NoteModel>(
-            AddUpdateActivity.DETAIL_FRAGMENT
-        )
+        val state = activityMain.intent.serializable<ViewStateModel>(DETAIL_FRAGMENT)
 
-        if (newNew == null) { // New note
-            if (!viewModel.isEditingBody() && !viewModel.isEditingTitle()) {
-                viewModel.loadDefaultColor()
-                viewModel.setNoteInteractionBodyState(EditState)
+        when (state?.state) {
+            is NewItem -> {
+                if (!viewModel.isEditingBody() && !viewModel.isEditingTitle()) {
+                    viewModel.loadDefaultColor()
+                    viewModel.setViewState(ViewStateModel(NewItem, state.noteModel))
+                    viewModel.setNoteInteractionBodyState(EditState)
+                }
             }
-        } else {  //edit note
-            viewModel.setNoteInteractionBodyState(DefaultState)
+            is EditItem -> {
+                viewModel.setViewState(ViewStateModel(EditItem, state.noteModel))
+                viewModel.setNoteInteractionBodyState(DefaultState)
+            }
+            else -> {}
         }
     }
 
@@ -183,6 +191,20 @@ class AddUpdateFragment : BaseFragment() {
                     binding.addTextLayout.noteTitle.disableContentInteraction()
                 }
                 else -> {}
+            }
+        }
+
+        viewModel.viewStateInteractionState.observe(viewLifecycleOwner) {
+            when (it.state) {
+                is NewItem -> {
+                    //Nothing here
+                }
+                is EditItem -> {
+                    setNoteBody(it.noteModel?.body.toString())
+                    setNoteTitle(it.noteModel?.header.toString())
+                    viewModel.setThemeState(EditState) // open main activity for theme change
+                    viewModel.setThemeSelected(it.noteModel?.category!!)
+                }
             }
         }
         viewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
@@ -273,6 +295,14 @@ class AddUpdateFragment : BaseFragment() {
 
     private fun getNoteBody(): String {
         return binding.addTextLayout.noteBody.text.toString()
+    }
+
+    private fun setNoteTitle(title: String) {
+        binding.addTextLayout.noteTitle.setText(title)
+    }
+
+    private fun setNoteBody(body: String) {
+        binding.addTextLayout.noteBody.setText(body)
     }
 
     private fun getViewModelDate(): Date {

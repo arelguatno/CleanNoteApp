@@ -9,14 +9,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
+import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
@@ -26,16 +25,19 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryB
 import com.example.noteapp.cleannoteapp.presentation.data_binding.SortByBinding
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ViewByBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
-import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.*
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.*
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.example.noteapp.cleannoteapp.util.printLogD
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 
 @AndroidEntryPoint
@@ -265,7 +267,9 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         val layout = AddBottomSheetDialogBinding.inflate(layoutInflater)
 
         layout.txt.setOnClickListener {
-            val intent = Intent(requireContext(), AddUpdateActivity::class.java)
+            val intent = Intent(requireContext(), AddUpdateActivity::class.java).apply {
+                putExtra(AddUpdateActivity.DETAIL_FRAGMENT, ViewStateModel(NewItem, null))
+            }
             startActivity(intent)
             bottomSheetDialog.dismiss()
         }
@@ -294,12 +298,15 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         if (isMultiSelectionModeEnabled()) {
             viewModel.addOrRemoveNoteFromSelectedList(item)
         } else {
-            //TODO Launch view
+            val intent = Intent(requireContext(), AddUpdateActivity::class.java).apply {
+                putExtra(AddUpdateActivity.DETAIL_FRAGMENT, ViewStateModel(EditItem, item))
+            }
+            startActivity(intent)
         }
     }
 
     override fun restoreListPosition() {
-        TODO("Not yet implemented")
+        // TODO
     }
 
     override fun isMultiSelectionModeEnabled() = viewModel.isMultiSelectionStateActive()
