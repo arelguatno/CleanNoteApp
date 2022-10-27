@@ -32,8 +32,8 @@ class AddUpdateViewModel @Inject constructor(
     val noteBodyInteractionState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.noteBodyState
 
-    val pinnedInteractionState: LiveData<NoteInteractionState>
-        get() = noteInteractionManager.pinnedState
+    val pinnedInteractionState: Boolean?
+        get() = noteInteractionManager.pinnedIsClicked.value
 
     val themeSelectedInteraction: LiveData<ColorCategory>
         get() = noteInteractionManager.themeSelected
@@ -41,7 +41,7 @@ class AddUpdateViewModel @Inject constructor(
     val setThemeState: LiveData<NoteInteractionState>
         get() = noteInteractionManager.themeState
 
-    val currentInteractionDate: LiveData<Date>
+    val interactionDate: LiveData<Date>
         get() = noteInteractionManager.currentDate
 
     val viewState: ViewStateModel?
@@ -49,6 +49,9 @@ class AddUpdateViewModel @Inject constructor(
 
     val colorDbCategory: ColorCategory?
         get() = noteInteractionManager.themeSelected.value
+
+    val pinnedIsClicked: LiveData<Boolean>
+        get() = noteInteractionManager.pinnedIsClicked
 
     val currentDbDate: Date?
         get() = noteInteractionManager.currentDate.value
@@ -67,6 +70,10 @@ class AddUpdateViewModel @Inject constructor(
 
     fun setNoteInteractionBodyState(state: NoteInteractionState) {
         noteInteractionManager.setNewNoteBodyState(state)
+    }
+
+    fun setPinnedIsClicked(state: Boolean) {
+        noteInteractionManager.setPinnedIsClicked(state)
     }
 
     fun setColorInterActionState(state: NoteInteractionState) {

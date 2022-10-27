@@ -20,20 +20,26 @@ class NoteInteractionManager {
     private val _colorCategoryState: MutableLiveData<NoteInteractionState> =
         MutableLiveData(DefaultState)
 
+    private val _themeState: MutableLiveData<NoteInteractionState> =
+        MutableLiveData(DefaultState)
+
+    private val _pinnedState: MutableLiveData<NoteInteractionState> =
+        MutableLiveData(DefaultState)
+
     private val _viewState: MutableLiveData<ViewStateModel> =
         MutableLiveData(ViewStateModel(NewItem, null))
 
     private val _themeSelected: MutableLiveData<ColorCategory> =
         MutableLiveData(ColorCategory.OPTION_ONE)
 
-    private val _themeState: MutableLiveData<NoteInteractionState> =
-        MutableLiveData(DefaultState)
-
     private val _currentDate: MutableLiveData<Date> =
         MutableLiveData(Date())
 
-    private val _pinnedState: MutableLiveData<NoteInteractionState> =
-        MutableLiveData(DefaultState)
+    private val _pinnedIsClicked: MutableLiveData<Boolean> =
+        MutableLiveData(false)
+
+    val pinnedIsClicked: LiveData<Boolean>
+        get() = _pinnedIsClicked
 
     val viewState: LiveData<ViewStateModel>
         get() = _viewState
@@ -50,7 +56,7 @@ class NoteInteractionManager {
     val noteBodyState: LiveData<NoteInteractionState>
         get() = _noteBodyState
 
-    val colorCategoryState: LiveData<NoteInteractionState>
+    private val colorCategoryState: LiveData<NoteInteractionState>
         get() = _colorCategoryState
 
     val themeSelected: LiveData<ColorCategory>
@@ -58,6 +64,10 @@ class NoteInteractionManager {
 
     val themeState: LiveData<NoteInteractionState>
         get() = _themeState
+
+    fun setPinnedIsClicked(state: Boolean) {
+        _pinnedIsClicked.value = state
+    }
 
     fun setThemeSelected(state: ColorCategory) {
         _themeSelected.value = state
@@ -114,13 +124,6 @@ class NoteInteractionManager {
     fun setColorCategoryState(state: NoteInteractionState) {
         if (colorCategoryState.toString() != state.toString()) {
             _colorCategoryState.value = state
-            when (state) {
-                is EditState -> {
-                    _noteBodyState.value = DefaultState
-                    _noteTitleState.value = DefaultState
-                }
-                else -> {}
-            }
         }
     }
 
@@ -128,7 +131,6 @@ class NoteInteractionManager {
         if (noteTitleState.toString() != state.toString()) {
             _noteTitleState.value = state
             when (state) {
-
                 is EditState -> {
                     _noteBodyState.value = DefaultState
                 }
@@ -141,4 +143,5 @@ class NoteInteractionManager {
     fun checkEditState() = noteTitleState.value.toString() == EditState.toString()
             || noteBodyState.value.toString() == EditState.toString()
             || colorCategoryState.value.toString() == EditState.toString()
+            || pinnedState.value.toString() == EditState.toString()
 }

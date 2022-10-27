@@ -107,18 +107,21 @@ class AddUpdateFragment : BaseFragment() {
                     view?.hideKeyboard()
                     launchColorChange()
                 }
-                R.id.menu_pinned -> onClickPin()
+                R.id.menu_pinned -> {
+                    onClickPin()
+                    setPinUI()
+                }
             }
             true
         }
     }
 
-    private fun onClickPin() {
-        if (!viewModel.isEditingPin()) {
-            viewModel.setPinnedState(EditState)
-            showCustomToast("Pinned from the top")
+    private fun setPinUI() {
+        if (viewModel.pinnedInteractionState == true) {
+            viewModel.setPinnedIsClicked(false)
         } else {
-            viewModel.setPinnedState(DefaultState)
+            viewModel.setPinnedIsClicked(true)
+            showCustomToast("Pinned from the top")
         }
     }
 
@@ -132,6 +135,12 @@ class AddUpdateFragment : BaseFragment() {
             false,
             true
         ).show()
+    }
+
+    private fun onClickPin() {
+        if (!viewModel.isEditingPin()) {
+            viewModel.setPinnedState(EditState)
+        }
     }
 
     private fun onClickNoteTitle() {
@@ -164,15 +173,13 @@ class AddUpdateFragment : BaseFragment() {
                 }
             }
             is EditItem -> {
-                if (!viewModel.isEditingBody() && !viewModel.isEditingTitle() && !viewModel.isEditingColor()) {
+                if (!viewModel.isEditingBody() && !viewModel.isEditingTitle() && !viewModel.isEditingColor() && !viewModel.isEditingPin()) {
                     setNoteBody(state.noteModel?.body.toString())
                     setNoteTitle(state.noteModel?.header.toString())
                     viewModel.setThemeSelected(state.noteModel?.category!!)
                     viewModel.setCurrentDate(state.noteModel.dates?.dateModified!!)
-                    viewModel.setThemeState(EditState)
-                    viewModel.setNoteInteractionBodyState(DefaultState)
+                    viewModel.setPinnedIsClicked(state.noteModel.pinned)
                     viewModel.setViewState(state)
-                    viewModel.setNoteInteractionTitleState(DefaultState)
                 }
             }
             else -> {}
@@ -212,19 +219,15 @@ class AddUpdateFragment : BaseFragment() {
             setTheme(it)
         }
 
-        viewModel.currentInteractionDate.observe(viewLifecycleOwner) {
+        viewModel.interactionDate.observe(viewLifecycleOwner) {
             binding.addTextLayout.txtDate.text = it.appMainFormatWithTime()
         }
 
-        viewModel.pinnedInteractionState.observe(viewLifecycleOwner) {
-            when (it) {
-                is EditState -> {
-                    menuItemPinned?.pinOnClick(resources)
-                }
-                is DefaultState -> {
-                    menuItemPinned?.pinUnClick(resources)
-                }
-                else -> {}
+        viewModel.pinnedIsClicked.observe(viewLifecycleOwner) {
+            if (it) {
+                menuItemPinned?.pinOnClick(resources)
+            } else {
+                menuItemPinned?.pinUnClick(resources)
             }
         }
     }
@@ -277,7 +280,6 @@ class AddUpdateFragment : BaseFragment() {
             printLogD(className, "Both records are empty")
             return
         }
-
         when (viewModel.viewState?.state) {
             is EditItem -> {
                 val existingItem = viewModel.viewState!!.noteModel!!
@@ -326,7 +328,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun getPinState(): Boolean {
-        return viewModel.isEditingPin()
+        return viewModel.pinnedInteractionState!!
     }
 
     private fun getCurrentDate(): Date {
@@ -342,7 +344,7 @@ class AddUpdateFragment : BaseFragment() {
             if (hasFocus) {
                 //TODO
             } else {
-                printLogD(className, "Lost Focus")
+
             }
         }
     }
