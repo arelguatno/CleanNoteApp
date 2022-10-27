@@ -1,8 +1,5 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail.state
 
-import kotlinx.serialization.Serializable
-
-
 sealed class ViewState: java.io.Serializable {
 
     object NewItem : ViewState() {

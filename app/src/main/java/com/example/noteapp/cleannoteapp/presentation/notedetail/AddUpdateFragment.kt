@@ -197,7 +197,7 @@ class AddUpdateFragment : BaseFragment() {
         viewModel.viewStateInteractionState.observe(viewLifecycleOwner) {
             when (it.state) {
                 is NewItem -> {
-                    //Nothing here
+
                 }
                 is EditItem -> {
                     setNoteBody(it.noteModel?.body.toString())
@@ -306,7 +306,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun getViewModelDate(): Date {
-        return viewModel.currentInteractionDate.value!!
+        return viewModel.currentDbDate!!
     }
 
     private fun getPinState(): Boolean {
@@ -318,7 +318,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun getColor(): ColorCategory {
-        return viewModel.themeSelectedInteraction.value!!
+        return viewModel.colorDbCategory!!
     }
 
     private fun recordData() {

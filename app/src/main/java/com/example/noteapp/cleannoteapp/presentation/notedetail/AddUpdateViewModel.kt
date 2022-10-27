@@ -50,6 +50,12 @@ class AddUpdateViewModel @Inject constructor(
     val viewState: ViewState?
         get() = noteInteractionManager.viewState.value?.state
 
+    val colorDbCategory: ColorCategory?
+        get() = noteInteractionManager.themeSelected.value
+
+    val currentDbDate: Date?
+        get() = noteInteractionManager.currentDate.value
+
     fun isEditingBody() = noteInteractionManager.isEditingBody()
 
     fun isEditingTitle() = noteInteractionManager.isEditingTitle()
@@ -104,7 +110,7 @@ class AddUpdateViewModel @Inject constructor(
     internal fun loadDefaultColor() {
         val vv = sharedPreferences.getString(
             PreferenceKeys.SETTINGS_DEFAULT_COLOR,
-            getCategoryDefault().toString()
+            getCategoryOne().toString()
         )
         val color =
             GsonBuilder().create().fromJson(vv, ColorCategory::class.java)
