@@ -1,19 +1,15 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
-/**/
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
-import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import com.example.noteapp.cleannoteapp.util.extensions.save
-import com.example.noteapp.cleannoteapp.util.printLogD
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*

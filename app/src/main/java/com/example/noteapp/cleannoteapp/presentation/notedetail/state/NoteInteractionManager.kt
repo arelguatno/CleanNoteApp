@@ -44,7 +44,7 @@ class NoteInteractionManager {
     val viewState: LiveData<ViewStateModel>
         get() = _viewState
 
-    val pinnedState: LiveData<NoteInteractionState>
+    private val pinnedState: LiveData<NoteInteractionState>
         get() = _pinnedState
 
     val currentDate: LiveData<Date>
@@ -139,7 +139,7 @@ class NoteInteractionManager {
         }
     }
 
-    // return true if either title or body are in EditState
+    // return true if title, body, color, pin are in EditState
     fun checkEditState() = noteTitleState.value.toString() == EditState.toString()
             || noteBodyState.value.toString() == EditState.toString()
             || colorCategoryState.value.toString() == EditState.toString()

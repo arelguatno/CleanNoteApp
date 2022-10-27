@@ -66,15 +66,13 @@ class AddUpdateFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setDefaultState()
+        setDefaultState()   // Set either NewItem or EditItem
         subscribeObservers()
 
-        initOnBackPressDispatcher()
-        initToolBarBackButton()
+        initOnBackPressDispatcher() // Phone Back Button
+        initToolBarBackButton()  // Toolbar Back button
 
-        initMenu()
-        recordData()
-
+        initMenu() // Menu
 
         binding.addTextLayout.noteBody.setOnClickListener {
             onClickNoteBody()
@@ -135,30 +133,6 @@ class AddUpdateFragment : BaseFragment() {
             false,
             true
         ).show()
-    }
-
-    private fun onClickPin() {
-        if (!viewModel.isEditingPin()) {
-            viewModel.setPinnedState(EditState)
-        }
-    }
-
-    private fun onClickNoteTitle() {
-        if (!viewModel.isEditingTitle()) {
-            viewModel.setNoteInteractionTitleState(EditState)
-        }
-    }
-
-    private fun onClickColorCategory() {
-        if (!viewModel.isEditingColor()) {
-            viewModel.setColorInterActionState(EditState)
-        }
-    }
-
-    private fun onClickNoteBody() {
-        if (!viewModel.isEditingBody()) {
-            viewModel.setNoteInteractionBodyState(EditState)
-        }
     }
 
     private fun setDefaultState() {
@@ -229,6 +203,30 @@ class AddUpdateFragment : BaseFragment() {
             } else {
                 menuItemPinned?.pinUnClick(resources)
             }
+        }
+    }
+
+    private fun onClickPin() {
+        if (!viewModel.isEditingPin()) {
+            viewModel.setPinnedState(EditState)
+        }
+    }
+
+    private fun onClickNoteTitle() {
+        if (!viewModel.isEditingTitle()) {
+            viewModel.setNoteInteractionTitleState(EditState)
+        }
+    }
+
+    private fun onClickColorCategory() {
+        if (!viewModel.isEditingColor()) {
+            viewModel.setColorInterActionState(EditState)
+        }
+    }
+
+    private fun onClickNoteBody() {
+        if (!viewModel.isEditingBody()) {
+            viewModel.setNoteInteractionBodyState(EditState)
         }
     }
 
@@ -337,16 +335,6 @@ class AddUpdateFragment : BaseFragment() {
 
     private fun getColor(): ColorCategory {
         return viewModel.colorDbCategory!!
-    }
-
-    private fun recordData() {
-        binding.addTextLayout.noteBody.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                //TODO
-            } else {
-
-            }
-        }
     }
 
     private fun launchColorChange() {
