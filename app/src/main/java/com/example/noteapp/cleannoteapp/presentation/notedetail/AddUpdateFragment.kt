@@ -23,13 +23,12 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryB
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity.Companion.DETAIL_FRAGMENT
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.*
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.EditItem
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.NewItem
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.extensions.*
 import com.example.noteapp.cleannoteapp.util.printLogD
-import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import java.util.*
@@ -89,6 +88,7 @@ class AddUpdateFragment : BaseFragment() {
     private fun initColorSelectedListener() {
         BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
             override fun userSelectedColor(colorBinding: ColorCategory) {
+                onClickColorCategory()
                 viewModel.setThemeState(EditState) // open main activity for theme change
                 requireActivity().recreate()  // restart activity life cycle to set a new theme
                 bottomSheetDialog.dismiss()
@@ -140,6 +140,12 @@ class AddUpdateFragment : BaseFragment() {
         }
     }
 
+    private fun onClickColorCategory() {
+        if (!viewModel.isEditingColor()) {
+            viewModel.setColorInterActionState(EditState)
+        }
+    }
+
     private fun onClickNoteBody() {
         if (!viewModel.isEditingBody()) {
             viewModel.setNoteInteractionBodyState(EditState)
@@ -158,8 +164,16 @@ class AddUpdateFragment : BaseFragment() {
                 }
             }
             is EditItem -> {
-                viewModel.setViewState(ViewStateModel(EditItem, state.noteModel))
-                viewModel.setNoteInteractionBodyState(DefaultState)
+                if (!viewModel.isEditingBody() && !viewModel.isEditingTitle() && !viewModel.isEditingColor()) {
+                    setNoteBody(state.noteModel?.body.toString())
+                    setNoteTitle(state.noteModel?.header.toString())
+                    viewModel.setThemeSelected(state.noteModel?.category!!)
+                    viewModel.setCurrentDate(state.noteModel.dates?.dateModified!!)
+                    viewModel.setThemeState(EditState)
+                    viewModel.setNoteInteractionBodyState(DefaultState)
+                    viewModel.setViewState(state)
+                    viewModel.setNoteInteractionTitleState(DefaultState)
+                }
             }
             else -> {}
         }
@@ -194,19 +208,6 @@ class AddUpdateFragment : BaseFragment() {
             }
         }
 
-        viewModel.viewStateInteractionState.observe(viewLifecycleOwner) {
-            when (it.state) {
-                is NewItem -> {
-
-                }
-                is EditItem -> {
-                    setNoteBody(it.noteModel?.body.toString())
-                    setNoteTitle(it.noteModel?.header.toString())
-                    viewModel.setThemeState(EditState) // open main activity for theme change
-                    viewModel.setThemeSelected(it.noteModel?.category!!)
-                }
-            }
-        }
         viewModel.themeSelectedInteraction.observe(viewLifecycleOwner) {
             setTheme(it)
         }
@@ -276,17 +277,32 @@ class AddUpdateFragment : BaseFragment() {
             printLogD(className, "Both records are empty")
             return
         }
-        printLogD(className, getColor().toString())
 
-        val newData = NoteModel(
-            header = getNoteTitle(),
-            body = getNoteBody(),
-            dates = Dates(dateCreated = getCurrentDate(), dateModified = getViewModelDate()),
-            category = getColor(),
-            pinned = getPinState()
-        )
-        crudViewModel.insertRecord(newData)
-        printLogD(className, "Record Saved")
+        when (viewModel.viewState?.state) {
+            is EditItem -> {
+                val existingItem = viewModel.viewState!!.noteModel!!
+                existingItem.header = getNoteTitle()
+                existingItem.body = getNoteBody()
+                existingItem.dates!!.dateModified = Date()
+                existingItem.category = getColor()
+                existingItem.pinned = getPinState()
+                crudViewModel.updateRecord(existingItem)
+            }
+            is NewItem -> {
+                val newData = NoteModel(
+                    header = getNoteTitle(),
+                    body = getNoteBody(),
+                    dates = Dates(
+                        dateCreated = getCurrentDate(),
+                        dateModified = getViewModelDate()
+                    ),
+                    category = getColor(),
+                    pinned = getPinState()
+                )
+                crudViewModel.insertRecord(newData)
+            }
+            else -> {}
+        }
     }
 
     private fun getNoteTitle(): String {

@@ -26,6 +26,12 @@ class NoteViewModel @Inject constructor(
         }
     }
 
+    fun updateRecord(note: NoteModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateRecord(note)
+        }
+    }
+
     private fun convertDateToString(noteModel: NoteModel): Boolean {
         noteModel.dates?.dateModifiedStringValue =
             noteModel.dates?.dateModified?.appMainFormat().toString()

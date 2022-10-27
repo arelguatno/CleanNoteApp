@@ -12,6 +12,10 @@ class NoteRepository @Inject constructor(
         return noteDao.insertRecord(note)
     }
 
+    suspend fun updateRecord(note: NoteModel){
+        return noteDao.updateRecord(note)
+    }
+
     fun fetchWalletsRecord(): PagingSource<Int, NoteModel> {
         return noteDao.fetchNotesData()
     }
