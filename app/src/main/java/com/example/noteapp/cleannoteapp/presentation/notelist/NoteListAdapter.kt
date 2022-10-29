@@ -12,6 +12,7 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.RecyclerViewItemRowBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
+import com.example.noteapp.cleannoteapp.util.printLogD
 
 class NoteListAdapter(
     private val interaction: Interaction? = null,
@@ -42,7 +43,13 @@ class NoteListAdapter(
             }
             note = item
 
-            binding.header.text = item.header
+
+            if (item.header.toString().isNotEmpty()) {
+                binding.header.text = item.header
+            } else {
+                binding.header.text = item.body
+            }
+
             binding.date.text = item.dates!!.dateModifiedStringValue
             binding.body.text = item.body
             colorCategory(item.category, binding)

@@ -39,9 +39,9 @@ class NoteViewModel @Inject constructor(
     }
 
     private fun checkIfHeaderIsEmpty(noteModel: NoteModel): Boolean {
-        if (noteModel.header.isNullOrEmpty()) {
-            noteModel.header = noteModel.body.toString()
-        }
+//        if (noteModel.header.isNullOrEmpty()) {
+//            noteModel.header = noteModel.body.toString()
+//        }
         return true
     }
 
