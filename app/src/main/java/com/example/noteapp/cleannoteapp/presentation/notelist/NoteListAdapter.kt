@@ -9,11 +9,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.databinding.ListRowBinding
-import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
+import com.example.noteapp.cleannoteapp.databinding.RecyclerViewItemRowBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
-import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
-import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.*
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 
 class NoteListAdapter(
     private val interaction: Interaction? = null,
@@ -22,7 +20,7 @@ class NoteListAdapter(
 ) : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     inner class MyViewHolder constructor(
-        private val binding: ListRowBinding,
+        private val binding: RecyclerViewItemRowBinding,
         private val interaction: Interaction?,
         private val lifecycleOwner: LifecycleOwner,
         private val selectedNotes: LiveData<ArrayList<NoteModel>>
@@ -85,7 +83,7 @@ class NoteListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
-            ListRowBinding.inflate(
+            RecyclerViewItemRowBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -96,7 +94,7 @@ class NoteListAdapter(
         )
     }
 
-    private fun colorCategory(item: ColorCategory?, holder: ListRowBinding) {
+    private fun colorCategory(item: ColorCategory?, holder: RecyclerViewItemRowBinding) {
         when (item) {
             ColorCategory.OPTION_ONE -> {
                 widgets(holder, R.color.color_one_primary, R.color.color_one_secondary)
@@ -128,7 +126,11 @@ class NoteListAdapter(
         }
     }
 
-    private fun widgets(holder: ListRowBinding, primaryColor: Int, secondaryColor: Int) {
+    private fun widgets(
+        holder: RecyclerViewItemRowBinding,
+        primaryColor: Int,
+        secondaryColor: Int
+    ) {
         holder.notePrimaryColor.setBackgroundResource(primaryColor)
         holder.noteSecondaryColor.setBackgroundResource(secondaryColor)
     }

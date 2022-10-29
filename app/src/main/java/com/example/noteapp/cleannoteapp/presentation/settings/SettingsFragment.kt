@@ -11,7 +11,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
+import com.example.noteapp.cleannoteapp.databinding.BottomDialogChangeColorBinding
 import com.example.noteapp.cleannoteapp.databinding.SettingsSettingsBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
@@ -57,7 +57,7 @@ class SettingsFragment : BaseFragment() {
     }
 
     private fun launchDefaultColorBottomSheet() {
-        val view = LayoutChangeColorBinding.inflate(layoutInflater)
+        val view = BottomDialogChangeColorBinding.inflate(layoutInflater)
         view.allNotes.isVisible = false
         view.root.findViewById<ImageView>(viewModel.getColorCategoryItem(viewModel.themeSelectedInteraction.value!!).selectedItem)
             .isVisible = true

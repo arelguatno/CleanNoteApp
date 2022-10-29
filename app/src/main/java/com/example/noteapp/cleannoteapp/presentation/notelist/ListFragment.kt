@@ -12,7 +12,10 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.OrientationHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
@@ -25,25 +28,24 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryB
 import com.example.noteapp.cleannoteapp.presentation.data_binding.SortByBinding
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ViewByBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.*
-import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.*
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.EditItem
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.NewItem
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.ListViewState
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.example.noteapp.cleannoteapp.util.printLogD
-import com.google.gson.GsonBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 
 @AndroidEntryPoint
 class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private lateinit var binding: FragmentListBinding
     private val viewModel: ListViewModel by activityViewModels()
+
     private val noteListAdapter: NoteListAdapter by lazy {
         NoteListAdapter(
             this@ListFragment,
@@ -122,6 +124,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     override fun onStart() {
         super.onStart()
+
+        //Menus Listener
         initColorSelectedListener()
         initSortByListener()
         initViewByListener()
@@ -172,6 +176,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                 ViewBy.Default -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()
                 }
+                else -> {}
             }
             noteListAdapter.notifyDataSetChanged()
             bottomSheetDialog.dismiss()
@@ -218,6 +223,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     private fun initMenu() {
         menuItemColorCategory = binding.appBar.menu.findItem(R.id.menu_filter_by_color)
+
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_filter_by_color -> {
@@ -237,18 +243,17 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         binding.appBar.setNavigationOnClickListener {
             viewModel.setToolbarState(ListViewState)
         }
-        //  binding.appBar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24)
     }
 
     private fun lunchViewByMenu() {
-        val view = ViewBySheetDialogBinding.inflate(layoutInflater)
+        val view = BottomDialogViewByBinding.inflate(layoutInflater)
         view.root.findViewById<ImageView>(viewModel.getViewByID(viewModel.viewByMenuInteractionState.value!!))
             .isVisible = true
         lunchBottomSheet(view.root)
     }
 
     private fun lunchColorSelectMenu() {
-        val view = LayoutChangeColorBinding.inflate(layoutInflater)
+        val view = BottomDialogChangeColorBinding.inflate(layoutInflater)
         view.allNotes.isVisible = true
         view.viewText.text = "Filter"
         view.root.findViewById<ImageView>(viewModel.getColorCategoryItem(viewModel.viewByColorInteractionState.value!!).selectedItem)
@@ -257,14 +262,14 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun lunchSortByMenu() {
-        val view = SortBySheetDialogBinding.inflate(layoutInflater)
+        val view = BottomDialogSoryByBinding.inflate(layoutInflater)
         view.root.findViewById<ImageView>(viewModel.getSortByID(viewModel.sortByInteractionState.value!!))
             .isVisible = true
         lunchBottomSheet(view.root)
     }
 
     private fun lunchChoice() {
-        val layout = AddBottomSheetDialogBinding.inflate(layoutInflater)
+        val layout = BottomDialogAddItemBinding.inflate(layoutInflater)
 
         layout.txt.setOnClickListener {
             val intent = Intent(requireContext(), AddUpdateActivity::class.java).apply {

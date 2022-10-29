@@ -3,13 +3,9 @@ package com.example.noteapp.cleannoteapp.presentation.common
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
-import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

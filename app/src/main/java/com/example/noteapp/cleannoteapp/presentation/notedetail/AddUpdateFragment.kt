@@ -13,8 +13,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.databinding.BottomDialogChangeColorBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
-import com.example.noteapp.cleannoteapp.databinding.LayoutChangeColorBinding
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
@@ -66,7 +66,7 @@ class AddUpdateFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setDefaultState()   // Set either NewItem or EditItem
+        setInitialState()   // Set either NewItem or EditItem
         subscribeObservers()
 
         initOnBackPressDispatcher() // Phone Back Button
@@ -135,7 +135,7 @@ class AddUpdateFragment : BaseFragment() {
         ).show()
     }
 
-    private fun setDefaultState() {
+    private fun setInitialState() {
         val state = activityMain.intent.serializable<ViewStateModel>(DETAIL_FRAGMENT)
 
         when (state?.state) {
@@ -338,7 +338,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun launchColorChange() {
-        val view = LayoutChangeColorBinding.inflate(layoutInflater)
+        val view = BottomDialogChangeColorBinding.inflate(layoutInflater)
         view.allNotes.isVisible = false
         view.root.findViewById<ImageView>(viewModel.getColorCategoryItem(viewModel.themeSelectedInteraction.value!!).selectedItem)
             .isVisible = true
