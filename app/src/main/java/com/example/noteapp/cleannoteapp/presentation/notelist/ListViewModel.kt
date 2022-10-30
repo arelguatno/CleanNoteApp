@@ -11,10 +11,12 @@ import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.ListInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_COLOR_THEME
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_SORT_BY
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_VIEW_BY
 import com.example.noteapp.cleannoteapp.util.extensions.save
+import com.example.noteapp.cleannoteapp.util.printLogD
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
@@ -36,7 +38,7 @@ class ListViewModel @Inject constructor(
     val viewByColorInteractionState: LiveData<ColorCategory>
         get() = noteInteractionManager.colorCategory
 
-    val selectedNotesInteractionState:LiveData<ArrayList<NoteModel>>
+    val selectedNotesInteractionState: LiveData<ArrayList<NoteModel>>
         get() = noteInteractionManager.selectedNotes
 
     val sortByInteractionState: LiveData<SortBy>
@@ -52,19 +54,16 @@ class ListViewModel @Inject constructor(
 
     fun getSelectedNotes() = noteInteractionManager.getSelectedNotes()
 
-    fun setToolbarState(state: NoteListToolbarState)
-            = noteInteractionManager.setToolbarState(state)
+    fun setToolbarState(state: NoteListToolbarState) = noteInteractionManager.setToolbarState(state)
 
-    fun addOrRemoveNoteFromSelectedList(note: NoteModel)
-            = noteInteractionManager.addOrRemoveNoteFromSelectedList(note)
+    fun addOrRemoveNoteFromSelectedList(note: NoteModel) =
+        noteInteractionManager.addOrRemoveNoteFromSelectedList(note)
 
-    fun isMultiSelectionStateActive()
-            = noteInteractionManager.isMultiSelectionStateActive()
+    fun isMultiSelectionStateActive() = noteInteractionManager.isMultiSelectionStateActive()
 
     fun clearSelectedNotes() = noteInteractionManager.clearSelectedNotes()
 
-    fun isNoteSelected(note: NoteModel): Boolean
-            = noteInteractionManager.isNoteSelected(note)
+    fun isNoteSelected(note: NoteModel): Boolean = noteInteractionManager.isNoteSelected(note)
 
     fun setViewByMenuState(state: ViewBy) {
         noteInteractionManager.setViewByMenu(state)
@@ -129,5 +128,14 @@ class ListViewModel @Inject constructor(
             LIST_VIEW_VIEW_BY,
             GsonBuilder().create().toJson(value)
         )
+    }
+
+    fun deleteNotes() {
+        if (getSelectedNotes().size > 0) {
+
+            clearSelectedNotes()
+        }else{
+            printLogD("classname","empty")
+        }
     }
 }

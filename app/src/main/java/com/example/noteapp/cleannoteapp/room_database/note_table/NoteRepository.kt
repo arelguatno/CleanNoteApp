@@ -12,8 +12,20 @@ class NoteRepository @Inject constructor(
         return noteDao.insertRecord(note)
     }
 
-    suspend fun updateRecord(note: NoteModel){
+    suspend fun updateRecord(note: NoteModel) {
         return noteDao.updateRecord(note)
+    }
+
+    suspend fun deleteRecord(note: NoteModel) {
+        return noteDao.deleteRecord(note)
+    }
+
+    suspend fun deleteListOfData(list: ArrayList<NoteModel>) {
+        return noteDao.deleteListOfData(list)
+    }
+
+    suspend fun insertListOfData(list: ArrayList<NoteModel>) {
+        return noteDao.insertListOfData(list)
     }
 
     fun fetchWalletsRecord(): PagingSource<Int, NoteModel> {

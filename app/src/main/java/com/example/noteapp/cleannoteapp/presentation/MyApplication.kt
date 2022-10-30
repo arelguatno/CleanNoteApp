@@ -1,6 +1,5 @@
 package com.example.noteapp.cleannoteapp.presentation
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.view.Gravity
 import androidx.appcompat.app.AppCompatDelegate

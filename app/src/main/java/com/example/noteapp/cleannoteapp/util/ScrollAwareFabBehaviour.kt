@@ -1,5 +1,6 @@
 package com.example.noteapp.cleannoteapp.util
 
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,17 +20,10 @@ class ScrollAwareFABBehavior(
                         floatingActionButton.clearAnimation();
                         floatingActionButton.hide()
                     }
-
-                    if (bottomNavigationView.isShown) {
-                      //  bottomNavigationView.isVisible = false
-                    }
                 } else if (dy < 0) {
                     if (!floatingActionButton.isShown) {
                         floatingActionButton.clearAnimation();
                         floatingActionButton.show()
-                    }
-                    if (!bottomNavigationView.isShown) {
-                       // bottomNavigationView.isVisible = true
                     }
                 }
             }

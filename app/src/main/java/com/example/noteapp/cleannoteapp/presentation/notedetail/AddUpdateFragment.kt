@@ -33,18 +33,17 @@ import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import java.util.*
+import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
-    private lateinit var toast: Toast
     private lateinit var binding: FragmentAddUpdateBinding
     private val className = this.javaClass.simpleName
     private val viewModel: AddUpdateViewModel by activityViewModels()
 
     private var menuItemColorCategory: MenuItem? = null
     private var menuItemPinned: MenuItem? = null
-
-    private lateinit var activityMain: AddUpdateActivity
+    private var activityMain: AddUpdateActivity? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +52,14 @@ class AddUpdateFragment : BaseFragment() {
         binding = FragmentAddUpdateBinding.inflate(layoutInflater)
         return binding.root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        menuItemColorCategory = null
+        menuItemPinned = null
+        activityMain = null
+    }
+
 
     override fun onStart() {
         super.onStart()
@@ -126,19 +133,21 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun showCustomToast(message: String) {
-       val toast = Toasty.custom(
-            requireContext(),
-            message,
-            R.drawable.app_icon_two,
-            android.R.color.background_dark,
-            Toasty.LENGTH_SHORT,
-            false,
-            true
-        )
+        context?.let {
+            Toasty.custom(
+                it.applicationContext,
+                message,
+                R.drawable.app_icon_two,
+                android.R.color.background_dark,
+                Toasty.LENGTH_SHORT,
+                false,
+                true
+            ).show()
+        }
     }
 
     private fun setInitialState() {
-        val state = activityMain.intent.serializable<ViewStateModel>(DETAIL_FRAGMENT)
+        val state = activityMain?.intent?.serializable<ViewStateModel>(DETAIL_FRAGMENT)
 
         when (state?.state) {
             is NewItem -> {

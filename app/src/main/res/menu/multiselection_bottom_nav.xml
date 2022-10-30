@@ -2,18 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <item android:id="@+id/menu_archive"
+    <item
+        android:id="@+id/bottom_archive"
         android:icon="@drawable/ic_baseline_archive"
-        android:iconTint="@color/white"
-        android:title="Archive" />
+        android:title="Archive"
+        app:iconTint="@color/white" />
 
-    <item android:id="@+id/calendarFragment"
-        android:icon="@drawable/ic_baseline_calendar_month_24"
-        android:title="Calendar" />
+    <item
+        android:id="@+id/bottom_delete"
+        android:icon="@drawable/ic_baseline_delete"
+        android:title="Calendar"
+        app:iconTint="@color/white" />
 
-    <item android:id="@+id/settingsFragment"
-        android:icon="@drawable/ic_reorder"
-        android:title="Settings"/>
-
+    <item
+        android:id="@+id/bottom_color"
+        android:icon="@drawable/ic_baseline_color_lens_24"
+        android:title="Settings"
+        app:iconTint="@color/white" />
 </menu>

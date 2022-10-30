@@ -34,9 +34,15 @@ import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListTool
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
+import com.example.noteapp.cleannoteapp.util.Constants.SHORT_DURATION_MS
 import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
+import com.example.noteapp.cleannoteapp.util.extensions.enableListViewToolbarState
+import com.example.noteapp.cleannoteapp.util.extensions.enableMultiSelection
 import com.example.noteapp.cleannoteapp.util.printLogD
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -48,6 +54,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private val className = this.javaClass.simpleName
     private var menuItemColorCategory: MenuItem? = null
     private var noteListAdapter: NoteListAdapter? = null
+    private var navBottomView: BottomNavigationView? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,15 +79,66 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         subscribeObservers()
         initMenu()
         initFetchList()
+        initOnClickListener()
 
+        navBottomView = requireActivity().findViewById(R.id.bottomNavigationView)
+    }
+
+    private fun initOnClickListener() {
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
         }
+
+        binding.listBottomNavigationView.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.bottom_archive -> {
+
+                }
+                R.id.bottom_color -> {
+
+                }
+                R.id.bottom_delete -> {
+                    deleteNotes()
+                }
+                else -> {}
+
+            }
+            false
+        }
     }
+
+    private fun deleteNotes() {
+        if (viewModel.getSelectedNotes().size > 0) {
+            crudViewModel.deleteListOfData(viewModel.getSelectedNotes())
+            viewModel.setToolbarState(ListViewState)
+            restoreDeletedData(viewModel.getSelectedNotes())
+            viewModel.clearSelectedNotes()
+            // noteListAdapter?.notifyDataSetChanged()
+        }
+    }
+
+    private fun restoreDeletedData(notes: ArrayList<NoteModel>) {
+        val snackBar = view?.let {
+            Snackbar.make(
+                it, "Note deleted",
+                Snackbar.LENGTH_SHORT
+            )
+        }
+
+        snackBar?.anchorView = binding.listBottomNavigationView
+
+        snackBar?.setAction("Undo") {
+            printLogD(className, notes.size.toString())
+            crudViewModel.insertListOfData(notes)
+        }
+        snackBar?.show()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         noteListAdapter = null
+        navBottomView = null
     }
 
     private fun initNoteListAdapter() {
@@ -112,18 +171,22 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun enableMultiSelectToolbarState() {
-        binding.appBar.menu.clear()
-        binding.appBar.inflateMenu(R.menu.multiselection_toolbar)
-        binding.appBar.title = ""
-        binding.appBar.navigationIcon =
-            resources.getDrawable(R.drawable.ic_baseline_close_24, null)
+        binding.appBar.enableMultiSelection(resources)
+        navBottomView?.isVisible = false
+        binding.listBottomNavigationView.isVisible = true
+        binding.floatingActionButton.isVisible = false
     }
 
     private fun enableListViewToolbarState() {
-        binding.appBar.menu.clear()
-        binding.appBar.navigationIcon = null
-        binding.appBar.inflateMenu(R.menu.list_fragment_menu)
-        binding.appBar.title = getString(R.string.app_name)
+        binding.appBar.enableListViewToolbarState(resources)
+        navBottomView?.isVisible = true
+        binding.listBottomNavigationView.isVisible = false
+
+        lifecycleScope.launch {
+            delay(3000)
+            binding.floatingActionButton.clearAnimation()
+            binding.floatingActionButton.show()
+        }
     }
 
     private fun disableMultiSelectToolbarState() {
@@ -200,11 +263,11 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun initScrollBehaviour() {
-        ScrollAwareFABBehavior(
-            recyclerView = binding.recyclerView,
-            floatingActionButton = binding.floatingActionButton,
-            requireActivity().findViewById(R.id.bottomNavigationView)
-        ).start()
+//        ScrollAwareFABBehavior(
+//            recyclerView = binding.recyclerView,
+//            floatingActionButton = binding.floatingActionButton,
+//            requireActivity().findViewById(R.id.bottomNavigationView)
+//        ).start()
     }
 
 

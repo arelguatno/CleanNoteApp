@@ -46,9 +46,27 @@
         android:layout_marginEnd="44dp"
         android:layout_marginBottom="92dp"
         android:clickable="true"
-        android:contentDescription="TODO"
+        android:contentDescription="@string/todo"
         android:focusable="true"
         android:src="@drawable/ic_baseline_edit_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/listBottomNavigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:background="@color/appbar_bg_color"
+        android:visibility="visible"
+        app:elevation="5dp"
+        app:itemIconSize="30dp"
+        app:itemIconTint="@drawable/list_bottom_nav_colors"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:menu="@menu/multiselection_bottom_nav" />
 </androidx.constraintlayout.widget.ConstraintLayout>

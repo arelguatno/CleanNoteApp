@@ -30,6 +30,24 @@ class NoteViewModel @Inject constructor(
         }
     }
 
+    fun deleteRecord(note: NoteModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteRecord(note)
+        }
+    }
+
+    fun deleteListOfData(list: ArrayList<NoteModel>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteListOfData(list)
+        }
+    }
+
+    fun insertListOfData(list: ArrayList<NoteModel>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertListOfData(list)
+        }
+    }
+
     private fun convertDateToString(noteModel: NoteModel): Boolean {
         noteModel.dates?.dateModifiedStringValue =
             noteModel.dates?.dateModified?.appMainFormat().toString()

@@ -1,13 +1,14 @@
 package com.example.noteapp.cleannoteapp.presentation
 
-import android.content.Intent
 import android.os.Bundle
+import android.transition.TransitionManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.ActivityMainBinding
 import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
+import com.google.android.material.navigation.NavigationBarMenuView
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,5 +35,4 @@ class MainActivity : BaseActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
-
 }

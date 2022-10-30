@@ -1,11 +1,7 @@
 package com.example.noteapp.cleannoteapp.room_database.note_table
 
 import androidx.paging.PagingSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import java.util.Locale.Category
 
@@ -16,6 +12,15 @@ interface NoteDao {
 
     @Update
     suspend fun updateRecord(noteModel: NoteModel)
+
+    @Delete
+    suspend fun deleteListOfData(idList: ArrayList<NoteModel>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertListOfData(list: ArrayList<NoteModel>)
+
+    @Delete
+    suspend fun deleteRecord(note: NoteModel)
 
     // All Notes
     @Query("SELECT * FROM notes_table ORDER BY pinned DESC, dates_dateModified DESC")
