@@ -45,16 +45,9 @@ import kotlinx.coroutines.launch
 class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private lateinit var binding: FragmentListBinding
     private val viewModel: ListViewModel by activityViewModels()
-
-    private val noteListAdapter: NoteListAdapter by lazy {
-        NoteListAdapter(
-            this@ListFragment,
-            viewLifecycleOwner,
-            viewModel.noteInteractionManager.selectedNotes
-        )
-    }
     private val className = this.javaClass.simpleName
     private var menuItemColorCategory: MenuItem? = null
+    private var noteListAdapter: NoteListAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +59,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initNoteListAdapter()
 
         viewModel.loadDefaultColor()
         viewModel.loadDefaultSortBy()
@@ -80,6 +75,19 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         binding.floatingActionButton.setOnClickListener {
             lunchChoice()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        noteListAdapter = null
+    }
+
+    private fun initNoteListAdapter() {
+        noteListAdapter = NoteListAdapter(
+            this@ListFragment,
+            viewLifecycleOwner,
+            viewModel.noteInteractionManager.selectedNotes
+        )
     }
 
     private fun subscribeObservers() {
@@ -178,7 +186,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                 }
                 else -> {}
             }
-            noteListAdapter.notifyDataSetChanged()
+            noteListAdapter?.notifyDataSetChanged()
             bottomSheetDialog.dismiss()
         }
     }
@@ -214,8 +222,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
                 crudViewModel.fetchListViewRecords(it.colorCategory, it.sortBy)
                     .collectLatest { data ->
-                        printLogD(className, data.toString())
-                        noteListAdapter.submitData(data)
+                        noteListAdapter?.submitData(data)
                     }
             }
         }

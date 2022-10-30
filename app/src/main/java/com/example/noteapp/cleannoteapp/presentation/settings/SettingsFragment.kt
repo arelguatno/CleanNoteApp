@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.example.noteapp.cleannoteapp.BuildConfig
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.BottomDialogChangeColorBinding
 import com.example.noteapp.cleannoteapp.databinding.SettingsSettingsBinding
@@ -41,6 +42,8 @@ class SettingsFragment : BaseFragment() {
         binding.settingsGeneral.defaultColor.setOnClickListener {
             launchDefaultColorBottomSheet()
         }
+
+        binding.versionText.text = "version ${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
     }
 
     private fun subscribeObservers() {

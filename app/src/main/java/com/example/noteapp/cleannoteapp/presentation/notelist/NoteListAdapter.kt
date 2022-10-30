@@ -58,8 +58,10 @@ class NoteListAdapter(
 
             selectedNotes.observe(lifecycleOwner) { notes ->
                 if (notes != null) {
+                    printLogD("ayee", "hindi")
                     binding.check.isVisible = notes.contains(note)
                 } else {
+                    printLogD("ayee", "null")
                     binding.check.isVisible = false
                 }
             }

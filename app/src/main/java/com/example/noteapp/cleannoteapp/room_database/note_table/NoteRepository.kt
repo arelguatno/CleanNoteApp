@@ -24,7 +24,6 @@ class NoteRepository @Inject constructor(
         return noteDao.fetchNotesPerCategory(category)
     }
 
-
     // A
     fun fetchAllSortByModifiedTime(): PagingSource<Int, NoteModel> {
         return noteDao.fetchAllSortByModifiedTime()

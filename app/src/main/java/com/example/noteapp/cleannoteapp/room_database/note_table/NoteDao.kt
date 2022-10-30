@@ -25,7 +25,6 @@ interface NoteDao {
     @Query("SELECT * FROM notes_table WHERE category = :category ORDER BY pinned DESC, dates_dateModified DESC")
     fun fetchNotesPerCategory(category: ColorCategory): PagingSource<Int, NoteModel>
 
-
     // A
     @Query("SELECT * FROM notes_table ORDER BY pinned DESC, dates_dateModified DESC")
     fun fetchAllSortByModifiedTime(): PagingSource<Int, NoteModel>
@@ -35,7 +34,6 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes_table ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
     fun fetchAllSortByColor(): PagingSource<Int, NoteModel>
-
 
     // B
     @Query("SELECT * FROM notes_table WHERE category = :category ORDER BY pinned DESC, dates_dateModified DESC")

@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -35,6 +36,7 @@ import java.util.*
 
 @AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
+    private lateinit var toast: Toast
     private lateinit var binding: FragmentAddUpdateBinding
     private val className = this.javaClass.simpleName
     private val viewModel: AddUpdateViewModel by activityViewModels()
@@ -124,7 +126,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun showCustomToast(message: String) {
-        Toasty.custom(
+       val toast = Toasty.custom(
             requireContext(),
             message,
             R.drawable.app_icon_two,
@@ -132,7 +134,7 @@ class AddUpdateFragment : BaseFragment() {
             Toasty.LENGTH_SHORT,
             false,
             true
-        ).show()
+        )
     }
 
     private fun setInitialState() {
@@ -194,7 +196,7 @@ class AddUpdateFragment : BaseFragment() {
         }
 
         viewModel.interactionDate.observe(viewLifecycleOwner) {
-            binding.addTextLayout.txtDate.text = it.appMainFormatWithTime()
+            binding.addTextLayout.txtDate.text = "Edited: ${it.appMainFormatWithTime()}"
         }
 
         viewModel.pinnedIsClicked.observe(viewLifecycleOwner) {

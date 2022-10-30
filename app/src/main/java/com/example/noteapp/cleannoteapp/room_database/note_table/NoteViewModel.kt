@@ -1,13 +1,11 @@
 package com.example.noteapp.cleannoteapp.room_database.note_table
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.util.extensions.appMainFormat
-import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -38,13 +36,6 @@ class NoteViewModel @Inject constructor(
         return true
     }
 
-    private fun checkIfHeaderIsEmpty(noteModel: NoteModel): Boolean {
-//        if (noteModel.header.isNullOrEmpty()) {
-//            noteModel.header = noteModel.body.toString()
-//        }
-        return true
-    }
-
     fun fetchListViewRecords(
         colorCategory: ColorCategory,
         sortBy: SortBy
@@ -57,7 +48,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 } else {
@@ -66,7 +56,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 }
@@ -78,7 +67,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 } else {
@@ -87,7 +75,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 }
@@ -99,7 +86,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 } else {
@@ -108,7 +94,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 }
@@ -120,7 +105,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 } else {
@@ -129,7 +113,6 @@ class NoteViewModel @Inject constructor(
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
                         notesModel.filter {
                             convertDateToString(it)
-                            checkIfHeaderIsEmpty(it)
                         }
                     }
                 }

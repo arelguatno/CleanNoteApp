@@ -27,11 +27,11 @@ class AddUpdateActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         loadTheme(intent.serializable(DETAIL_FRAGMENT))
+
         setContentView(R.layout.activity_add_update)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
