@@ -71,7 +71,7 @@ class NoteListAdapter(
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NoteModel>() {
             override fun areItemsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {
-                return false  //set to false to avoid recyclerview pos change
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {

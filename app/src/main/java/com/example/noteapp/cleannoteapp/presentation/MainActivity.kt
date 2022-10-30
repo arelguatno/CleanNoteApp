@@ -2,6 +2,7 @@ package com.example.noteapp.cleannoteapp.presentation
 
 import android.os.Bundle
 import android.transition.TransitionManager
+import android.view.Window
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController

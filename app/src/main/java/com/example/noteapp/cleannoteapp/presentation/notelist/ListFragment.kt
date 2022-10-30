@@ -182,11 +182,16 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         navBottomView?.isVisible = true
         binding.listBottomNavigationView.isVisible = false
 
-        lifecycleScope.launch {
-            delay(3000)
-            binding.floatingActionButton.clearAnimation()
-            binding.floatingActionButton.show()
+        if (viewModel.getSelectedNotes().size > 0) {
+            lifecycleScope.launch {
+                delay(3000)
+                binding.floatingActionButton.clearAnimation()
+                binding.floatingActionButton.isVisible = true
+            }
+        } else {
+            binding.floatingActionButton.isVisible = true
         }
+
     }
 
     private fun disableMultiSelectToolbarState() {
@@ -305,6 +310,9 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
                 R.id.menu_view_page -> {
                     lunchViewByMenu()
+                }
+                R.id.menu_select_item -> {
+                    viewModel.setToolbarState(MultiSelectionState)
                 }
             }
             true
