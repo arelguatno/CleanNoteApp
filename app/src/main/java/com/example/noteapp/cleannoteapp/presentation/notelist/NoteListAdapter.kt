@@ -12,19 +12,20 @@ import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.RecyclerViewItemRowBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
-import com.example.noteapp.cleannoteapp.util.printLogD
 
 class NoteListAdapter(
     private val interaction: Interaction? = null,
     private val lifecycleOwner: LifecycleOwner,
     private val selectedNotes: LiveData<ArrayList<NoteModel>>,
+    private val grid: Boolean,
 ) : PagingDataAdapter<NoteModel, NoteListAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     inner class MyViewHolder constructor(
         private val binding: RecyclerViewItemRowBinding,
         private val interaction: Interaction?,
         private val lifecycleOwner: LifecycleOwner,
-        private val selectedNotes: LiveData<ArrayList<NoteModel>>
+        private val selectedNotes: LiveData<ArrayList<NoteModel>>,
+        private val grid: Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         private val COLOR_GREY = R.color.app_background_color
@@ -52,6 +53,12 @@ class NoteListAdapter(
 
             binding.date.text = item.dates!!.dateModifiedStringValue
             binding.body.text = item.body
+
+            if(grid){
+                binding.body.setLines(7)
+            }else{
+                binding.body.setLines(3)
+            }
             colorCategory(item.category, binding)
 
             binding.imgPin.isVisible = item.pinned
@@ -98,6 +105,7 @@ class NoteListAdapter(
             interaction,
             lifecycleOwner,
             selectedNotes,
+            grid
         )
     }
 

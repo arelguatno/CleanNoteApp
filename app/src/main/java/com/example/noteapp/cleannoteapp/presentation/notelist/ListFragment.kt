@@ -32,10 +32,9 @@ import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.NewItem
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.ListViewState
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
+import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
-import com.example.noteapp.cleannoteapp.util.Constants.SHORT_DURATION_MS
-import com.example.noteapp.cleannoteapp.util.ScrollAwareFABBehavior
 import com.example.noteapp.cleannoteapp.util.extensions.enableListViewToolbarState
 import com.example.noteapp.cleannoteapp.util.extensions.enableMultiSelection
 import com.example.noteapp.cleannoteapp.util.printLogD
@@ -45,6 +44,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -145,7 +147,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         noteListAdapter = NoteListAdapter(
             this@ListFragment,
             viewLifecycleOwner,
-            viewModel.noteInteractionManager.selectedNotes
+            viewModel.noteInteractionManager.selectedNotes,
+            true
         )
     }
 
@@ -242,6 +245,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             when (it) {
                 ViewBy.List -> {
                     //TODO
+                    crudViewModel.insertListOfData(generateRecord())
+                    binding.recyclerView.layoutManager = getGridLayoutManager()
                 }
                 ViewBy.Grid -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()
@@ -251,6 +256,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                 }
                 ViewBy.Default -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()
+
                 }
                 else -> {}
             }
@@ -398,5 +404,89 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     override fun isNoteSelected(note: NoteModel): Boolean {
         return viewModel.isNoteSelected(note)
+    }
+
+    private fun generateRecord(): ArrayList<NoteModel>{
+        val new = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_ONE,
+            pinned = true
+        )
+
+        val new2 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_TWO,
+            pinned = false
+        )
+
+        val new3 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_THREE,
+            pinned = false
+        )
+
+        val new4 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_FOUR,
+            pinned = false
+        )
+
+        val new5 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_FIVE,
+            pinned = false
+        )
+
+        val new6 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_SIX,
+            pinned = true
+        )
+
+        val new7 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_SEVEN,
+            pinned = false
+        )
+
+        val new8 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_THREE,
+            pinned = true
+        )
+
+        val new9 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_FOUR,
+            pinned = false
+        )
+
+        val new10 = NoteModel(
+            header = UUID.randomUUID().toString(),
+            body = UUID.randomUUID().toString(),
+            dates = Dates(Date(), Date()),
+            category = ColorCategory.OPTION_THREE,
+            pinned = false
+        )
+
+        return arrayListOf(new,new2,new3,new4,new5,new6,new7,new8,new9,new10)
     }
 }
