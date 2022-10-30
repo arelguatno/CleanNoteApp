@@ -12,6 +12,7 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:navigationBarDividerColor">@color/bg_white_color</item>
+        <item name="android:windowLightNavigationBar">true</item>
         <!-- Status bar color. -->
         <!-- Customize your theme here. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
