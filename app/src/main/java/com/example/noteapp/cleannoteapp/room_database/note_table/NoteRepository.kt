@@ -36,6 +36,10 @@ class NoteRepository @Inject constructor(
         return noteDao.transferItemsToBin(list)
     }
 
+    fun transferItemsToArchive(list: ArrayList<Int>){
+        return noteDao.transferItemsToArchive(list)
+    }
+
     fun fetchWalletsRecord(): PagingSource<Int, NoteModel> {
         return noteDao.fetchNotesData()
     }

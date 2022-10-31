@@ -48,6 +48,12 @@ class NoteViewModel @Inject constructor(
         }
     }
 
+    fun transferItemsToArchive(list: ArrayList<Int>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.transferItemsToArchive(list)
+        }
+    }
+
     fun deleteListOfData(list: ArrayList<NoteModel>) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteListOfData(list)

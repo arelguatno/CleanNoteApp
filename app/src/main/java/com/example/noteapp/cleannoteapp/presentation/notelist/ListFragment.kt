@@ -90,7 +90,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         binding.listBottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.bottom_archive -> {
-
+                    transferItemsToArchive()
                 }
                 R.id.bottom_color -> {
                     lunchColorSelectMenu()
@@ -110,15 +110,6 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.clearSelectedNotes()
     }
 
-    private fun deleteNotes() {
-        if (viewModel.getSelectedNotes().size > 0) {
-            crudViewModel.deleteListOfData(viewModel.getSelectedNotes())
-            restoreDeletedData(viewModel.getSelectedNotes())
-            backToListViewState()
-            // noteListAdapter?.notifyDataSetChanged()
-        }
-    }
-
     private fun updateColorMulti(colorCategory: ColorCategory) {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.updateMultipleColorItems(
@@ -132,6 +123,13 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private fun transferItemsToBin() {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.transferItemsToBin(viewModel.getSelectedNotesID())
+            backToListViewState()
+        }
+    }
+
+    private fun transferItemsToArchive() {
+        if (viewModel.getSelectedNotes().size > 0) {
+            crudViewModel.transferItemsToArchive(viewModel.getSelectedNotesID())
             backToListViewState()
         }
     }

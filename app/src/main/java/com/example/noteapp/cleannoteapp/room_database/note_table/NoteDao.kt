@@ -28,6 +28,8 @@ interface NoteDao {
     @Query("UPDATE notes_table SET bin = 1 WHERE id IN (:list)")
     fun transferItemsToBin(list: ArrayList<Int>)
 
+    @Query("UPDATE notes_table SET archive = 1 WHERE id IN (:list)")
+    fun transferItemsToArchive(list: ArrayList<Int>)
 
     // All Notes
     @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 ORDER BY pinned DESC, dates_dateModified DESC")
