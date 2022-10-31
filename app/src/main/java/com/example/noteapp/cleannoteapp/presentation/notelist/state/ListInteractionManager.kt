@@ -1,12 +1,12 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist.state
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
-import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.*
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.ListViewState
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 
 class ListInteractionManager {
@@ -18,9 +18,6 @@ class ListInteractionManager {
 
     val selectedNotes: LiveData<ArrayList<NoteModel>>
         get() = _selectedNotes
-
-    val selectedNotesID: LiveData<ArrayList<Int>>
-        get() = _selectedNotesID
 
     val toolbarState: LiveData<NoteListToolbarState>
         get() = _toolbarState

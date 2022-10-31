@@ -3,6 +3,7 @@ package com.example.noteapp.cleannoteapp.room_database.note_table
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import kotlinx.coroutines.flow.Flow
 import java.util.Locale.Category
 
 @Dao
@@ -58,4 +59,7 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 AND category = :category ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
     fun fetchPerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel>
+
+    @Query("SELECT *, SUM(archive) reporting_archive, SUM(bin) reporting_bin FROM notes_table")
+    fun fetchBinAndArchiveCounting(): Flow<List<NoteModel>>
 }

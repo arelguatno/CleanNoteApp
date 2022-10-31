@@ -3,6 +3,7 @@ package com.example.noteapp.cleannoteapp.room_database.note_table
 import androidx.paging.PagingSource
 import androidx.room.Query
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NoteRepository @Inject constructor(
@@ -72,5 +73,9 @@ class NoteRepository @Inject constructor(
 
     fun fetchPerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel> {
         return noteDao.fetchPerColorSortByColor(category)
+    }
+
+    fun fetchBinAndArchiveCounting(): Flow<List<NoteModel>> {
+        return noteDao.fetchBinAndArchiveCounting()
     }
 }

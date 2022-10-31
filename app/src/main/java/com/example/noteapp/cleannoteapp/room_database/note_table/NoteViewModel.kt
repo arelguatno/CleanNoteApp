@@ -1,5 +1,6 @@
 package com.example.noteapp.cleannoteapp.room_database.note_table
 
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
@@ -17,6 +18,8 @@ import javax.inject.Inject
 class NoteViewModel @Inject constructor(
     private val repository: NoteRepository
 ) : BaseViewModel() {
+
+    val fetchBinAndArchiveCounting = repository.fetchBinAndArchiveCounting().asLiveData()
 
     fun insertRecord(note: NoteModel) {
         viewModelScope.launch(Dispatchers.IO) {

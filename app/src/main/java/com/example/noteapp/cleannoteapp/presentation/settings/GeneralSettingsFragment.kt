@@ -24,8 +24,20 @@ class GeneralSettingsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.settingsWidget.settings.setOnClickListener {
             it.findNavController().navigate(R.id.action_settingsFragment_to_settingsFragment2)
+        }
+
+        initListener()
+    }
+
+    private fun initListener() {
+        crudViewModel.fetchBinAndArchiveCounting.observe(viewLifecycleOwner) {
+            if (it.size == 1) {
+                binding.settingsAppName.bin.text = it[0].reporting!!.bin
+                binding.settingsAppName.archive.text = it[0].reporting!!.archive
+            }
         }
     }
 }
