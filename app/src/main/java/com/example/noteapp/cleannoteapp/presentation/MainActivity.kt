@@ -9,6 +9,7 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.ActivityMainBinding
 import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
+import com.example.noteapp.cleannoteapp.util.extensions.hideKeyboard
 import com.google.android.material.navigation.NavigationBarMenuView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,6 +25,7 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupBottomNav()
+        this.hideKeyboard()
     }
 
     private fun setupBottomNav() {

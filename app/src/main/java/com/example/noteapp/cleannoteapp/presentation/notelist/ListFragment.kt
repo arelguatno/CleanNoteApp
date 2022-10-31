@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -266,7 +267,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun getGridLayoutManager(): RecyclerView.LayoutManager {
-        return StaggeredGridLayoutManager(GRID_SPAN_COUNT, OrientationHelper.VERTICAL)
+        return GridLayoutManager(requireContext(),2,OrientationHelper.VERTICAL,false)
     }
 
     private fun getDetailsLayoutManger(): LinearLayoutManager {
@@ -406,7 +407,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         return viewModel.isNoteSelected(note)
     }
 
-    private fun generateRecord(): ArrayList<NoteModel>{
+    private fun generateRecord(): ArrayList<NoteModel> {
         val new = NoteModel(
             header = UUID.randomUUID().toString(),
             body = UUID.randomUUID().toString(),
@@ -487,6 +488,6 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             pinned = false
         )
 
-        return arrayListOf(new,new2,new3,new4,new5,new6,new7,new8,new9,new10)
+        return arrayListOf(new, new2, new3, new4, new5, new6, new7, new8, new9, new10)
     }
 }
