@@ -14,7 +14,9 @@ data class NoteModel(
     @Embedded(prefix = "dates_")
     var dates: Dates?,
     var category: ColorCategory? = ColorCategory.OPTION_ONE,
-    var pinned: Boolean = false
+    var pinned: Boolean = false,
+    var archive: Boolean = false,
+    var bin: Boolean = false
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

@@ -10,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isVisible
+import androidx.core.view.marginBottom
+import androidx.core.view.marginRight
+import androidx.core.view.setMargins
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -121,20 +124,18 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun restoreDeletedData(notes: ArrayList<NoteModel>) {
-        val snackBar = view?.let {
-            Snackbar.make(
-                it, "Note deleted",
-                Snackbar.LENGTH_SHORT
-            )
-        }
+        val snackBar = Snackbar.make(
+            binding.floatingActionButton, "Note deleted",
+            Snackbar.LENGTH_SHORT
+        )
 
-        snackBar?.anchorView = binding.listBottomNavigationView
+       // snackBar.anchorView = binding.listBottomNavigationView
 
-        snackBar?.setAction("Undo") {
+        snackBar.setAction("Undo") {
             printLogD(className, notes.size.toString())
             crudViewModel.insertListOfData(notes)
         }
-        snackBar?.show()
+        snackBar.show()
     }
 
 
@@ -185,16 +186,17 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         binding.appBar.enableListViewToolbarState(resources)
         navBottomView?.isVisible = true
         binding.listBottomNavigationView.isVisible = false
+        binding.floatingActionButton.isVisible = true
 
-        if (viewModel.getSelectedNotes().size > 0) {
-            lifecycleScope.launch {
-                delay(3000)
-                binding.floatingActionButton.clearAnimation()
-                binding.floatingActionButton.isVisible = true
-            }
-        } else {
-            binding.floatingActionButton.isVisible = true
-        }
+//        if (viewModel.getSelectedNotes().size > 0) {
+//            lifecycleScope.launch {
+//                delay(3000)
+//                binding.floatingActionButton.clearAnimation()
+//                binding.floatingActionButton.isVisible = true
+//            }
+//        } else {
+//            binding.floatingActionButton.isVisible = true
+//        }
 
     }
 
@@ -267,7 +269,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun getGridLayoutManager(): RecyclerView.LayoutManager {
-        return GridLayoutManager(requireContext(),2,OrientationHelper.VERTICAL,false)
+        return GridLayoutManager(requireContext(), 2, OrientationHelper.VERTICAL, false)
     }
 
     private fun getDetailsLayoutManger(): LinearLayoutManager {

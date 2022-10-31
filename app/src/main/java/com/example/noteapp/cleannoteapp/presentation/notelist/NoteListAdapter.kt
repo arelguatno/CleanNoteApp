@@ -65,9 +65,13 @@ class NoteListAdapter(
 
             selectedNotes.observe(lifecycleOwner) { notes ->
                 if (notes != null) {
-                    binding.check.isVisible = notes.contains(note)
+                   if(notes.contains(note)){
+                       binding.main.setBackgroundResource(R.drawable.list_item_selector)
+                   }else{
+                       binding.main.setBackgroundResource(R.drawable.list_item_default)
+                   }
                 } else {
-                    binding.check.isVisible = false
+                    binding.main.setBackgroundResource(R.drawable.list_item_default)
                 }
             }
 
