@@ -32,6 +32,9 @@ class ListViewModel @Inject constructor(
     val toolbarState: LiveData<NoteListToolbarState>
         get() = noteInteractionManager.toolbarState
 
+    val toolbarStateValue: NoteListToolbarState?
+        get() = noteInteractionManager.toolbarState.value
+
     val viewByMenuInteractionState: LiveData<ViewBy>
         get() = noteInteractionManager.viewByMenu
 
@@ -53,6 +56,7 @@ class ListViewModel @Inject constructor(
         }
 
     fun getSelectedNotes() = noteInteractionManager.getSelectedNotes()
+    fun getSelectedNotesID() = noteInteractionManager.getSelectedNotesID()
 
     fun setToolbarState(state: NoteListToolbarState) = noteInteractionManager.setToolbarState(state)
 

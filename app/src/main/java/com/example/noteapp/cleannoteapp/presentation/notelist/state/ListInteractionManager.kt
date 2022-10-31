@@ -11,12 +11,16 @@ import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 
 class ListInteractionManager {
     private val _selectedNotes: MutableLiveData<ArrayList<NoteModel>> = MutableLiveData()
+    private val _selectedNotesID: MutableLiveData<ArrayList<Int>> = MutableLiveData()
 
     private val _toolbarState: MutableLiveData<NoteListToolbarState> =
         MutableLiveData(ListViewState)
 
     val selectedNotes: LiveData<ArrayList<NoteModel>>
         get() = _selectedNotes
+
+    val selectedNotesID: LiveData<ArrayList<Int>>
+        get() = _selectedNotesID
 
     val toolbarState: LiveData<NoteListToolbarState>
         get() = _toolbarState
@@ -26,6 +30,7 @@ class ListInteractionManager {
     }
 
     fun getSelectedNotes(): ArrayList<NoteModel> = _selectedNotes.value ?: ArrayList()
+    fun getSelectedNotesID(): ArrayList<Int> = _selectedNotesID.value ?: ArrayList()
 
     fun isMultiSelectionStateActive(): Boolean {
         return _toolbarState.value.toString() == MultiSelectionState.toString()
@@ -37,6 +42,7 @@ class ListInteractionManager {
 
     fun clearSelectedNotes() {
         _selectedNotes.value = null
+        _selectedNotesID.value = null
     }
 
     private val _viewByMenu: MutableLiveData<ViewBy> =
@@ -71,14 +77,19 @@ class ListInteractionManager {
 
     fun addOrRemoveNoteFromSelectedList(note: NoteModel) {
         var list = _selectedNotes.value
+        var listId = _selectedNotesID.value
         if (list == null) {
             list = ArrayList()
+            listId = ArrayList()
         }
         if (list.contains(note)) {
             list.remove(note)
+            listId?.remove(note.id)
         } else {
             list.add(note)
+            listId?.add(note.id)
         }
         _selectedNotes.value = list
+        _selectedNotesID.value = listId
     }
 }

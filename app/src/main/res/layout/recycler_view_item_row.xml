@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="2dp">
+            android:padding="1.5dp">
 
             <LinearLayout
                 android:id="@+id/notePrimaryColor"

@@ -36,6 +36,18 @@ class NoteViewModel @Inject constructor(
         }
     }
 
+    fun updateMultipleColorItems(list: ArrayList<Int>, colorCategory: ColorCategory) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateMultipleColorItems(list, colorCategory)
+        }
+    }
+
+    fun transferItemsToBin(list: ArrayList<Int>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.transferItemsToBin(list)
+        }
+    }
+
     fun deleteListOfData(list: ArrayList<NoteModel>) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteListOfData(list)

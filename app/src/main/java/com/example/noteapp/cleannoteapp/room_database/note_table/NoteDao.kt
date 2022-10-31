@@ -22,31 +22,38 @@ interface NoteDao {
     @Delete
     suspend fun deleteRecord(note: NoteModel)
 
+    @Query("UPDATE notes_table SET category = :colorCategory WHERE id IN (:list)")
+    fun updateMultipleColorItems(list: ArrayList<Int>, colorCategory: ColorCategory)
+
+    @Query("UPDATE notes_table SET bin = 1 WHERE id IN (:list)")
+    fun transferItemsToBin(list: ArrayList<Int>)
+
+
     // All Notes
-    @Query("SELECT * FROM notes_table ORDER BY pinned DESC, dates_dateModified DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 ORDER BY pinned DESC, dates_dateModified DESC")
     fun fetchNotesData(): PagingSource<Int, NoteModel>
 
     // Per Category
-    @Query("SELECT * FROM notes_table WHERE category = :category ORDER BY pinned DESC, dates_dateModified DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 AND category = :category ORDER BY pinned DESC, dates_dateModified DESC")
     fun fetchNotesPerCategory(category: ColorCategory): PagingSource<Int, NoteModel>
 
     // A
-    @Query("SELECT * FROM notes_table ORDER BY pinned DESC, dates_dateModified DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 ORDER BY pinned DESC, dates_dateModified DESC")
     fun fetchAllSortByModifiedTime(): PagingSource<Int, NoteModel>
 
-    @Query("SELECT * FROM notes_table ORDER BY pinned DESC, dates_dateCreated DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 ORDER BY pinned DESC, dates_dateCreated DESC")
     fun fetchAllSortByCreatedTime(): PagingSource<Int, NoteModel>
 
-    @Query("SELECT * FROM notes_table ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
     fun fetchAllSortByColor(): PagingSource<Int, NoteModel>
 
     // B
-    @Query("SELECT * FROM notes_table WHERE category = :category ORDER BY pinned DESC, dates_dateModified DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 AND category = :category ORDER BY pinned DESC, dates_dateModified DESC")
     fun fetchPerColorSortByModifiedTime(category: ColorCategory): PagingSource<Int, NoteModel>
 
-    @Query("SELECT * FROM notes_table WHERE category = :category ORDER BY pinned DESC, dates_dateCreated DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 AND category = :category ORDER BY pinned DESC, dates_dateCreated DESC")
     fun fetchPerColorSortByCreatedTime(category: ColorCategory): PagingSource<Int, NoteModel>
 
-    @Query("SELECT * FROM notes_table WHERE category = :category ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
+    @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 AND category = :category ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
     fun fetchPerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel>
 }

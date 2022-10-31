@@ -10,16 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.view.isVisible
-import androidx.core.view.marginBottom
-import androidx.core.view.marginRight
-import androidx.core.view.setMargins
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
@@ -38,19 +34,15 @@ import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListTool
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
-import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.extensions.enableListViewToolbarState
 import com.example.noteapp.cleannoteapp.util.extensions.enableMultiSelection
 import com.example.noteapp.cleannoteapp.util.printLogD
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.random.Random
 
 
 @AndroidEntryPoint
@@ -101,10 +93,10 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
                 }
                 R.id.bottom_color -> {
-
+                    lunchColorSelectMenu()
                 }
                 R.id.bottom_delete -> {
-                    deleteNotes()
+                    transferItemsToBin()
                 }
                 else -> {}
 
@@ -113,13 +105,34 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         }
     }
 
+    private fun backToListViewState() {
+        viewModel.setToolbarState(ListViewState)
+        viewModel.clearSelectedNotes()
+    }
+
     private fun deleteNotes() {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.deleteListOfData(viewModel.getSelectedNotes())
-            viewModel.setToolbarState(ListViewState)
             restoreDeletedData(viewModel.getSelectedNotes())
-            viewModel.clearSelectedNotes()
+            backToListViewState()
             // noteListAdapter?.notifyDataSetChanged()
+        }
+    }
+
+    private fun updateColorMulti(colorCategory: ColorCategory) {
+        if (viewModel.getSelectedNotes().size > 0) {
+            crudViewModel.updateMultipleColorItems(
+                viewModel.getSelectedNotesID(),
+                colorCategory
+            )
+            backToListViewState()
+        }
+    }
+
+    private fun transferItemsToBin() {
+        if (viewModel.getSelectedNotes().size > 0) {
+            crudViewModel.transferItemsToBin(viewModel.getSelectedNotesID())
+            backToListViewState()
         }
     }
 
@@ -129,7 +142,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             Snackbar.LENGTH_SHORT
         )
 
-       // snackBar.anchorView = binding.listBottomNavigationView
+        // snackBar.anchorView = binding.listBottomNavigationView
 
         snackBar.setAction("Undo") {
             printLogD(className, notes.size.toString())
@@ -187,17 +200,6 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         navBottomView?.isVisible = true
         binding.listBottomNavigationView.isVisible = false
         binding.floatingActionButton.isVisible = true
-
-//        if (viewModel.getSelectedNotes().size > 0) {
-//            lifecycleScope.launch {
-//                delay(3000)
-//                binding.floatingActionButton.clearAnimation()
-//                binding.floatingActionButton.isVisible = true
-//            }
-//        } else {
-//            binding.floatingActionButton.isVisible = true
-//        }
-
     }
 
     private fun disableMultiSelectToolbarState() {
@@ -236,8 +238,12 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private fun initColorSelectedListener() {
         BindingAdapters.setItemOnClickListener(object : ColorCategoryBinding {
             override fun userSelectedColor(colorBinding: ColorCategory) {
-                viewModel.setByColorCategory(colorBinding)
-                viewModel.saveDefaultColor(colorBinding)
+                if (viewModel.toolbarStateValue == ListViewState) {
+                    viewModel.setByColorCategory(colorBinding)
+                    viewModel.saveDefaultColor(colorBinding)
+                } else {
+                    updateColorMulti(colorBinding)
+                }
                 bottomSheetDialog.dismiss()
             }
         })
