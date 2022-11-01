@@ -56,6 +56,7 @@ class AddUpdateFragment : BaseFragment() {
         menuItemColorCategory = null
         menuItemPinned = null
         activityMain = null
+        BindingAdapters.setItemOnClickListener(null)
     }
 
 

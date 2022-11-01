@@ -33,7 +33,7 @@ open class BindingAdapters {
             }
         }
 
-        fun setSortByOnClickListener(listener: SortByBinding) {
+        fun setSortByOnClickListener(listener: SortByBinding?) {
             sortBy = listener
         }
 
@@ -45,7 +45,7 @@ open class BindingAdapters {
             }
         }
 
-        fun setViewByOnClickListener(listener: ViewByBinding) {
+        fun setViewByOnClickListener(listener: ViewByBinding?) {
             viewBy = listener
         }
     }

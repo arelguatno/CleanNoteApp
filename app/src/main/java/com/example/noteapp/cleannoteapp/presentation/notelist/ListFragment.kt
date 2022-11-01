@@ -12,10 +12,8 @@ import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.OrientationHelper
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
+import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
@@ -152,10 +150,13 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         noteListAdapter = null
         navBottomView = null
         menuItemColorCategory = null
         BindingAdapters.setItemOnClickListener(null)
+        BindingAdapters.setSortByOnClickListener(null)
+        BindingAdapters.setViewByOnClickListener(null)
     }
 
     private fun initNoteListAdapter() {
@@ -295,6 +296,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
 
+
         lifecycleScope.launch {
             viewModel.combineObserver.collectLatest {
                 menuItemColorCategory?.icon =
@@ -309,6 +311,14 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                     }
             }
         }
+
+        //Scroll to top
+        noteListAdapter?.registerAdapterDataObserver(object :
+            RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                binding.recyclerView.scrollToPosition(positionStart)
+            }
+        })
     }
 
     private fun initMenu() {
