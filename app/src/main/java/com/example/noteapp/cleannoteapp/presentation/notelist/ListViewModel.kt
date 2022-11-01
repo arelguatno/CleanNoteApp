@@ -138,8 +138,8 @@ class ListViewModel @Inject constructor(
         if (getSelectedNotes().size > 0) {
 
             clearSelectedNotes()
-        }else{
-            printLogD("classname","empty")
+        } else {
+            printLogD("classname", "empty")
         }
     }
 }

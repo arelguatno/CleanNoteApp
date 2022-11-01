@@ -17,8 +17,6 @@ data class NoteModel(
     var pinned: Boolean = false,
     var archive: Boolean = false,
     var bin: Boolean = false,
-    @Embedded(prefix = "reporting_")
-    var reporting: Reporting? = Reporting(bin = "", archive = "")
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
@@ -30,8 +28,7 @@ data class Dates(
     var dateModifiedStringValue: String = ""
 ) : Serializable
 
-
-data class Reporting(
-    val bin: String = "",
-    var archive: String = "",
+data class ReportingModel(
+    var reporting_bin: String = "",
+    var reporting_archive: String = ""
 ) : Serializable

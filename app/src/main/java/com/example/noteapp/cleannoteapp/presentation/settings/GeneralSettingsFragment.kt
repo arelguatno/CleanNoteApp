@@ -35,8 +35,8 @@ class GeneralSettingsFragment : BaseFragment() {
     private fun initListener() {
         crudViewModel.fetchBinAndArchiveCounting.observe(viewLifecycleOwner) {
             if (it.size == 1) {
-                binding.settingsAppName.bin.text = it[0].reporting!!.bin
-                binding.settingsAppName.archive.text = it[0].reporting!!.archive
+                binding.settingsAppName.bin.text = it[0].reporting_bin
+                binding.settingsAppName.archive.text = it[0].reporting_archive
             }
         }
     }

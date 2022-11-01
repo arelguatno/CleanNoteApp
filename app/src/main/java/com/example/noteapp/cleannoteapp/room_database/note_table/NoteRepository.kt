@@ -75,7 +75,7 @@ class NoteRepository @Inject constructor(
         return noteDao.fetchPerColorSortByColor(category)
     }
 
-    fun fetchBinAndArchiveCounting(): Flow<List<NoteModel>> {
-        return noteDao.fetchBinAndArchiveCounting()
+    fun fetchBinAndArchiveCounts(): Flow<List<ReportingModel>> {
+        return noteDao.fetchBinAndArchiveCounts()
     }
 }

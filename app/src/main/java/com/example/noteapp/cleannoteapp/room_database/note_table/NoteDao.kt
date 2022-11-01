@@ -60,6 +60,6 @@ interface NoteDao {
     @Query("SELECT * FROM notes_table WHERE bin = 0 AND archive = 0 AND category = :category ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
     fun fetchPerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel>
 
-    @Query("SELECT *, SUM(archive) reporting_archive, SUM(bin) reporting_bin FROM notes_table")
-    fun fetchBinAndArchiveCounting(): Flow<List<NoteModel>>
+    @Query("SELECT SUM(archive) reporting_archive, SUM(bin) reporting_bin FROM notes_table")
+    fun fetchBinAndArchiveCounts(): Flow<List<ReportingModel>>
 }

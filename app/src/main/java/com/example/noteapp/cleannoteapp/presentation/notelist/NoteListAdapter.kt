@@ -1,7 +1,10 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
+import android.content.res.ColorStateList
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -27,9 +30,6 @@ class NoteListAdapter(
         private val selectedNotes: LiveData<ArrayList<NoteModel>>,
         private val grid: Boolean,
     ) : RecyclerView.ViewHolder(binding.root) {
-
-        private val COLOR_GREY = R.color.app_background_color
-        private val COLOR_PRIMARY = R.color.colorPrimary
         private lateinit var note: NoteModel
 
         fun bind(item: NoteModel) = with(itemView) {
@@ -54,9 +54,9 @@ class NoteListAdapter(
             binding.date.text = item.dates!!.dateModifiedStringValue
             binding.body.text = item.body
 
-            if(grid){
+            if (grid) {
                 binding.body.setLines(7)
-            }else{
+            } else {
                 binding.body.setLines(3)
             }
             colorCategory(item.category, binding)
@@ -65,11 +65,11 @@ class NoteListAdapter(
 
             selectedNotes.observe(lifecycleOwner) { notes ->
                 if (notes != null) {
-                   if(notes.contains(note)){
-                       binding.main.setBackgroundResource(R.drawable.list_item_selector)
-                   }else{
-                       binding.main.setBackgroundResource(R.drawable.list_item_default)
-                   }
+                    if (notes.contains(note)) {
+                        binding.main.setBackgroundResource(R.drawable.list_item_selector)
+                    } else {
+                        binding.main.setBackgroundResource(R.drawable.list_item_default)
+                    }
                 } else {
                     binding.main.setBackgroundResource(R.drawable.list_item_default)
                 }
@@ -150,8 +150,10 @@ class NoteListAdapter(
         primaryColor: Int,
         secondaryColor: Int
     ) {
-        holder.notePrimaryColor.setBackgroundResource(primaryColor)
-        holder.noteSecondaryColor.setBackgroundResource(secondaryColor)
+        holder.notePrimaryColor.backgroundTintList =
+            ColorStateList.valueOf(holder.main.resources.getColor(primaryColor, null))
+        holder.noteSecondaryColor.backgroundTintList =
+            ColorStateList.valueOf(holder.main.resources.getColor(secondaryColor, null))
     }
 
     interface Interaction {

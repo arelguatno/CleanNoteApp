@@ -19,7 +19,7 @@ class NoteViewModel @Inject constructor(
     private val repository: NoteRepository
 ) : BaseViewModel() {
 
-    val fetchBinAndArchiveCounting = repository.fetchBinAndArchiveCounting().asLiveData()
+    val fetchBinAndArchiveCounting = repository.fetchBinAndArchiveCounts().asLiveData()
 
     fun insertRecord(note: NoteModel) {
         viewModelScope.launch(Dispatchers.IO) {
