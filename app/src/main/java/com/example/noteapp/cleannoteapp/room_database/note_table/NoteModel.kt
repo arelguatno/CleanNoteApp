@@ -1,5 +1,6 @@
 package com.example.noteapp.cleannoteapp.room_database.note_table
 
+import androidx.annotation.NonNull
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -29,6 +30,6 @@ data class Dates(
 ) : Serializable
 
 data class ReportingModel(
-    var reporting_bin: String = "",
-    var reporting_archive: String = ""
+    var reporting_bin: String? = null,
+    var reporting_archive: String? = null
 ) : Serializable

@@ -173,7 +173,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             this@ListFragment,
             viewLifecycleOwner,
             viewModel.noteInteractionManager.selectedNotes,
-            true
+            viewModel.viewByMenuInteractionState
         )
     }
 
@@ -263,9 +263,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.viewByMenuInteractionState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewBy.List -> {
-                    //TODO
-                    crudViewModel.insertListOfData(generateRecord())
-                    binding.recyclerView.layoutManager = getGridLayoutManager()
+                   // crudViewModel.insertListOfData(generateRecord())
+                    binding.recyclerView.layoutManager = getDetailsLayoutManger()
                 }
                 ViewBy.Grid -> {
                     binding.recyclerView.layoutManager = getGridLayoutManager()

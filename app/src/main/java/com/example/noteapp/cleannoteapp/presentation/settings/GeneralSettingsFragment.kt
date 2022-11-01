@@ -33,10 +33,10 @@ class GeneralSettingsFragment : BaseFragment() {
     }
 
     private fun initListener() {
-        crudViewModel.fetchBinAndArchiveCounting.observe(viewLifecycleOwner) {
-            if (it.size == 1) {
-                binding.settingsAppName.bin.text = it[0].reporting_bin
-                binding.settingsAppName.archive.text = it[0].reporting_archive
+        crudViewModel.fetchBinAndArchiveCounting().observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                binding.settingsAppName.bin.text = it[0].reporting_bin ?: "0"
+                binding.settingsAppName.archive.text = it[0].reporting_archive ?: "0"
             }
         }
     }

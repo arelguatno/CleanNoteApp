@@ -1,5 +1,6 @@
 package com.example.noteapp.cleannoteapp.room_database.note_table
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
@@ -19,7 +20,9 @@ class NoteViewModel @Inject constructor(
     private val repository: NoteRepository
 ) : BaseViewModel() {
 
-    val fetchBinAndArchiveCounting = repository.fetchBinAndArchiveCounts().asLiveData()
+    fun fetchBinAndArchiveCounting(): LiveData<List<ReportingModel>> {
+        return repository.fetchBinAndArchiveCounts().asLiveData()
+    }
 
     fun insertRecord(note: NoteModel) {
         viewModelScope.launch(Dispatchers.IO) {
