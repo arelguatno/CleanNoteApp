@@ -13,11 +13,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.*
-import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.MenuActions
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
@@ -34,13 +34,13 @@ import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.extensions.enableListViewToolbarState
 import com.example.noteapp.cleannoteapp.util.extensions.enableMultiSelection
-import com.example.noteapp.cleannoteapp.util.printLogD
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
@@ -121,6 +121,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private fun transferItemsToBin() {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.transferItemsToBin(viewModel.getSelectedNotesID())
+            val tmpData = viewModel.getSelectedNotesID()
+            restoreAction(tmpData, "Note Deleted", MenuActions.Bin)
             backToListViewState()
         }
     }
@@ -128,21 +130,23 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private fun transferItemsToArchive() {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.transferItemsToArchive(viewModel.getSelectedNotesID())
+            val tmpData = viewModel.getSelectedNotesID()
+            restoreAction(tmpData, "Note Archived", MenuActions.Archive)
             backToListViewState()
         }
     }
 
-    private fun restoreDeletedData(notes: ArrayList<NoteModel>) {
+    private fun restoreAction(notes: ArrayList<Int>, message: String, bin: MenuActions) {
         val snackBar = Snackbar.make(
-            binding.floatingActionButton, "Note deleted",
+            binding.floatingActionButton, message,
             Snackbar.LENGTH_SHORT
         )
 
-        // snackBar.anchorView = binding.listBottomNavigationView
-
         snackBar.setAction("Undo") {
-            printLogD(className, notes.size.toString())
-            crudViewModel.insertListOfData(notes)
+            when (bin) {
+                MenuActions.Archive -> crudViewModel.undoTransferItemsToArchive(notes)
+                MenuActions.Bin -> crudViewModel.undoTransferItemsToBin(notes)
+            }
         }
         snackBar.show()
     }
@@ -150,13 +154,9 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         noteListAdapter = null
         navBottomView = null
         menuItemColorCategory = null
-        BindingAdapters.setItemOnClickListener(null)
-        BindingAdapters.setSortByOnClickListener(null)
-        BindingAdapters.setViewByOnClickListener(null)
     }
 
     private fun initNoteListAdapter() {

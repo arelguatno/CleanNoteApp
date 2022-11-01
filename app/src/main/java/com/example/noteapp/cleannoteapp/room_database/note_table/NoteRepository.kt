@@ -29,16 +29,24 @@ class NoteRepository @Inject constructor(
         return noteDao.insertListOfData(list)
     }
 
-    fun updateMultipleColorItems(list: ArrayList<Int>, colorCategory: ColorCategory){
+    fun updateMultipleColorItems(list: ArrayList<Int>, colorCategory: ColorCategory) {
         return noteDao.updateMultipleColorItems(list, colorCategory)
     }
 
-    fun transferItemsToBin(list: ArrayList<Int>){
+    fun transferItemsToBin(list: ArrayList<Int>) {
         return noteDao.transferItemsToBin(list)
     }
 
-    fun transferItemsToArchive(list: ArrayList<Int>){
+    fun transferItemsToArchive(list: ArrayList<Int>) {
         return noteDao.transferItemsToArchive(list)
+    }
+
+    fun undoTransferItemsToBin(list: ArrayList<Int>) {
+        return noteDao.undoTransferItemsToBin(list)
+    }
+
+    fun undoTransferItemsToArchive(list: ArrayList<Int>) {
+        return noteDao.undoTransferItemsToArchive(list)
     }
 
     fun fetchWalletsRecord(): PagingSource<Int, NoteModel> {
