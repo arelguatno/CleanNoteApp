@@ -3,6 +3,7 @@ package com.example.noteapp.cleannoteapp.presentation.notelist
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asFlow
+import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.models.CombineSortAndColorModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
@@ -11,7 +12,6 @@ import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.ListInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
-import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_COLOR_THEME
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_SORT_BY
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_VIEW_BY
@@ -140,6 +140,22 @@ class ListViewModel @Inject constructor(
             clearSelectedNotes()
         } else {
             printLogD("classname", "empty")
+        }
+    }
+
+    fun getToastArchiveMessage(tmpData: ArrayList<Int>): Int {
+        return if (tmpData.size == 1) {
+            R.string.note_archived
+        } else {
+            R.string.note_archived_plural
+        }
+    }
+
+    fun getToastBinMessage(tmpData: ArrayList<Int>): Int {
+        return if (tmpData.size == 1) {
+            R.string.note_deleted
+        } else {
+            R.string.note_deleted_plural
         }
     }
 }

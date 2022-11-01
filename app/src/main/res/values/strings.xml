@@ -23,4 +23,9 @@
     <string name="edited_sun_9_oct_4_54_pm">Edited: Sun 9 Oct 4:54 pm</string>
     <string name="what_s_up">What\'s up?</string>
     <string name="header">Header</string>
+    <string name="note_archived">Note Archived</string>
+    <string name="note_deleted">Note Deleted</string>
+    <string name="note_archived_plural">Notes Archived</string>
+    <string name="note_deleted_plural">Notes Deleted</string>
+    <string name="undo">Undo</string>
 </resources>

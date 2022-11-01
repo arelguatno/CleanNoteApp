@@ -32,6 +32,7 @@ import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListTool
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
+import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
 import com.example.noteapp.cleannoteapp.util.extensions.enableListViewToolbarState
 import com.example.noteapp.cleannoteapp.util.extensions.enableMultiSelection
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -122,7 +123,11 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.transferItemsToBin(viewModel.getSelectedNotesID())
             val tmpData = viewModel.getSelectedNotesID()
-            restoreAction(tmpData, "Note Deleted", MenuActions.Bin)
+            restoreAction(
+                tmpData,
+                getString(viewModel.getToastBinMessage(tmpData)),
+                MenuActions.Bin
+            )
             backToListViewState()
         }
     }
@@ -131,7 +136,11 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.transferItemsToArchive(viewModel.getSelectedNotesID())
             val tmpData = viewModel.getSelectedNotesID()
-            restoreAction(tmpData, "Note Archived", MenuActions.Archive)
+            restoreAction(
+                tmpData,
+                getString(viewModel.getToastArchiveMessage(tmpData)),
+                MenuActions.Archive
+            )
             backToListViewState()
         }
     }
@@ -142,7 +151,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             Snackbar.LENGTH_SHORT
         )
 
-        snackBar.setAction("Undo") {
+        snackBar.setAction(getString(R.string.undo)) {
             when (bin) {
                 MenuActions.Archive -> crudViewModel.undoTransferItemsToArchive(notes)
                 MenuActions.Bin -> crudViewModel.undoTransferItemsToBin(notes)
@@ -276,7 +285,12 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun getGridLayoutManager(): RecyclerView.LayoutManager {
-        return GridLayoutManager(requireContext(), 2, OrientationHelper.VERTICAL, false)
+        return GridLayoutManager(
+            requireContext(),
+            GRID_SPAN_COUNT,
+            OrientationHelper.VERTICAL,
+            false
+        )
     }
 
     private fun getDetailsLayoutManger(): LinearLayoutManager {
