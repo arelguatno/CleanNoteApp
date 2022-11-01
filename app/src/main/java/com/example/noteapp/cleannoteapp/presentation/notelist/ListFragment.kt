@@ -154,6 +154,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         super.onDestroyView()
         noteListAdapter = null
         navBottomView = null
+        menuItemColorCategory = null
+        BindingAdapters.setItemOnClickListener(null)
     }
 
     private fun initNoteListAdapter() {
@@ -399,10 +401,6 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             }
             startActivity(intent)
         }
-    }
-
-    override fun restoreListPosition() {
-        // TODO
     }
 
     override fun isMultiSelectionModeEnabled() = viewModel.isMultiSelectionStateActive()

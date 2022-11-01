@@ -6,7 +6,7 @@ import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 
-class BindingAdapters {
+open class BindingAdapters {
 
     companion object {
         private var onClickListener: ColorCategoryBinding? = null
@@ -21,7 +21,7 @@ class BindingAdapters {
             }
         }
 
-        fun setItemOnClickListener(listener: ColorCategoryBinding) {
+        fun setItemOnClickListener(listener: ColorCategoryBinding?) {
             onClickListener = listener
         }
 

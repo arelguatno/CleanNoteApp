@@ -1,10 +1,9 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
+import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -59,7 +58,7 @@ class NoteListAdapter(
             } else {
                 binding.body.setLines(3)
             }
-            colorCategory(item.category, binding)
+            colorCategory(item.category, binding, this.context)
 
             binding.imgPin.isVisible = item.pinned
 
@@ -113,34 +112,38 @@ class NoteListAdapter(
         )
     }
 
-    private fun colorCategory(item: ColorCategory?, holder: RecyclerViewItemRowBinding) {
+    private fun colorCategory(
+        item: ColorCategory?,
+        holder: RecyclerViewItemRowBinding,
+        context: Context
+    ) {
         when (item) {
             ColorCategory.OPTION_ONE -> {
-                widgets(holder, R.color.color_one_primary, R.color.color_one_secondary)
+                widgets(holder, R.color.color_one_primary, R.color.color_one_secondary, context)
             }
             ColorCategory.OPTION_TWO -> {
-                widgets(holder, R.color.color_two_primary, R.color.color_two_secondary)
+                widgets(holder, R.color.color_two_primary, R.color.color_two_secondary, context)
             }
             ColorCategory.OPTION_THREE -> {
-                widgets(holder, R.color.color_three_primary, R.color.color_three_secondary)
+                widgets(holder, R.color.color_three_primary, R.color.color_three_secondary, context)
             }
             ColorCategory.OPTION_FOUR -> {
-                widgets(holder, R.color.color_four_primary, R.color.color_four_secondary)
+                widgets(holder, R.color.color_four_primary, R.color.color_four_secondary, context)
             }
             ColorCategory.OPTION_FIVE -> {
-                widgets(holder, R.color.color_five_primary, R.color.color_five_secondary)
+                widgets(holder, R.color.color_five_primary, R.color.color_five_secondary, context)
             }
             ColorCategory.OPTION_SIX -> {
-                widgets(holder, R.color.color_six_primary, R.color.color_six_secondary)
+                widgets(holder, R.color.color_six_primary, R.color.color_six_secondary, context)
             }
             ColorCategory.OPTION_SEVEN -> {
-                widgets(holder, R.color.color_seven_primary, R.color.color_seven_secondary)
+                widgets(holder, R.color.color_seven_primary, R.color.color_seven_secondary, context)
             }
             ColorCategory.OPTION_EIGHT -> {
-                widgets(holder, R.color.color_eight_primary, R.color.color_eight_secondary)
+                widgets(holder, R.color.color_eight_primary, R.color.color_eight_secondary, context)
             }
             else -> {
-                widgets(holder, R.color.color_eight_primary, R.color.color_eight_secondary)
+                widgets(holder, R.color.color_eight_primary, R.color.color_eight_secondary, context)
             }
         }
     }
@@ -148,19 +151,18 @@ class NoteListAdapter(
     private fun widgets(
         holder: RecyclerViewItemRowBinding,
         primaryColor: Int,
-        secondaryColor: Int
+        secondaryColor: Int,
+        context: Context
     ) {
         holder.notePrimaryColor.backgroundTintList =
-            ColorStateList.valueOf(holder.main.resources.getColor(primaryColor, null))
+            ColorStateList.valueOf(context.resources.getColor(primaryColor, null))
         holder.noteSecondaryColor.backgroundTintList =
-            ColorStateList.valueOf(holder.main.resources.getColor(secondaryColor, null))
+            ColorStateList.valueOf(context.resources.getColor(secondaryColor, null))
     }
 
     interface Interaction {
 
         fun onItemSelected(position: Int, item: NoteModel)
-
-        fun restoreListPosition()
 
         fun isMultiSelectionModeEnabled(): Boolean
 

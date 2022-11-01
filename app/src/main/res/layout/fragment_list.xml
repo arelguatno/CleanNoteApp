@@ -55,7 +55,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/listBottomNavigationView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/appbar_bg_color"
         android:visibility="visible"

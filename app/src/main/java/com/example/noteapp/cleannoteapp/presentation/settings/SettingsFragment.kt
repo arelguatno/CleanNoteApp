@@ -19,7 +19,7 @@ import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
 
-class SettingsFragment : BaseFragment() {
+class SettingsFragment : BaseFragment(), ColorCategoryBinding {
     private lateinit var binding: SettingsSettingsBinding
     private val className = this.javaClass.simpleName
     private val viewModel: SettingsViewModel by viewModels()
@@ -77,6 +77,11 @@ class SettingsFragment : BaseFragment() {
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        BindingAdapters.setItemOnClickListener(null)
+    }
+
     private fun initMenu() {
         binding.appBar.setNavigationOnClickListener {
             it.findNavController().popBackStack()
@@ -90,5 +95,9 @@ class SettingsFragment : BaseFragment() {
             PorterDuff.Mode.SRC_IN
         )
         return drawable
+    }
+
+    override fun userSelectedColor(colorBinding: ColorCategory) {
+        TODO("Not yet implemented")
     }
 }
