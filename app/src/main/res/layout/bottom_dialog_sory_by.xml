@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:text="Sort By"
-            android:textColor="@color/black"
+            android:textColor="@color/text_color"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Modified Time"
+                android:textColor="@color/text_color"
                 android:textSize="@dimen/bottom_sheet_text_size"
                 android:textStyle="bold" />
 
@@ -80,6 +81,7 @@
                 android:layout_weight="1"
                 android:text="Created Time"
                 android:textSize="@dimen/bottom_sheet_text_size"
+                android:textColor="@color/text_color"
                 android:textStyle="bold" />
 
             <ImageView
@@ -114,6 +116,7 @@
                 android:layout_weight="1"
                 android:text="Reminder Time - TODO"
                 android:textSize="@dimen/bottom_sheet_text_size"
+                android:textColor="@color/text_color"
                 android:textStyle="bold" />
 
             <ImageView
@@ -148,6 +151,7 @@
                 android:layout_weight="1"
                 android:text="Color"
                 android:textSize="@dimen/bottom_sheet_text_size"
+                android:textColor="@color/text_color"
                 android:textStyle="bold" />
 
             <ImageView

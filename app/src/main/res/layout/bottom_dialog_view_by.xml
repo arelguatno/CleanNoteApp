@@ -50,6 +50,7 @@
                 android:layout_weight="1"
                 android:text="@string/list"
                 android:textSize="@dimen/bottom_sheet_text_size"
+                android:textColor="@color/text_color"
                 android:textStyle="bold" />
 
             <ImageView
@@ -86,6 +87,7 @@
                 android:layout_weight="1"
                 android:text="@string/grid"
                 android:textSize="@dimen/bottom_sheet_text_size"
+                android:textColor="@color/text_color"
                 android:textStyle="bold" />
 
             <ImageView
@@ -122,6 +124,7 @@
                 android:layout_weight="1"
                 android:text="@string/details"
                 android:textSize="@dimen/bottom_sheet_text_size"
+                android:textColor="@color/text_color"
                 android:textStyle="bold" />
 
             <ImageView

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        card_view:cardBackgroundColor="@color/bg_white_color"
+        card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="10dp"
         card_view:cardElevation="5dp">
 
@@ -46,7 +46,7 @@
 
                         <ImageView
                             android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_height="30dp"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/ic_baseline_feedback_24" />
                     </LinearLayout>
@@ -58,9 +58,10 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:text="Rate Us"
+                            android:textColor="@color/text_color"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -107,7 +108,7 @@
 
                         <ImageView
                             android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_height="30dp"
                             android:contentDescription="@string/todo"
                             android:src="@drawable/ic_baseline_settings_24" />
                     </LinearLayout>
@@ -122,6 +123,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Settings"
+                            android:textColor="@color/text_color"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -169,9 +171,9 @@
 
                         <ImageView
                             android:layout_width="35dp"
-                            android:layout_height="35dp"
+                            android:layout_height="30dp"
                             android:contentDescription="@string/todo"
-                            android:src="@drawable/ic_insert_link" />
+                            android:src="@drawable/ic_baseline_insert_link_24" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -184,6 +186,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Widget"
+                            android:textColor="@color/text_color"
                             android:textSize="16sp"
                             android:textStyle="bold" />
                     </LinearLayout>

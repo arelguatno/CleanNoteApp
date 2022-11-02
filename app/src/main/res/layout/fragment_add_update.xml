@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             app:menu="@menu/detail_menu"
+            app:popupTheme="@color/color_one_secondary"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:title="" />
     </com.google.android.material.appbar.AppBarLayout>

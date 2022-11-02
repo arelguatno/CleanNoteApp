@@ -4,11 +4,9 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -32,6 +30,7 @@ import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import java.util.*
+
 
 @AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
@@ -106,7 +105,6 @@ class AddUpdateFragment : BaseFragment() {
     private fun initMenu() {
         menuItemColorCategory = binding.appBar.menu.findItem(R.id.menu_color_category)
         menuItemPinned = binding.appBar.menu.findItem(R.id.menu_pinned)
-
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_color_category -> {
