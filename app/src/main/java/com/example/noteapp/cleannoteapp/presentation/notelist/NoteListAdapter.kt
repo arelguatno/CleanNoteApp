@@ -21,6 +21,15 @@ class NoteListAdapter(
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<NoteModel>() {
             override fun areItemsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {
                 return oldItem.id == newItem.id
+                        && oldItem.header == newItem.header
+                        && oldItem.body == newItem.body
+                        && oldItem.pinned == newItem.pinned
+                        && oldItem.bin == newItem.bin
+                        && oldItem.archive == newItem.archive
+                        && oldItem.dates!!.dateModifiedStringValue == newItem.dates!!.dateModifiedStringValue
+                        && oldItem.dates!!.dateCreated == newItem.dates!!.dateCreated
+                        && oldItem.dates == newItem.dates
+//                return true
             }
 
             override fun areContentsTheSame(oldItem: NoteModel, newItem: NoteModel): Boolean {

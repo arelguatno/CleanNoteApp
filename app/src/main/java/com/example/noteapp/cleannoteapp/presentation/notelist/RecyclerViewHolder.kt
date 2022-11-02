@@ -75,9 +75,7 @@ class RecyclerViewHolder constructor(
                     binding.divider.isVisible = true
                     binding.body.isVisible = true
                 }
-                ViewBy.Default -> {
-                    binding.body.setLines(7)
-                }
+                else -> {}
             }
         }
     }

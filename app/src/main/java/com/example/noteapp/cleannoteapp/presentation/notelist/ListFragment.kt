@@ -87,6 +87,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         }
 
         binding.listBottomNavigationView.setOnItemSelectedListener {
+            initColorSelectedListener()
             when (it.itemId) {
                 R.id.bottom_archive -> {
                     transferItemsToArchive()
@@ -263,7 +264,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.viewByMenuInteractionState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewBy.List -> {
-                   // crudViewModel.insertListOfData(generateRecord())
+                    //crudViewModel.insertListOfData(generateRecord())
                     binding.recyclerView.layoutManager = getDetailsLayoutManger()
                 }
                 ViewBy.Grid -> {
@@ -369,6 +370,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun lunchColorSelectMenu() {
+        initColorSelectedListener()
         val view = BottomDialogChangeColorBinding.inflate(layoutInflater)
         view.allNotes.isVisible = true
         view.viewText.text = "Filter"
