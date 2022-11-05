@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.PopupMenu
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -152,6 +154,9 @@ class AddUpdateFragment : BaseFragment() {
                     viewModel.loadDefaultColor()
                     viewModel.setViewState(ViewStateModel(NewItem, state.noteModel))
                     viewModel.setNoteInteractionBodyState(EditState)
+                    binding.appBar.menu.findItem(R.id.menu_archive).isVisible = false
+                    binding.appBar.menu.findItem(R.id.menu_delete).isVisible = false
+
                 }
             }
             is EditItem -> {

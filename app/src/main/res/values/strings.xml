@@ -28,4 +28,6 @@
     <string name="note_archived_plural">Notes Archived</string>
     <string name="note_deleted_plural">Notes Deleted</string>
     <string name="undo">Undo</string>
+    <string name="share">Share</string>
+    <string name="check">Check</string>
 </resources>
