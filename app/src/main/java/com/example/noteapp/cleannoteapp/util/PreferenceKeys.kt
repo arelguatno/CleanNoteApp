@@ -21,5 +21,8 @@ class PreferenceKeys {
 
         //List View - View By
         const val LIST_VIEW_VIEW_BY: String = "$NOTE_PREFERENCES.LIST_VIEW_VIEW_BY"
+
+        const val ADD_UPDATE_RESULT: String = "$NOTE_PREFERENCES.ADD_UPDATE_RESULT"
+        const val ADD_UPDATE_NODE_MODEL: String = "$NOTE_PREFERENCES.ADD_UPDATE_NODE_MODEL"
     }
 }

@@ -1,6 +1,8 @@
 package com.example.noteapp.cleannoteapp.presentation.notedetail
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -17,6 +19,7 @@ import com.example.noteapp.cleannoteapp.databinding.BottomDialogChangeColorBindi
 import com.example.noteapp.cleannoteapp.databinding.FragmentAddUpdateBinding
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.MenuActions
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapters
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
@@ -27,8 +30,12 @@ import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.NewItem
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.ADD_UPDATE_NODE_MODEL
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.ADD_UPDATE_RESULT
 import com.example.noteapp.cleannoteapp.util.extensions.*
 import com.example.noteapp.cleannoteapp.util.printLogD
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import java.util.*
@@ -43,6 +50,7 @@ class AddUpdateFragment : BaseFragment() {
     private var menuItemColorCategory: MenuItem? = null
     private var menuItemPinned: MenuItem? = null
     private var activityMain: AddUpdateActivity? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -117,9 +125,52 @@ class AddUpdateFragment : BaseFragment() {
                     onClickPin()
                     setPinUI()
                 }
+                R.id.menu_check -> {
+                    strikeThroughOnClick()
+                }
+                R.id.menu_archive -> {
+                    archiveNote()
+                }
+                R.id.menu_share -> {
+                    shareNote()
+                }
+                R.id.menu_reminder -> {
+
+                }
+                R.id.menu_delete -> {
+                    deleteNote()
+                }
             }
             true
         }
+    }
+
+    private fun deleteNote() {
+        viewModel.deleteNote(crudViewModel)
+        val returnIntent = Intent().apply {
+            putExtra(ADD_UPDATE_RESULT, MenuActions.Bin)
+            putExtra(ADD_UPDATE_NODE_MODEL, viewModel.viewState!!.noteModel)
+        }
+        requireActivity().setResult(Activity.RESULT_OK, returnIntent)
+        requireActivity().finish()
+    }
+
+    private fun shareNote() {
+        TODO("Not yet implemented")
+    }
+
+    private fun archiveNote() {
+        viewModel.archiveNOte(crudViewModel)
+        val returnIntent = Intent().apply {
+            putExtra(ADD_UPDATE_RESULT, MenuActions.Archive)
+            putExtra(ADD_UPDATE_NODE_MODEL, viewModel.viewState!!.noteModel)
+        }
+        requireActivity().setResult(Activity.RESULT_OK, returnIntent)
+        requireActivity().finish()
+    }
+
+    private fun strikeThroughOnClick() {
+        TODO("Not yet implemented")
     }
 
     private fun setPinUI() {

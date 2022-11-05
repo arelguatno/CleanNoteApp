@@ -7,6 +7,7 @@ import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import com.example.noteapp.cleannoteapp.util.extensions.save
@@ -121,5 +122,17 @@ class AddUpdateViewModel @Inject constructor(
         val color =
             GsonBuilder().create().fromJson(vv, ColorCategory::class.java)
         setThemeSelected(color)
+    }
+
+    fun deleteNote(crudViewModel: NoteViewModel) {
+        if (viewState != null) {
+            crudViewModel.transferItemsToBin(arrayListOf(viewState!!.noteModel!!.id))
+        }
+    }
+
+    fun archiveNOte(crudViewModel: NoteViewModel) {
+        if (viewState != null) {
+            crudViewModel.transferItemsToArchive(arrayListOf(viewState!!.noteModel!!.id))
+        }
     }
 }

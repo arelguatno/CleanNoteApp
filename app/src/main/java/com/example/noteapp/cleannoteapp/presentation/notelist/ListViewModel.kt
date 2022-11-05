@@ -6,6 +6,7 @@ import androidx.lifecycle.asFlow
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.models.CombineSortAndColorModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
+import com.example.noteapp.cleannoteapp.models.enums.MenuActions
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
@@ -156,6 +157,14 @@ class ListViewModel @Inject constructor(
             R.string.note_deleted
         } else {
             R.string.note_deleted_plural
+        }
+    }
+
+    fun getSingularMessage(action: MenuActions): Int {
+        return if (action == MenuActions.Bin) {
+            R.string.note_deleted
+        } else {
+            R.string.note_archived
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -9,6 +11,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -33,8 +37,11 @@ import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListTool
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.Constants.GRID_SPAN_COUNT
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.ADD_UPDATE_NODE_MODEL
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.ADD_UPDATE_RESULT
 import com.example.noteapp.cleannoteapp.util.extensions.enableListViewToolbarState
 import com.example.noteapp.cleannoteapp.util.extensions.enableMultiSelection
+import com.example.noteapp.cleannoteapp.util.extensions.serializable
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,6 +59,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private var menuItemColorCategory: MenuItem? = null
     private var noteListAdapter: NoteListAdapter? = null
     private var navBottomView: BottomNavigationView? = null
+    private var startForResult: ActivityResultLauncher<Intent>? = null
 
 
     override fun onCreateView(
@@ -362,6 +370,11 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        startActivityForResult()
+    }
+
     private fun lunchViewByMenu() {
         val view = BottomDialogViewByBinding.inflate(layoutInflater)
         view.root.findViewById<ImageView>(viewModel.getViewByID(viewModel.viewByMenuInteractionState.value!!))
@@ -417,14 +430,30 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         }
     }
 
+    private fun startActivityForResult() {
+        startForResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val menuAction = it.data?.serializable<MenuActions>(ADD_UPDATE_RESULT)
+                    val item = it.data?.serializable<NoteModel>(ADD_UPDATE_NODE_MODEL)
+                    if (menuAction != null && item != null) {
+                        restoreAction(
+                            arrayListOf(item.id),
+                            getString(viewModel.getSingularMessage(menuAction)),
+                            menuAction
+                        )
+                    }
+                }
+            }
+    }
+
     override fun onItemSelected(position: Int, item: NoteModel) {
         if (isMultiSelectionModeEnabled()) {
             viewModel.addOrRemoveNoteFromSelectedList(item)
         } else {
-            val intent = Intent(requireContext(), AddUpdateActivity::class.java).apply {
+            startForResult!!.launch(Intent(requireActivity(), AddUpdateActivity::class.java).apply {
                 putExtra(AddUpdateActivity.DETAIL_FRAGMENT, ViewStateModel(EditItem, item))
-            }
-            startActivity(intent)
+            })
         }
     }
 
