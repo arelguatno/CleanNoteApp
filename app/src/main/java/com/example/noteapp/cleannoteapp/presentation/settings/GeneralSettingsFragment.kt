@@ -5,20 +5,34 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.findNavController
 import com.example.noteapp.cleannoteapp.R
+import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentSettingsBinding
+import com.example.noteapp.cleannoteapp.presentation.archive.ArchiveFragment
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
+import com.example.noteapp.cleannoteapp.presentation.notelist.ListViewModel
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListScreenState
+import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.BIN_ARCHIVE_VIEW
+import com.example.noteapp.cleannoteapp.util.extensions.serializable
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class GeneralSettingsFragment : BaseFragment() {
-    private lateinit var binding: FragmentSettingsBinding
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
+
+
+    private val viewModel: ListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentSettingsBinding.inflate(layoutInflater)
+        _binding = FragmentSettingsBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -34,6 +48,25 @@ class GeneralSettingsFragment : BaseFragment() {
         }
 
         initListener()
+        setUpFragmentNavResultListener()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    private fun setUpFragmentNavResultListener() {
+        setFragmentResultListener(BIN_ARCHIVE_VIEW) { _, bundle ->
+            val result = bundle.serializable<Boolean>(BIN_ARCHIVE_VIEW)
+            if (result != null && result) {
+                val navBottomView =
+                    requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+                navBottomView.isVisible = true
+                viewModel.setListScreenState(NoteListScreenState.MainListView)
+                viewModel.clearSelectedNotes()
+            }
+        }
     }
 
     private fun initListener() {

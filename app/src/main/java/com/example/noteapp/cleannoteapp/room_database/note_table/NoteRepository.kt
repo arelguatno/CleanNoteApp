@@ -41,6 +41,10 @@ class NoteRepository @Inject constructor(
         return noteDao.transferItemsToArchive(list)
     }
 
+    fun undoItemsToArchive(list: ArrayList<Int>) {
+        return noteDao.undoItemsToArchive(list)
+    }
+
     fun undoTransferItemsToBin(list: ArrayList<Int>) {
         return noteDao.undoTransferItemsToBin(list)
     }
@@ -85,5 +89,32 @@ class NoteRepository @Inject constructor(
 
     fun fetchBinAndArchiveCounts(): Flow<List<ReportingModel>> {
         return noteDao.fetchBinAndArchiveCounts()
+    }
+
+
+    // Archive - A
+    fun fetchAllArchiveSortByModifiedTime(): PagingSource<Int, NoteModel> {
+        return noteDao.fetchAllArchiveSortByModifiedTime()
+    }
+
+    fun fetchAllArchiveSortByCreatedTime(): PagingSource<Int, NoteModel> {
+        return noteDao.fetchAllArchiveSortByCreatedTime()
+    }
+
+    fun fetchAllArchiveSortByColor(): PagingSource<Int, NoteModel> {
+        return noteDao.fetchAllArchiveSortByColor()
+    }
+
+    // Archive - B
+    fun fetchArchivePerColorSortByModifiedTime(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchArchivePerColorSortByModifiedTime(category)
+    }
+
+    fun fetchArchivePerColorSortByCreatedTime(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchArchivePerColorSortByCreatedTime(category)
+    }
+
+    fun fetchArchivePerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchArchivePerColorSortByColor(category)
     }
 }

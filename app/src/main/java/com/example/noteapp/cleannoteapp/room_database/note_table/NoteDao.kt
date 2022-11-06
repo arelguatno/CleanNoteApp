@@ -32,6 +32,9 @@ interface NoteDao {
     @Query("UPDATE notes_table SET archive = 1 WHERE id IN (:list)")
     fun transferItemsToArchive(list: ArrayList<Int>)
 
+    @Query("UPDATE notes_table SET archive = 0 WHERE id IN (:list)")
+    fun undoItemsToArchive(list: ArrayList<Int>)
+
     @Query("UPDATE notes_table SET bin = 0 WHERE id IN (:list)")
     fun undoTransferItemsToBin(list: ArrayList<Int>)
 
@@ -68,4 +71,24 @@ interface NoteDao {
 
     @Query("SELECT SUM(archive) reporting_archive, SUM(bin) reporting_bin FROM notes_table")
     fun fetchBinAndArchiveCounts(): Flow<List<ReportingModel>>
+
+    // Archive - A
+    @Query("SELECT * FROM notes_table WHERE archive = 1 ORDER BY pinned DESC, dates_dateModified DESC")
+    fun fetchAllArchiveSortByModifiedTime(): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE archive = 1 ORDER BY pinned DESC, dates_dateCreated DESC")
+    fun fetchAllArchiveSortByCreatedTime(): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE archive = 1 ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
+    fun fetchAllArchiveSortByColor(): PagingSource<Int, NoteModel>
+
+    // Archive - B
+    @Query("SELECT * FROM notes_table WHERE archive = 1 AND category = :category ORDER BY pinned DESC, dates_dateModified DESC")
+    fun fetchArchivePerColorSortByModifiedTime(category: ColorCategory): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE archive = 1 AND category = :category ORDER BY pinned DESC, dates_dateCreated DESC")
+    fun fetchArchivePerColorSortByCreatedTime(category: ColorCategory): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE archive = 1 AND category = :category ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
+    fun fetchArchivePerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel>
 }

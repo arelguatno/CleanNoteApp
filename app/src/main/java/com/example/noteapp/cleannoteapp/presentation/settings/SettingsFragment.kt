@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import com.example.noteapp.cleannoteapp.BuildConfig
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.BottomDialogChangeColorBinding
+import com.example.noteapp.cleannoteapp.databinding.FragmentSettingsBinding
 import com.example.noteapp.cleannoteapp.databinding.SettingsSettingsBinding
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
@@ -20,7 +21,14 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.BindingAdapter
 import com.example.noteapp.cleannoteapp.presentation.data_binding.ColorCategoryBinding
 
 class SettingsFragment : BaseFragment(), ColorCategoryBinding {
-    private lateinit var binding: SettingsSettingsBinding
+    private var _binding: SettingsSettingsBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private val className = this.javaClass.simpleName
     private val viewModel: SettingsViewModel by viewModels()
 
@@ -28,7 +36,7 @@ class SettingsFragment : BaseFragment(), ColorCategoryBinding {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = SettingsSettingsBinding.inflate(layoutInflater)
+        _binding = SettingsSettingsBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -77,10 +85,11 @@ class SettingsFragment : BaseFragment(), ColorCategoryBinding {
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        BindingAdapters.setItemOnClickListener(null)
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        BindingAdapters.setItemOnClickListener(null)
+//        _binding = null
+//    }
 
     private fun initMenu() {
         binding.appBar.setNavigationOnClickListener {

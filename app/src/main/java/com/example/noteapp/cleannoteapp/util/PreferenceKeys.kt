@@ -1,10 +1,12 @@
 package com.example.noteapp.cleannoteapp.util
 
+import com.example.noteapp.cleannoteapp.BuildConfig
+
 class PreferenceKeys {
 
     companion object {
         // Shared Preference Files:
-        const val NOTE_PREFERENCES: String = "com.example.noteapp.cleannoteapp.models"
+        const val NOTE_PREFERENCES: String = BuildConfig.APPLICATION_ID
 
         // Shared Preference Keys
         const val USER_DYNAMIC_THEME_PREFERENCE: String =
@@ -24,5 +26,7 @@ class PreferenceKeys {
 
         const val ADD_UPDATE_RESULT: String = "$NOTE_PREFERENCES.ADD_UPDATE_RESULT"
         const val ADD_UPDATE_NODE_MODEL: String = "$NOTE_PREFERENCES.ADD_UPDATE_NODE_MODEL"
+
+        const val BIN_ARCHIVE_VIEW: String = "$NOTE_PREFERENCES.BIN_ARCHIVE_VIEW"
     }
 }
