@@ -41,16 +41,8 @@ class NoteRepository @Inject constructor(
         return noteDao.transferItemsToArchive(list)
     }
 
-    fun undoItemsToArchive(list: ArrayList<Int>) {
-        return noteDao.undoItemsToArchive(list)
-    }
-
-    fun undoTransferItemsToBin(list: ArrayList<Int>) {
-        return noteDao.undoTransferItemsToBin(list)
-    }
-
-    fun undoTransferItemsToArchive(list: ArrayList<Int>) {
-        return noteDao.undoTransferItemsToArchive(list)
+    fun undoDeletedArchiveItems(list: ArrayList<Int>) {
+        return noteDao.undoDeletedArchiveItems(list)
     }
 
     fun fetchWalletsRecord(): PagingSource<Int, NoteModel> {

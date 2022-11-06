@@ -62,21 +62,9 @@ class NoteViewModel @Inject constructor(
         }
     }
 
-    fun undoItemsToArchive(list: ArrayList<Int>) {
+    fun undoDeletedArchiveItems(list: ArrayList<Int>) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.undoItemsToArchive(list)
-        }
-    }
-
-    fun undoTransferItemsToBin(list: ArrayList<Int>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.undoTransferItemsToBin(list)
-        }
-    }
-
-    fun undoTransferItemsToArchive(list: ArrayList<Int>) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.undoTransferItemsToArchive(list)
+            repository.undoDeletedArchiveItems(list)
         }
     }
 

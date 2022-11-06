@@ -154,6 +154,8 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                 )
                 backToListViewState()
             } else {
+                viewModel.setToolbarState(ListViewState)
+                viewModel.setListScreenState(ArchiveView)
                 Toast.makeText(requireContext(), "Note Deleted", Toast.LENGTH_SHORT).show()
             }
         }
@@ -162,7 +164,7 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     private fun undoItemsToArchive() {
         if (viewModel.getSelectedNotes().size > 0) {
-            crudViewModel.undoItemsToArchive(viewModel.getSelectedNotesID())
+            crudViewModel.undoDeletedArchiveItems(viewModel.getSelectedNotesID())
             viewModel.setToolbarState(ListViewState)
             viewModel.setListScreenState(ArchiveView)
             Toast.makeText(requireContext(), "Note Unarchived", Toast.LENGTH_SHORT).show()
@@ -191,10 +193,12 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         snackBar.anchorView = binding.floatingActionButton
 
         snackBar.setAction(getString(R.string.undo)) {
-            when (bin) {
-                MenuActions.Archive -> crudViewModel.undoTransferItemsToArchive(notes)
-                MenuActions.Bin -> crudViewModel.undoTransferItemsToBin(notes)
-            }
+            crudViewModel.undoDeletedArchiveItems(notes)
+//            when (bin) {
+//                crudViewModel.undoDeletedArchiveItems(notes)
+////                MenuActions.Archive -> crudViewModel.undoTransferItemsToArchive(notes)
+////                MenuActions.Bin -> crudViewModel.undoTransferItemsToBin(notes)
+//            }
         }
         snackBar.show()
     }

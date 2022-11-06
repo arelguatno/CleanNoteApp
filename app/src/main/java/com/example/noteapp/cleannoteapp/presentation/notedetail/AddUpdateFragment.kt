@@ -41,7 +41,10 @@ import java.util.*
 
 @AndroidEntryPoint
 class AddUpdateFragment : BaseFragment() {
-    private lateinit var binding: FragmentAddUpdateBinding
+    private var _binding: FragmentAddUpdateBinding? = null
+    private val binding get() = _binding!!
+
+
     private val className = this.javaClass.simpleName
     private val viewModel: AddUpdateViewModel by activityViewModels()
 
@@ -54,7 +57,7 @@ class AddUpdateFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAddUpdateBinding.inflate(layoutInflater)
+        _binding = FragmentAddUpdateBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -64,6 +67,7 @@ class AddUpdateFragment : BaseFragment() {
         menuItemPinned = null
         activityMain = null
         BindingAdapters.setItemOnClickListener(null)
+        _binding = null
     }
 
 
