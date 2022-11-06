@@ -1,7 +1,6 @@
 package com.example.noteapp.cleannoteapp.presentation.notelist
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -11,11 +10,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.*
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
@@ -32,6 +34,7 @@ import com.example.noteapp.cleannoteapp.presentation.data_binding.ViewByBinding
 import com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateActivity
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.EditItem
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.NewItem
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListScreenState.*
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.ListViewState
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
@@ -42,6 +45,7 @@ import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.ADD_UPDATE
 import com.example.noteapp.cleannoteapp.util.extensions.enableListViewToolbarState
 import com.example.noteapp.cleannoteapp.util.extensions.enableMultiSelection
 import com.example.noteapp.cleannoteapp.util.extensions.serializable
+import com.example.noteapp.cleannoteapp.util.printLogD
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,11 +56,10 @@ import kotlin.collections.ArrayList
 
 
 @AndroidEntryPoint
-class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
-    private lateinit var binding: FragmentListBinding
-    private val viewModel: ListViewModel by activityViewModels()
+open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
+    protected lateinit var binding: FragmentListBinding
+    protected open val viewModel: ListViewModel by activityViewModels()
     private val className = this.javaClass.simpleName
-    private var menuItemColorCategory: MenuItem? = null
     private var noteListAdapter: NoteListAdapter? = null
     private var navBottomView: BottomNavigationView? = null
     private var startForResult: ActivityResultLauncher<Intent>? = null
@@ -80,11 +83,12 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.loadDefaultViewBy()
 
         initMenuState()
-        initScrollBehaviour()
         subscribeObservers()
         initMenu()
         initFetchList()
         initOnClickListener()
+        startActivityForResult()
+        initOnBackPressDispatcher()
 
         navBottomView = requireActivity().findViewById(R.id.bottomNavigationView)
     }
@@ -160,6 +164,8 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             Snackbar.LENGTH_SHORT
         )
 
+        snackBar.anchorView = binding.floatingActionButton
+
         snackBar.setAction(getString(R.string.undo)) {
             when (bin) {
                 MenuActions.Archive -> crudViewModel.undoTransferItemsToArchive(notes)
@@ -174,7 +180,6 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         super.onDestroyView()
         noteListAdapter = null
         navBottomView = null
-        menuItemColorCategory = null
     }
 
     private fun initNoteListAdapter() {
@@ -203,6 +208,32 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.selectedNotesInteractionState.observe(viewLifecycleOwner) {
             if (it != null) {
                 binding.appBar.title = "${it.size} selected"
+            }
+        }
+
+        viewModel.viewByColorInteractionState.observe(viewLifecycleOwner){
+            menuColorBar(it)
+        }
+        viewModel.listScreenInterActionState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ArchiveView -> {
+                    binding.floatingActionButton.hide()
+                    binding.appBar.navigationIcon = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.ic_baseline_arrow_back_24,
+                        null
+                    )
+                    navBottomView!!.isVisible = false
+                    binding.appBar.title = "Archive"
+                }
+                is BinView -> {
+
+                }
+                is MainListView -> {
+                    binding.floatingActionButton.show()
+                    navBottomView!!.isVisible = true
+                    binding.appBar.title = getString(R.string.app_name)
+                }
             }
         }
     }
@@ -238,7 +269,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         BindingAdapters.setViewByOnClickListener(object : ViewByBinding {
             override fun onClick(viewBy: ViewBy) {
                 viewModel.setViewByMenuState(viewBy)
-                viewModel.saveViewBy(viewBy)
+                if (viewModel.isMainListViewScreenActive()) viewModel.saveViewBy(viewBy)
                 bottomSheetDialog.dismiss()
             }
         })
@@ -248,7 +279,7 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         BindingAdapters.setSortByOnClickListener(object : SortByBinding {
             override fun onClick(sortBy: SortBy) {
                 viewModel.setSortCategory(sortBy)
-                viewModel.saveSortBy(sortBy)
+                if (viewModel.isMainListViewScreenActive()) viewModel.saveSortBy(sortBy)
                 bottomSheetDialog.dismiss()
             }
         })
@@ -259,13 +290,23 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             override fun userSelectedColor(colorBinding: ColorCategory) {
                 if (viewModel.toolbarStateValue == ListViewState) {
                     viewModel.setByColorCategory(colorBinding)
-                    viewModel.saveDefaultColor(colorBinding)
+                    if (viewModel.isMainListViewScreenActive()) viewModel.saveDefaultColor(
+                        colorBinding
+                    )
                 } else {
                     updateColorMulti(colorBinding)
                 }
                 bottomSheetDialog.dismiss()
             }
         })
+    }
+
+    private fun menuColorBar(colorBinding: ColorCategory) {
+        binding.appBar.menu.findItem(R.id.menu_filter_by_color).icon =
+            getImage(
+                viewModel.getColorCategoryItem(colorBinding).primaryColor,
+                colorBinding
+            )
     }
 
     private fun initMenuState() {
@@ -305,15 +346,6 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         return LinearLayoutManager(requireContext())
     }
 
-    private fun initScrollBehaviour() {
-//        ScrollAwareFABBehavior(
-//            recyclerView = binding.recyclerView,
-//            floatingActionButton = binding.floatingActionButton,
-//            requireActivity().findViewById(R.id.bottomNavigationView)
-//        ).start()
-    }
-
-
     private fun initFetchList() {
         binding.recyclerView.itemAnimator = null
         binding.recyclerView.adapter = noteListAdapter
@@ -321,16 +353,11 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
         lifecycleScope.launch {
             viewModel.combineObserver.collectLatest {
-                menuItemColorCategory?.icon =
-                    getImage(
-                        viewModel.getColorCategoryItem(it.colorCategory).primaryColor,
-                        it.colorCategory
-                    )
-
                 crudViewModel.fetchListViewRecords(it.colorCategory, it.sortBy)
                     .collectLatest { data ->
                         noteListAdapter?.submitData(data)
                     }
+
             }
         }
 
@@ -344,8 +371,6 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     }
 
     private fun initMenu() {
-        menuItemColorCategory = binding.appBar.menu.findItem(R.id.menu_filter_by_color)
-
         binding.appBar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.menu_filter_by_color -> {
@@ -364,15 +389,35 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             }
             true
         }
+        appBarBackButton()
+    }
 
+    open fun appBarBackButton() {
         binding.appBar.setNavigationOnClickListener {
             viewModel.setToolbarState(ListViewState)
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        startActivityForResult()
+    open fun appBarBackButtonState() {
+        viewModel.setToolbarState(ListViewState)
+    }
+
+    open fun initOnBackPressDispatcher() {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (isMultiSelectionModeEnabled()) {
+                    appBarBackButtonState()
+                } else {
+                    if (viewModel.isMainListViewScreenActive()) {
+                        requireActivity().finish()
+                    } else {
+                        view?.findNavController()?.popBackStack()
+                    }
+
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
     private fun lunchViewByMenu() {
@@ -419,8 +464,10 @@ class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     private fun getImage(color: Int, category: ColorCategory): Drawable {
         return if (category == viewModel.getCategoryAllNotes()) {
+            printLogD(className, "aa")
             resources.getDrawable(R.drawable.all_category, null)
         } else {
+            printLogD(className, "bb")
             val drawable: Drawable = resources.getDrawable(R.drawable.circle_category, null)
             drawable.setColorFilter(
                 resources.getColor(color, null),

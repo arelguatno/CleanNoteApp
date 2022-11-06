@@ -23,6 +23,7 @@ android {
         setProperty("archivesBaseName", "cleannoteapp-v${versionName}(${versionCode})")
     }
 
+
     buildTypes {
         release {
             minifyEnabled false

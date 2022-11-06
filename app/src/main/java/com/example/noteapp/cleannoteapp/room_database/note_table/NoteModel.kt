@@ -18,6 +18,7 @@ data class NoteModel(
     var pinned: Boolean = false,
     var archive: Boolean = false,
     var bin: Boolean = false,
+    var completed: Boolean = false,
 ) : Serializable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

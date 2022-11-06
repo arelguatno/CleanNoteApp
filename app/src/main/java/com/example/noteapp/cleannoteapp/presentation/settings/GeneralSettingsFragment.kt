@@ -29,6 +29,10 @@ class GeneralSettingsFragment : BaseFragment() {
             it.findNavController().navigate(R.id.action_settingsFragment_to_settingsFragment2)
         }
 
+        binding.settingsAppName.recycleArchive.setOnClickListener {
+            it.findNavController().navigate(R.id.action_settingsFragment_to_archiveFragment)
+        }
+
         initListener()
     }
 

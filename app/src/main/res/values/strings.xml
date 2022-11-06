@@ -30,4 +30,5 @@
     <string name="undo">Undo</string>
     <string name="share">Share</string>
     <string name="check">Check</string>
+    <string name="uncheck">Uncheck</string>
 </resources>

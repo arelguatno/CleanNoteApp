@@ -8,12 +8,11 @@ import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.presentation.common.BaseActivity
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.DefaultState
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState.EditState
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState
-import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.*
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.EditItem
+import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.NewItem
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.SETTINGS_DEFAULT_COLOR
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import com.example.noteapp.cleannoteapp.util.extensions.serializable
-import com.example.noteapp.cleannoteapp.util.printLogD
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

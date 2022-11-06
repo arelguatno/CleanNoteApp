@@ -7,4 +7,24 @@
         android:icon="@drawable/ic_outline_push_pin_24"
         android:title=""
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_more_two"
+        android:icon="@drawable/more"
+        android:title=""
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/multi_check"
+                android:icon="@drawable/ic_baseline_strikethrough_s_24"
+                android:title="@string/check"
+                app:showAsAction="ifRoom" />
+            <item
+                android:id="@+id/multi_uncheck"
+                android:icon="@drawable/ic_baseline_check_box_outline_blank_24"
+                android:title="@string/uncheck"
+                android:visible="true"
+                app:showAsAction="ifRoom" />
+        </menu>
+    </item>
 </menu>

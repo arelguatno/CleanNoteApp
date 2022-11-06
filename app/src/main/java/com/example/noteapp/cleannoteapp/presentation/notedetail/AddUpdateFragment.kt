@@ -30,12 +30,10 @@ import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.ViewState.NewItem
 import com.example.noteapp.cleannoteapp.room_database.note_table.Dates
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
-import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.ADD_UPDATE_NODE_MODEL
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.ADD_UPDATE_RESULT
 import com.example.noteapp.cleannoteapp.util.extensions.*
 import com.example.noteapp.cleannoteapp.util.printLogD
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import es.dmoral.toasty.Toasty
 import java.util.*
@@ -178,11 +176,11 @@ class AddUpdateFragment : BaseFragment() {
             viewModel.setPinnedIsClicked(false)
         } else {
             viewModel.setPinnedIsClicked(true)
-            showCustomToast("Pinned from the top")
+            showCustomToast()
         }
     }
 
-    private fun showCustomToast(message: String) {
+    private fun showCustomToast(message: String = "Pinned from the top") {
         context?.let {
             Toasty.custom(
                 it.applicationContext,

@@ -11,6 +11,7 @@ import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.ListInteractionManager
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListScreenState
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_COLOR_THEME
@@ -32,6 +33,9 @@ class ListViewModel @Inject constructor(
 
     val toolbarState: LiveData<NoteListToolbarState>
         get() = noteInteractionManager.toolbarState
+
+    val listScreenInterActionState: LiveData<NoteListScreenState>
+        get() = noteInteractionManager.listScreenState
 
     val toolbarStateValue: NoteListToolbarState?
         get() = noteInteractionManager.toolbarState.value
@@ -66,12 +70,18 @@ class ListViewModel @Inject constructor(
 
     fun isMultiSelectionStateActive() = noteInteractionManager.isMultiSelectionStateActive()
 
+    fun isMainListViewScreenActive() = noteInteractionManager.isMainListViewScreenActive()
+
     fun clearSelectedNotes() = noteInteractionManager.clearSelectedNotes()
 
     fun isNoteSelected(note: NoteModel): Boolean = noteInteractionManager.isNoteSelected(note)
 
     fun setViewByMenuState(state: ViewBy) {
         noteInteractionManager.setViewByMenu(state)
+    }
+
+    fun setListScreenState(state: NoteListScreenState) {
+        noteInteractionManager.setListScreenState(state)
     }
 
     fun setByColorCategory(state: ColorCategory) {

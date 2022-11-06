@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_settingsFragment2"
             app:destination="@id/settingsFragment2" />
+        <action
+            android:id="@+id/action_settingsFragment_to_archiveFragment"
+            app:destination="@id/archiveFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment2"
@@ -47,6 +50,15 @@
         tools:layout="@layout/settings_settings" >
         <action
             android:id="@+id/action_settingsFragment2_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/archiveFragment"
+        android:name="com.example.noteapp.cleannoteapp.presentation.archive.ArchiveFragment"
+        android:label="fragment_archive"
+        tools:layout="@layout/fragment_archive" >
+        <action
+            android:id="@+id/action_archiveFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
 </navigation>

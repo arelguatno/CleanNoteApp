@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.models.enums.SortBy
 import com.example.noteapp.cleannoteapp.models.enums.ViewBy
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListScreenState.*
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.ListViewState
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState.MultiSelectionState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
@@ -16,6 +17,9 @@ class ListInteractionManager {
     private val _toolbarState: MutableLiveData<NoteListToolbarState> =
         MutableLiveData(ListViewState)
 
+    private val _listScreenState: MutableLiveData<NoteListScreenState> =
+        MutableLiveData(MainListView)
+
     val selectedNotes: LiveData<ArrayList<NoteModel>>
         get() = _selectedNotes
 
@@ -26,11 +30,22 @@ class ListInteractionManager {
         _toolbarState.value = state
     }
 
+    val listScreenState: LiveData<NoteListScreenState>
+        get() = _listScreenState
+
+    fun setListScreenState(state: NoteListScreenState) {
+        _listScreenState.value = state
+    }
+
     fun getSelectedNotes(): ArrayList<NoteModel> = _selectedNotes.value ?: ArrayList()
     fun getSelectedNotesID(): ArrayList<Int> = _selectedNotesID.value ?: ArrayList()
 
     fun isMultiSelectionStateActive(): Boolean {
         return _toolbarState.value.toString() == MultiSelectionState.toString()
+    }
+
+    fun isMainListViewScreenActive(): Boolean {
+        return _listScreenState.value.toString() == MainListView.toString()
     }
 
     fun isNoteSelected(note: NoteModel): Boolean {
