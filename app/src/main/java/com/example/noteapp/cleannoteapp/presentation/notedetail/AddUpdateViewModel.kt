@@ -2,24 +2,29 @@ package com.example.noteapp.cleannoteapp.presentation.notedetail
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import com.example.noteapp.cleannoteapp.models.ViewStateModel
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionState
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteRepository
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteViewModel
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.USER_DYNAMIC_THEME_PREFERENCE
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class AddUpdateViewModel @Inject constructor(
     private val editor: SharedPreferences.Editor,
-    private val sharedPreferences: SharedPreferences
+    private val sharedPreferences: SharedPreferences,
+    private val crudRepo: NoteRepository
 ) : BaseViewModel() {
     private val noteInteractionManager: NoteInteractionManager = NoteInteractionManager()
 
@@ -124,15 +129,19 @@ class AddUpdateViewModel @Inject constructor(
         setThemeSelected(color)
     }
 
-    fun deleteNote(crudViewModel: NoteViewModel) {
+    fun deleteNote() {
         if (viewState != null) {
-            crudViewModel.transferItemsToBin(arrayListOf(viewState!!.noteModel!!.id))
+            viewModelScope.launch(Dispatchers.IO) {
+                crudRepo.transferItemsToBin(arrayListOf(viewState!!.noteModel!!.id))
+            }
         }
     }
 
-    fun archiveNOte(crudViewModel: NoteViewModel) {
+    fun archiveNOte() {
         if (viewState != null) {
-            crudViewModel.transferItemsToArchive(arrayListOf(viewState!!.noteModel!!.id))
+            viewModelScope.launch(Dispatchers.IO) {
+                crudRepo.transferItemsToArchive(arrayListOf(viewState!!.noteModel!!.id))
+            }
         }
     }
 }

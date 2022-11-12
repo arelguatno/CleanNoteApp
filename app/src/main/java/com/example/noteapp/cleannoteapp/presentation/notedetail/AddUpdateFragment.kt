@@ -148,7 +148,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun deleteNote() {
-        viewModel.deleteNote(crudViewModel)
+        viewModel.deleteNote()
         val returnIntent = Intent().apply {
             putExtra(ADD_UPDATE_RESULT, MenuActions.Bin)
             putExtra(ADD_UPDATE_NODE_MODEL, viewModel.viewState!!.noteModel)
@@ -162,7 +162,7 @@ class AddUpdateFragment : BaseFragment() {
     }
 
     private fun archiveNote() {
-        viewModel.archiveNOte(crudViewModel)
+        viewModel.archiveNOte()
         val returnIntent = Intent().apply {
             putExtra(ADD_UPDATE_RESULT, MenuActions.Archive)
             putExtra(ADD_UPDATE_NODE_MODEL, viewModel.viewState!!.noteModel)
