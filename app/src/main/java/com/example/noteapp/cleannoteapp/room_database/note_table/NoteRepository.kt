@@ -109,4 +109,30 @@ class NoteRepository @Inject constructor(
     fun fetchArchivePerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel> {
         return noteDao.fetchArchivePerColorSortByColor(category)
     }
+
+    // Bin - A
+    fun fetchAllBinSortByModifiedTime(): PagingSource<Int, NoteModel> {
+        return noteDao.fetchAllBinSortByModifiedTime()
+    }
+
+    fun fetchAllBinSortByCreatedTime(): PagingSource<Int, NoteModel> {
+        return noteDao.fetchAllBinSortByCreatedTime()
+    }
+
+    fun fetchAllBinSortByColor(): PagingSource<Int, NoteModel> {
+        return noteDao.fetchAllBinSortByColor()
+    }
+
+    // Bin - B
+    fun fetchBinPerColorSortByModifiedTime(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchBinPerColorSortByModifiedTime(category)
+    }
+
+    fun fetchBinPerColorSortByCreatedTime(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchBinPerColorSortByCreatedTime(category)
+    }
+
+    fun fetchBinPerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel> {
+        return noteDao.fetchBinPerColorSortByColor(category)
+    }
 }

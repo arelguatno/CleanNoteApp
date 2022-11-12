@@ -260,7 +260,8 @@ class AddUpdateFragment : BaseFragment() {
         }
 
         viewModel.interactionDate.observe(viewLifecycleOwner) {
-            binding.addTextLayout.txtDate.text = "Edited: ${it.appMainFormatWithTime()}"
+            binding.addTextLayout.txtDate.text =
+                getString(R.string.edited, it.appMainFormatWithTime())
         }
 
         viewModel.pinnedIsClicked.observe(viewLifecycleOwner) {

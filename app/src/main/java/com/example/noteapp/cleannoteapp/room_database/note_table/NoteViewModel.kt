@@ -97,7 +97,7 @@ class NoteViewModel @Inject constructor(
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
                             is ArchiveView -> repository.fetchAllArchiveSortByModifiedTime()
-                            is BinView -> TODO()
+                            is BinView ->repository.fetchAllBinSortByModifiedTime()
                             is MainListView -> repository.fetchAllSortByModifiedTime()
                         }
 
@@ -109,13 +109,9 @@ class NoteViewModel @Inject constructor(
                 } else {
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
-                            is ArchiveView -> repository.fetchArchivePerColorSortByModifiedTime(
-                                colorCategory
-                            )
-                            is BinView -> TODO()
-                            is MainListView -> repository.fetchPerColorSortByModifiedTime(
-                                colorCategory
-                            )
+                            is ArchiveView -> repository.fetchArchivePerColorSortByModifiedTime(colorCategory)
+                            is BinView -> repository.fetchBinPerColorSortByModifiedTime(colorCategory)
+                            is MainListView -> repository.fetchPerColorSortByModifiedTime(colorCategory)
                         }
 
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -130,7 +126,7 @@ class NoteViewModel @Inject constructor(
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
                             is ArchiveView -> repository.fetchAllArchiveSortByCreatedTime()
-                            is BinView -> TODO()
+                            is BinView -> repository.fetchAllBinSortByCreatedTime()
                             is MainListView -> repository.fetchAllSortByCreatedTime()
                         }
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -141,13 +137,9 @@ class NoteViewModel @Inject constructor(
                 } else {
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
-                            is ArchiveView -> repository.fetchArchivePerColorSortByCreatedTime(
-                                colorCategory
-                            )
-                            is BinView -> TODO()
-                            is MainListView -> repository.fetchPerColorSortByCreatedTime(
-                                colorCategory
-                            )
+                            is ArchiveView -> repository.fetchArchivePerColorSortByCreatedTime(colorCategory)
+                            is BinView -> repository.fetchBinPerColorSortByCreatedTime(colorCategory)
+                            is MainListView -> repository.fetchPerColorSortByCreatedTime(colorCategory)
                         }
 
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -162,7 +154,7 @@ class NoteViewModel @Inject constructor(
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
                             is ArchiveView -> repository.fetchWalletsRecord()
-                            is BinView -> TODO()
+                            is BinView -> repository.fetchWalletsRecord()
                             is MainListView -> repository.fetchWalletsRecord()
                         }
 
@@ -175,7 +167,7 @@ class NoteViewModel @Inject constructor(
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
                             is ArchiveView -> repository.fetchNotesPerCategory(colorCategory)
-                            is BinView -> TODO()
+                            is BinView -> repository.fetchNotesPerCategory(colorCategory)
                             is MainListView -> repository.fetchNotesPerCategory(colorCategory)
                         }
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -190,7 +182,7 @@ class NoteViewModel @Inject constructor(
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
                             is ArchiveView -> repository.fetchAllArchiveSortByColor()
-                            is BinView -> TODO()
+                            is BinView -> repository.fetchAllBinSortByColor()
                             is MainListView -> repository.fetchAllSortByColor()
                         }
                     }.flow.cachedIn(viewModelScope).map { notesModel ->
@@ -201,10 +193,8 @@ class NoteViewModel @Inject constructor(
                 } else {
                     return Pager(PagingConfig(pageSize = 10)) {
                         when (listScreenState) {
-                            is ArchiveView -> repository.fetchArchivePerColorSortByColor(
-                                colorCategory
-                            )
-                            is BinView -> TODO()
+                            is ArchiveView -> repository.fetchArchivePerColorSortByColor(colorCategory)
+                            is BinView -> repository.fetchBinPerColorSortByColor(colorCategory)
                             is MainListView -> repository.fetchPerColorSortByColor(colorCategory)
                         }
 

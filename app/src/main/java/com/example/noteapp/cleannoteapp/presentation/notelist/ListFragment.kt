@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +23,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.cleannoteapp.R
 import com.example.noteapp.cleannoteapp.databinding.*
@@ -149,8 +149,7 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                 val tmpData = viewModel.getSelectedNotesID()
                 restoreAction(
                     tmpData,
-                    getString(viewModel.getToastBinMessage(tmpData)),
-                    MenuActions.Bin
+                    getString(viewModel.getToastBinMessage(tmpData))
                 )
                 backToListViewState()
             } else {
@@ -177,14 +176,13 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             val tmpData = viewModel.getSelectedNotesID()
             restoreAction(
                 tmpData,
-                getString(viewModel.getToastArchiveMessage(tmpData)),
-                MenuActions.Archive
+                getString(viewModel.getToastArchiveMessage(tmpData))
             )
             backToListViewState()
         }
     }
 
-    private fun restoreAction(notes: ArrayList<Int>, message: String, bin: MenuActions) {
+    private fun restoreAction(notes: ArrayList<Int>, message: String) {
         val snackBar = Snackbar.make(
             binding.floatingActionButton, message,
             Snackbar.LENGTH_SHORT
@@ -194,11 +192,6 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
         snackBar.setAction(getString(R.string.undo)) {
             crudViewModel.undoDeletedArchiveItems(notes)
-//            when (bin) {
-//                crudViewModel.undoDeletedArchiveItems(notes)
-////                MenuActions.Archive -> crudViewModel.undoTransferItemsToArchive(notes)
-////                MenuActions.Bin -> crudViewModel.undoTransferItemsToBin(notes)
-//            }
         }
         snackBar.show()
     }
@@ -246,17 +239,10 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.listScreenInterActionState.observe(viewLifecycleOwner) {
             when (it) {
                 is ArchiveView -> {
-                    binding.floatingActionButton.hide()
-                    binding.appBar.navigationIcon = ResourcesCompat.getDrawable(
-                        resources,
-                        R.drawable.ic_baseline_arrow_back_24,
-                        null
-                    )
-                    navBottomView!!.isVisible = false
-                    binding.appBar.title = "Archive"
+                    enableArchiveAndBinViews("Archive")
                 }
                 is BinView -> {
-
+                    enableArchiveAndBinViews("Bin")
                 }
                 is MainListView -> {
                     binding.floatingActionButton.show()
@@ -265,6 +251,18 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                 }
             }
         }
+    }
+
+    private fun enableArchiveAndBinViews(message: String) {
+        binding.floatingActionButton.hide()
+        binding.appBar.navigationIcon = ResourcesCompat.getDrawable(
+            resources,
+            R.drawable.ic_baseline_arrow_back_24,
+            null
+        )
+        navBottomView!!.isVisible = false
+        binding.listBottomNavigationView.visibility = View.GONE
+        binding.appBar.title = message
     }
 
     private fun enableMultiSelectToolbarState() {
@@ -288,6 +286,11 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         navBottomView?.isVisible = true
         binding.listBottomNavigationView.isVisible = false
         binding.floatingActionButton.isVisible = true
+
+        if (!viewModel.isMainListViewScreenActive()) {
+            navBottomView?.isVisible = false
+            binding.listBottomNavigationView.isVisible = false
+        }
     }
 
     private fun disableMultiSelectToolbarState() {
@@ -351,7 +354,7 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.viewByMenuInteractionState.observe(viewLifecycleOwner) {
             when (it) {
                 ViewBy.List -> {
-                    //crudViewModel.insertListOfData(generateRecord())
+//                    crudViewModel.insertListOfData(generateRecord())
                     binding.recyclerView.layoutManager = getDetailsLayoutManger()
                 }
                 ViewBy.Grid -> {
@@ -526,8 +529,7 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
                     if (menuAction != null && item != null) {
                         restoreAction(
                             arrayListOf(item.id),
-                            getString(viewModel.getSingularMessage(menuAction)),
-                            menuAction
+                            getString(viewModel.getSingularMessage(menuAction))
                         )
                     }
                 }
@@ -543,6 +545,8 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             })
         }
     }
+
+//    override fun isMultiSelectionModeEnabled() = viewModel.isMultiSelectionStateActive()
 
     override fun isMultiSelectionModeEnabled() = viewModel.isMultiSelectionStateActive()
 

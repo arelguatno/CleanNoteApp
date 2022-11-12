@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import com.example.noteapp.cleannoteapp.presentation.common.BaseViewModel
 import com.example.noteapp.cleannoteapp.presentation.notedetail.state.NoteInteractionManager
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteRepository
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys
 import com.example.noteapp.cleannoteapp.util.extensions.save
 import com.example.noteapp.cleannoteapp.util.printLogD

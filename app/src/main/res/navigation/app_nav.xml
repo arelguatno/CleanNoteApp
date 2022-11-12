@@ -16,13 +16,13 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/addUpdateFragment"
         android:name="com.example.noteapp.cleannoteapp.presentation.notedetail.AddUpdateFragment"
         android:label="fragment_add_update"
-        tools:layout="@layout/fragment_add_update" >
+        tools:layout="@layout/fragment_add_update">
         <action
             android:id="@+id/action_addUpdateFragment_to_listFragment"
             app:destination="@id/listFragment" />
@@ -35,17 +35,24 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.noteapp.cleannoteapp.presentation.settings.GeneralSettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_settingsFragment2"
             app:destination="@id/settingsFragment2"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"/>
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_settingsFragment_to_archiveFragment"
             app:destination="@id/archiveFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_binFragment"
+            app:destination="@id/binFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
@@ -56,18 +63,26 @@
         android:id="@+id/settingsFragment2"
         android:name="com.example.noteapp.cleannoteapp.presentation.settings.SettingsFragment"
         android:label="fragment_settings2"
-        tools:layout="@layout/settings_settings" >
+        tools:layout="@layout/settings_settings">
         <action
             android:id="@+id/action_settingsFragment2_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/archiveFragment"
-        android:name="com.example.noteapp.cleannoteapp.presentation.archive.ArchiveFragment"
+        android:name="com.example.noteapp.cleannoteapp.presentation.archive_and_bin.ArchiveFragment"
         android:label="fragment_archive"
-        tools:layout="@layout/fragment_archive" >
+        tools:layout="@layout/fragment_archive">
         <action
             android:id="@+id/action_archiveFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/binFragment"
+        android:name="com.example.noteapp.cleannoteapp.presentation.archive_and_bin.BinFragment"
+        android:label="BinFragment">
+        <action
+            android:id="@+id/action_binFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
 </navigation>

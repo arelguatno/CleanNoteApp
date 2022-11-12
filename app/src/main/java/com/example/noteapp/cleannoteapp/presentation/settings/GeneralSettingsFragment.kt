@@ -1,7 +1,6 @@
 package com.example.noteapp.cleannoteapp.presentation.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.findNavController
 import com.example.noteapp.cleannoteapp.R
-import com.example.noteapp.cleannoteapp.databinding.FragmentListBinding
 import com.example.noteapp.cleannoteapp.databinding.FragmentSettingsBinding
-import com.example.noteapp.cleannoteapp.presentation.archive.ArchiveFragment
 import com.example.noteapp.cleannoteapp.presentation.common.BaseFragment
 import com.example.noteapp.cleannoteapp.presentation.notelist.ListViewModel
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListScreenState
+import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListScreenState.*
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.BIN_ARCHIVE_VIEW
 import com.example.noteapp.cleannoteapp.util.extensions.serializable
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,6 +45,10 @@ class GeneralSettingsFragment : BaseFragment() {
             it.findNavController().navigate(R.id.action_settingsFragment_to_archiveFragment)
         }
 
+        binding.settingsAppName.recycleBin.setOnClickListener {
+            it.findNavController().navigate(R.id.action_settingsFragment_to_binFragment)
+        }
+
         initListener()
         setUpFragmentNavResultListener()
     }
@@ -63,7 +65,7 @@ class GeneralSettingsFragment : BaseFragment() {
                 val navBottomView =
                     requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView)
                 navBottomView.isVisible = true
-                viewModel.setListScreenState(NoteListScreenState.MainListView)
+                viewModel.setListScreenState(MainListView)
                 viewModel.clearSelectedNotes()
             }
         }

@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.noteapp.cleannoteapp.models.enums.ColorCategory
 import kotlinx.coroutines.flow.Flow
-import java.util.Locale.Category
 
 @Dao
 interface NoteDao {
@@ -85,4 +84,25 @@ interface NoteDao {
 
     @Query("SELECT * FROM notes_table WHERE archive = 1 AND category = :category ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
     fun fetchArchivePerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel>
+
+
+    // Bin - A
+    @Query("SELECT * FROM notes_table WHERE bin = 1 ORDER BY pinned DESC, dates_dateModified DESC")
+    fun fetchAllBinSortByModifiedTime(): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE bin = 1 ORDER BY pinned DESC, dates_dateCreated DESC")
+    fun fetchAllBinSortByCreatedTime(): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE bin = 1 ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
+    fun fetchAllBinSortByColor(): PagingSource<Int, NoteModel>
+
+    // Bin - B
+    @Query("SELECT * FROM notes_table WHERE bin = 1 AND category = :category ORDER BY pinned DESC, dates_dateModified DESC")
+    fun fetchBinPerColorSortByModifiedTime(category: ColorCategory): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE bin = 1 AND category = :category ORDER BY pinned DESC, dates_dateCreated DESC")
+    fun fetchBinPerColorSortByCreatedTime(category: ColorCategory): PagingSource<Int, NoteModel>
+
+    @Query("SELECT * FROM notes_table WHERE bin = 1 AND category = :category ORDER BY pinned DESC, category DESC, dates_dateModified DESC")
+    fun fetchBinPerColorSortByColor(category: ColorCategory): PagingSource<Int, NoteModel>
 }

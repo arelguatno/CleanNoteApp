@@ -14,6 +14,7 @@ import com.example.noteapp.cleannoteapp.presentation.notelist.state.ListInteract
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListScreenState
 import com.example.noteapp.cleannoteapp.presentation.notelist.state.NoteListToolbarState
 import com.example.noteapp.cleannoteapp.room_database.note_table.NoteModel
+import com.example.noteapp.cleannoteapp.room_database.note_table.NoteRepository
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_COLOR_THEME
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_SORT_BY
 import com.example.noteapp.cleannoteapp.util.PreferenceKeys.Companion.LIST_VIEW_VIEW_BY
@@ -26,7 +27,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val sharedPref: SharedPreferences
+    private val sharedPref: SharedPreferences,
+    private val crudRepo: NoteRepository
 ) : BaseViewModel() {
 
     val noteInteractionManager: ListInteractionManager = ListInteractionManager()

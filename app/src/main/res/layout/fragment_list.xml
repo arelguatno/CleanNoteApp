@@ -59,7 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@color/appbar_bg_color"
-        android:visibility="visible"
+        android:visibility="gone"
         app:elevation="5dp"
         app:itemIconSize="30dp"
         app:itemIconTint="@drawable/list_bottom_nav_colors"
