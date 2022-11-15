@@ -239,9 +239,11 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.listScreenInterActionState.observe(viewLifecycleOwner) {
             when (it) {
                 is ArchiveView -> {
+                    printLogD(className,"archive")
                     enableArchiveAndBinViews("Archive")
                 }
                 is BinView -> {
+                    printLogD(className,"bin")
                     enableArchiveAndBinViews("Bin")
                 }
                 is MainListView -> {
@@ -260,14 +262,14 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
             R.drawable.ic_baseline_arrow_back_24,
             null
         )
-        navBottomView!!.isVisible = false
+        navBottomView!!.visibility = View.GONE
         binding.listBottomNavigationView.visibility = View.GONE
         binding.appBar.title = message
     }
 
     private fun enableMultiSelectToolbarState() {
         binding.appBar.enableMultiSelection(resources)
-        navBottomView?.isVisible = false
+        navBottomView!!.visibility = View.GONE
         binding.listBottomNavigationView.isVisible = true
         binding.floatingActionButton.isVisible = false
 
@@ -507,7 +509,6 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     private fun getImage(color: Int, category: ColorCategory): Drawable {
         return if (category == viewModel.getCategoryAllNotes()) {
-            printLogD(className, "aa")
             resources.getDrawable(R.drawable.all_category, null)
         } else {
             printLogD(className, "bb")
