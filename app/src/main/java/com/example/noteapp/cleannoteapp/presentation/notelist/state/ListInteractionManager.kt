@@ -48,6 +48,14 @@ class ListInteractionManager {
         return _listScreenState.value.toString() == MainListView.toString()
     }
 
+    fun isBinScreenActive(): Boolean {
+        return _listScreenState.value.toString() == BinView.toString()
+    }
+
+    fun isArchiveScreenActive(): Boolean {
+        return _listScreenState.value.toString() == ArchiveView.toString()
+    }
+
     fun isNoteSelected(note: NoteModel): Boolean {
         return _selectedNotes.value?.contains(note) ?: false
     }

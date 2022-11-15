@@ -74,6 +74,10 @@ class ListViewModel @Inject constructor(
 
     fun isMainListViewScreenActive() = noteInteractionManager.isMainListViewScreenActive()
 
+    fun isBinScreenActive() = noteInteractionManager.isBinScreenActive()
+
+    fun isArchiveScreenActive() = noteInteractionManager.isArchiveScreenActive()
+
     fun clearSelectedNotes() = noteInteractionManager.clearSelectedNotes()
 
     fun isNoteSelected(note: NoteModel): Boolean = noteInteractionManager.isNoteSelected(note)
@@ -169,6 +173,14 @@ class ListViewModel @Inject constructor(
             R.string.note_deleted
         } else {
             R.string.note_deleted_plural
+        }
+    }
+
+    fun getRestoreMessage(tmpData: ArrayList<Int>): Int {
+        return if (tmpData.size == 1) {
+            R.string.note_restored
+        } else {
+            R.string.notes_restored
         }
     }
 

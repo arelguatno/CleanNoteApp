@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/bottom_archive_unarchive"
-        android:icon="@drawable/ic_baseline_unarchive_24"
+        android:icon="@drawable/ic_baseline_restore_24"
         android:title="Unarchive"
         android:visible="false"
         app:iconTint="@color/white" />
@@ -26,4 +26,5 @@
         android:icon="@drawable/ic_baseline_color_lens_24"
         android:title="Settings"
         app:iconTint="@color/white" />
+
 </menu>

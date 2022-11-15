@@ -127,6 +127,10 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         }
     }
 
+    private fun permanentDeleteRecords() {
+        TODO("Not yet implemented")
+    }
+
     private fun backToListViewState() {
         viewModel.setToolbarState(ListViewState)
         viewModel.clearSelectedNotes()
@@ -144,18 +148,34 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
 
     private fun transferItemsToBin() {
         if (viewModel.getSelectedNotes().size > 0) {
-            crudViewModel.transferItemsToBin(viewModel.getSelectedNotesID())
-            if (viewModel.isMainListViewScreenActive()) {
-                val tmpData = viewModel.getSelectedNotesID()
-                restoreAction(
-                    tmpData,
-                    getString(viewModel.getToastBinMessage(tmpData))
-                )
-                backToListViewState()
+            if (viewModel.isMainListViewScreenActive() || viewModel.isArchiveScreenActive()) {
+                crudViewModel.transferItemsToBin(viewModel.getSelectedNotesID())
+
+                if (viewModel.isMainListViewScreenActive()) {
+                    val tmpData = viewModel.getSelectedNotesID()
+                    restoreAction(
+                        tmpData,
+                        getString(viewModel.getToastBinMessage(tmpData))
+                    )
+                    backToListViewState()
+                } else {
+                    viewModel.setToolbarState(ListViewState)
+                    viewModel.setListScreenState(ArchiveView)
+                    Toast.makeText(
+                        requireContext(),
+                        getString(viewModel.getToastBinMessage(viewModel.getSelectedNotesID())),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } else {
+                crudViewModel.deleteListOfData(viewModel.getSelectedNotes())
                 viewModel.setToolbarState(ListViewState)
-                viewModel.setListScreenState(ArchiveView)
-                Toast.makeText(requireContext(), "Note Deleted", Toast.LENGTH_SHORT).show()
+                viewModel.setListScreenState(BinView)
+                Toast.makeText(
+                    requireContext(),
+                    getString(viewModel.getToastBinMessage(viewModel.getSelectedNotesID())),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -164,9 +184,21 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
     private fun undoItemsToArchive() {
         if (viewModel.getSelectedNotes().size > 0) {
             crudViewModel.undoDeletedArchiveItems(viewModel.getSelectedNotesID())
-            viewModel.setToolbarState(ListViewState)
-            viewModel.setListScreenState(ArchiveView)
-            Toast.makeText(requireContext(), "Note Unarchived", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                requireContext(),
+                getString(viewModel.getRestoreMessage(viewModel.getSelectedNotesID())),
+                Toast.LENGTH_SHORT
+            ).show()
+
+            if (viewModel.isArchiveScreenActive()) {
+                viewModel.setToolbarState(ListViewState)
+                viewModel.setListScreenState(ArchiveView)
+            }
+
+            if (viewModel.isBinScreenActive()) {
+                viewModel.setToolbarState(ListViewState)
+                viewModel.setListScreenState(BinView)
+            }
         }
     }
 
@@ -239,11 +271,11 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         viewModel.listScreenInterActionState.observe(viewLifecycleOwner) {
             when (it) {
                 is ArchiveView -> {
-                    printLogD(className,"archive")
+                    printLogD(className, "archive")
                     enableArchiveAndBinViews("Archive")
                 }
                 is BinView -> {
-                    printLogD(className,"bin")
+                    printLogD(className, "bin")
                     enableArchiveAndBinViews("Bin")
                 }
                 is MainListView -> {
@@ -264,7 +296,7 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         )
         navBottomView!!.visibility = View.GONE
         binding.listBottomNavigationView.visibility = View.GONE
-        binding.recyclerView.setPadding(0,0,0,0)
+        binding.recyclerView.setPadding(0, 0, 0, 0)
         binding.appBar.title = message
     }
 
