@@ -7,4 +7,5 @@
 
     <dimen name="card_view_corners">6dp</dimen>
     <dimen name="card_view_edges_corners">5dp</dimen>
+    <dimen name="bottom_navigation_height">60dp</dimen>
 </resources>

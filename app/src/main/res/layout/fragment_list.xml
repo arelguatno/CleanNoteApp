@@ -32,7 +32,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="0dp"
         android:layout_marginRight="8dp"
-        android:paddingBottom="?attr/actionBarSize"
+        android:paddingBottom="@dimen/bottom_navigation_height"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -57,7 +57,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/listBottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/bottom_navigation_height"
         android:background="@color/appbar_bg_color"
         android:visibility="gone"
         app:elevation="5dp"
