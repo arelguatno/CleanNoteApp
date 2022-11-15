@@ -264,6 +264,7 @@ open class ListFragment : BaseFragment(), NoteListAdapter.Interaction {
         )
         navBottomView!!.visibility = View.GONE
         binding.listBottomNavigationView.visibility = View.GONE
+        binding.recyclerView.setPadding(0,0,0,0)
         binding.appBar.title = message
     }
 
