@@ -26,6 +26,8 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
         setupBottomNav()
         this.hideKeyboard()
+
+        //this is a new update
     }
 
     private fun setupBottomNav() {
